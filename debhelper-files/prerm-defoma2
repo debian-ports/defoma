@@ -1,5 +1,6 @@
 case "$1" in
 	remove)
-		/usr/bin/defoma-app purge #PACKAGE#
+		test -x /usr/bin/defoma-app && \
+			/usr/bin/defoma-app purge #PACKAGE#
 		;;
 esac

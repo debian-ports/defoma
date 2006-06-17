@@ -13,14 +13,11 @@ IDIR2=`pwd`/debian/psfontmgr
 IDIR3=`pwd`/debian/defoma-doc
 IDIR4=`pwd`/debian/dfontmgr
 
-configure: configure-stamp
-configure-stamp:
-	dh_testdir
+build-arch:
+#	nothing to do
 
-	touch configure-stamp
-
-build: configure-stamp build-stamp
-build-stamp:
+build-indep: build-indep-stamp
+build-indep-stamp:
 	dh_testdir
 
 #	$(MAKE)
@@ -31,12 +28,12 @@ build-stamp:
 	cd build && debiandoc2text -lC ../doc/developers.sgml
 	cd build && debiandoc2text -lC ../doc/defoma-script.sgml
 
-	touch build-stamp
+	touch build-indep-stamp
 
 clean:
 	dh_testdir
 	dh_testroot
-	rm -f build-stamp configure-stamp
+	rm -f build-indep-stamp
 
 	-$(MAKE) clean
 
@@ -45,7 +42,7 @@ clean:
 
 	dh_clean
 
-install: build
+install: build-indep
 	dh_testdir
 	dh_testroot
 	dh_clean -k
@@ -74,7 +71,7 @@ install: build
 
 # Build architecture-independent files here.
 binary-indep: DH_OPTIONS=-i
-binary-indep: build install
+binary-indep: install
 	dh_testdir
 	dh_testroot
 	dh_installdebconf	
@@ -101,7 +98,9 @@ binary-indep: build install
 	dh_builddeb
 
 # Build architecture-dependent files here.
-binary-arch: build install
+binary-arch: build-arch
+#	nothing to do
 
+build: build-indep build-arch
 binary: binary-indep binary-arch
 .PHONY: build clean binary-indep binary-arch binary install configure

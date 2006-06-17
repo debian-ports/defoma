@@ -12,6 +12,13 @@ defoma (0.11.9) unstable; urgency=low
   * Bug fix: "example in manual page for defoma-hints", thanks to Martin
     Kourim (Closes: #257777).
   * Use dh_installman to install mangpages, closes: #273502.
+  * Move debhelper from Build-Depends-Indep to Build-Depends, since its
+    used in the 'clean' target.
+  * Rejig binary-{arch,indep} split, so binary-arch does nothing.
+  * Update to Standards-Version 3.6.2.0.
+  * Adjust debhelper files to only run defoma commands if they exist.
+    This should allow packages to downgrade dependencies on defoma safely.
+    Closes: #300278
 
  --
 

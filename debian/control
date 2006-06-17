@@ -2,8 +2,9 @@ Source: defoma
 Section: admin
 Priority: optional
 Maintainer: Angus Lees <gus@debian.org>
-Build-Depends-Indep: debhelper (>= 3.0.47), debiandoc-sgml
-Standards-Version: 3.5.6.0
+Build-Depends-Indep: debiandoc-sgml
+Build-Depends: debhelper (>= 3.0.47)
+Standards-Version: 3.6.2.0
 
 Package: defoma
 Architecture: all
