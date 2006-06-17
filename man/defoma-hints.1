@@ -1,0 +1,35 @@
+.TH defoma-hints 1 "March  4, 2001"
+.SH NAME
+defoma-hints \- generate font hints.
+.SH SYNOPSIS
+.B defoma-hints
+.IR [ \-c ]
+.IR [ \-\-no-question ]
+.I category fonts...
+.br
+.SH DESCRIPTION
+.B defoma-hints
+is a tool to help generating font hints. It asks various questions
+about the typeface of a font, reads information from a font file,
+and outputs the generated hints to STDOUT in a hintfile format.
+.SH OPTIONS
+.TP
+.B \-c
+Force text interface, even if $DISPLAY is set.
+.TP
+.B \-\-no-question
+Accept default hint choice without prompting.
+.SH FILES
+.TP
+/usr/share/defoma/libhint-*.pl
+Perl libraries which are prepared for each category. These are 
+category-specific hints-generating program.
+.SH EXAMPLES
+1. Create a hintfile named type1.hints for type1 fonts in 
+/usr/share/fonts/type1.
+
+.nf
+defoma-hints type1 /usr/share/fonts/type1/*.pfb > type1.hints
+.fi
+.SH SEE ALSO
+.BR defoma (1).

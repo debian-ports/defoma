@@ -1,0 +1,19 @@
+Document: defoma-developers
+Title: Developers' Guide to Defoma
+Author: Yasuhiro Take
+Abstract: This document is a tutorial for Debian Developers who
+ maintain font-related package(s). It describes what maintainers of a
+ font package need to do to have their package support Defoma, and
+ what maintainers of an application package accessing fonts need to do
+ step by step.
+Section: Debian
+
+Format: DebianDoc-SGML
+Files: /usr/share/doc/defoma-doc/developers.sgml.gz
+
+Format: HTML
+Index: /usr/share/doc/defoma-doc/developers.html
+Files: /usr/share/doc/defoma-doc/developers.html
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/developers.txt.gz

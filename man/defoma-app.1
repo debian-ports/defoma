@@ -1,0 +1,128 @@
+.TH defoma-app 1 "March  4, 2001"
+.SH NAME
+defoma-app \- configure a specific application about fonts registered
+in Debian Font Manager.
+.SH SYNOPSIS
+.B defoma-app
+.RI [ options ] 
+.B clean
+.I application [category..]
+.br
+.B defoma-app
+.RI [ options ] 
+.B update
+.I application [category..]
+.br
+.B defoma-app
+.RI [ options ] 
+.B purge
+.I application
+.br
+.B defoma-app
+.RI [ options ] 
+.B ignore
+.I application [category..]
+.br
+.SH DESCRIPTION
+.B defoma-app
+is a tool to configure the fonts registered in Defoma, Debian Font Manager, 
+for a specific application. Defoma calls the Defoma-configuration script
+of the specified application with register or unregister command for each
+of the fonts registered in the categories accepted by the application.
+It is supposed to be invoked from postinst/prerm scripts of application
+packages, but may be invoked from console.
+.PP
+.I application
+specifies the name of the application that is going to be configured.
+The specified application must have
+.nh
+.IR application-name .defoma
+.hy
+perl script under 
+.nh
+/usr/share/defoma/scripts.
+.hy
+If
+.I category
+is specified, only the fonts in the specified categories get processed. 
+Otherwise all the fonts in all the categories accepted by the application get
+processed.
+.SH COMMANDS
+.TP
+.B update
+Update the configuration of the specified
+.I application
+about the fonts registered in the specified
+.IR category .
+.I category
+can be omitted. When it is specified and the specified category is set
+.B ignored
+(to be mentioned later), 
+.B ignore
+flag gets unset so the category gets updated.
+Internally the Defoma-configuration script of the
+application gets called with 
+.B unregister
+command first and then with
+.B register
+command for each font of the category. Some directories and symlinks
+specified in the header of the script might be generated automatically.
+.br
+This command should be invoked when the Defoma-configuration script is
+newly installed or updated so that the script gets installed to Defoma
+data directory and the fonts get configured to the application. It means 
+it is supposed to be invoked on the postinst configure phase. 
+.TP
+.B clean
+Clean up the configuration of the specified
+.I application
+about the fonts registered in the specified
+.IR category .
+.I category
+can be omitted. Internally the Defoma-configuration script of the
+application gets called with 
+.B unregister 
+command for each font of the category.
+.TP
+.B purge
+This command is almost the same as
+.B clean
+command. It only differs on removing the script installed in the defoma data
+directory and some directories and symlinks if any was generated 
+in the update command before.
+.br
+This command should be invoked when the Defoma-configuration script is
+going to be removed so that the script gets removed and the font configuration
+gets cleaned. It means it is supposed to be invoked on the prerm remove phase.
+.TP
+.B ignore
+This command makes the speficied
+.I application
+not use the fonts registered in the specified
+.IR category .
+It removes the fonts in the category out of the font configuration and
+sets the `ignore' flag against the category in order to make the 
+Defoma-configuration script of the application not accept fonts in the
+category. If
+.I category
+is omitted, all categories gets ignored. To unset the `ignore' flag,
+run defoma-app with 
+.B update
+command and the category against which you want to unset the flag.
+.SH OPTIONS
+.TP
+.B \-t
+Exit with true value (0) even if error occurs.
+.TP
+.B \-v
+Verbose output.
+.TP
+.B \-d
+Debug/Testing mode.
+.TP
+.B \-q
+Quiet output.
+.SH SEE ALSO
+.BR defoma (1).
+
+

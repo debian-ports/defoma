@@ -1,0 +1,807 @@
+<!DOCTYPE debiandoc SYSTEM>
+<debiandoc>
+  <book>
+    <titlepag>
+      <title>Developers' Guide to Defoma</title>
+      <author>
+	<name>Yasuhiro Take (take@debian.org)</name>
+      </author>
+
+      <abstract>
+	This document is a tutorial for Debian Developers who maintain
+	font-related package(s).
+	It describes what maintainers of a font package need to do
+	to have their package support Defoma, and
+	what maintainers of an application package accessing fonts
+	need to do step by step.
+      </abstract>
+      <copyright>
+	<copyrightsummary>
+	  Copyright &copy;2001 Yasuhiro Take.
+	</copyrightsummary>
+	<p>
+	  This document is free software; you may redistribute it and/or
+	  modify it under the terms of the GNU General Public License
+	  as published by the Free Software Foundation; either version
+	  2, or (at your opinion) any later version.
+	</p>
+	<p>
+	  A copy of the GNU General Public License is available as
+	  <tt>/usr/share/common-licenses/GPL</tt> in the Debian GNU/Linux.
+	</p>
+      </copyright>
+    </titlepag>
+    <toc>
+    <chapt>
+      <heading>Font Package's TODO</heading>
+      <p>
+	Font packages should register their fonts to Defoma if the font
+	may be used by various applications. Registration and Unregistration
+	should be performed at postinst and postrm respectively of a font
+	package, so maintainers need to edit them. In addition, each font may
+	have various information called hints which represents its appearance
+	and other data used to achieve appropriate configuration for a
+	specific application, so maintainers need to generate hints.
+      </p>
+      <sect>
+	<heading>Creating Hintfile.</heading>
+	<p>
+	  <em>Hintfile</em> describes several fonts and their hints in a
+	  single file. Generally, registration and unregistration of fonts
+	  are performed through Hintfile, so creating one is the first
+	  step to Defoma-ize a font package.
+	</p>
+	<p>
+	  First of all, enter a package's top directory. If the fonts of
+	  the package are located under subdirectory, please enter there,
+	  and run the following command.
+	</p>
+	<p><example>
+	    defoma-hints &lt;category&gt; &lt;font&gt;... 2> hintfile
+	  </example></p>
+	<p>
+	  This command asks various questions for each font listed in
+	  &lt;font&gt; which must belong to the specified &lt;category&gt;,
+	  and will output Hintfile to hintfile. The hintfile will contain
+	  definitions for all the fonts.
+	</p>
+	<p>
+	  If categories of the fonts are partly different, you must run
+	  the command and create a hintfile for each category. In other
+	  words, category of the fonts described in a single hintfile
+	  must be unified.
+	</p>
+	<p>
+	  Note that this command sometimes fails unfortunately because
+	  hints-generating routines are not provided for some categories.
+	  Currently supported categories are cid, cmap, truetype and type1.
+	</p>
+	<p>
+	  For example, if your font package is placed under
+	  <tt>~/font-foo-0.1/</tt>, and the <tt>type1</tt> fonts
+	  <tt>foo1.pfa</tt>, <tt>foo2.pfa</tt> and <tt>foo3.pfa</tt> are
+	  located at <tt>fonts/</tt> subdirectory, please enter there and
+	  run the command like following.
+	</p>
+	<p><example>
+	    cd ~/font-foo-0.1/fonts
+	    defoma-hints type1 foo1.pfa foo2.pfa foo3.pfa &gt; hintfile
+	  </example></p>
+      </sect>
+      <sect>
+	<heading>Editing Hintfile.</heading>
+	<p>
+	  After creating Hintfile, you may possibly want to edit one because
+	  mechanically created hints are sometimes not enough. This section
+	  describes how to modify a hintfile and its syntax.
+	</p>
+	<p>
+	  Hintfile may contain three elements: category declaration,
+	  font definitions and comments. Font definitions and comments are
+	  permitted to appear in a single hintfile any number of times,
+	  while category declaration must not exist more than once.
+	</p>
+	<p>
+	  Category declaration is generally put at the beginning of a
+	  hintfile because it must be put before font definitions.
+	  Its syntax is:
+	  <example>category &lt;category-name&gt;</example>
+	</p>
+	<p>
+	  Font definition describes one font and its hints. It starts with
+	  the <tt>begin</tt> line and ends with the <tt>end</tt> line.
+	  The <tt>begin</tt> line also specifies which font is to be
+	  defined. Lines between these two lines describes hints of the font.
+	  Hintfile must not contain more than one font definition of a
+	  single font. The syntax of font definition is:
+	  <example>
+	    begin &lt;font&gt;
+	      &lt;HintTypeA&gt; = &lt;hintA1&gt;
+	      &lt;HintTypeB&gt; = &lt;hintB1&gt &lt;hintB2&gt;
+	      ...
+	    end
+	  </example>
+	</p>
+	<p>
+	  Lines starting with `&num;' are considered as comments.
+	</p>
+	<p>
+	  Following is the generated hintfile of the mentioned example.
+	  <example>
+	    category type1
+	    begin /path/to/foo1.pfa
+	      FontName = Foo-Regular
+	      Family = Foo
+	      Weight = Medium
+	      Shape = Upright NoSerif
+	      GeneralFamily = SansSerif
+	      Charset = ISO8859-1
+	      Alias = Foo
+	      Priority = 30
+	      X-FontName = -adobe-foo-medium-r-normal--0-0-0-0-p-0-iso8859-1
+	    end
+	    begin /path/to/foo2.pfa
+	      FontName = Foo-Bold
+	      Family = Foo
+	      Weight = Bold
+	      Shape = Upright NoSerif
+	      GeneralFamily = SansSerif
+	      Charset = ISO8859-1
+	      Alias = FooBold
+	      Priority = 30
+	      X-FontName = -adobe-foo-bold-r-normal--0-0-0-0-p-0-iso8859-1
+	    end
+	    begin /path/to/foo3.pfa
+	      FontName = Foo-Italic
+	      Family = Foo
+	      Weight = Medium
+	      Shape = Italic NoSerif
+	      GeneralFamily = SansSerif
+	      Charset = ISO8859-1
+	      Alias = FooItalic
+	      Priority = 30
+	      X-FontName = -adobe-foo-medium-i-normal--0-0-0-0-p-0-iso8859-1
+	    end
+	  </example>
+	</p>
+	<p>
+	  The first thing you have to do is to change filenames of fonts
+	  to the full paths where these fonts are actually installed.
+	  Let's asuume that the font-foo.deb installs these fonts into
+	  <tt>/usr/share/fonts/type1</tt>, then the hintfile goes like
+	  this:
+	</p>
+	<p>
+	  <example>
+	    category type1
+	    begin /usr/share/fonts/type1/foo1.pfa
+	    ..
+	    begin /usr/share/fonts/type1/foo2.pfa
+	    ..
+	    begin /usr/share/fonts/type1/foo3.pfa
+	  </example>
+	</p>
+	<p>
+	  After this necessary work done, you may want to change or add
+	  some hints. The Syntax of describing hints is:
+	  <example>
+	    &lt;HintType&gt; = &lt;hint&gt;...
+	  </example>
+	  where &lt;HintType&gt; decides what type of information is
+	  described, and &lt;hint&gt; is a value of the &lt;HintType&gt;.
+	  You can specify more than one &lt;hint&gt; for one &lt;HintType&gt;
+	  by separating them with space.
+	</p>
+	<p>
+	  Hints include information about the appearance. This information
+	  should be correctly set to have better results of substituion
+	  by Defoma font substitution mechanism. HintTypes for appearance
+	  and their description are listed below.
+	  <list>
+	    <item>
+	      <p>Weight .. represents the weight of a font. Bold and Light
+	      are the most values for this HintType.</p>
+	    </item>
+	    <item>
+	      <p>Width .. is either Variable or Fixed, which represents
+		whether the width of a font varies or not.
+	      </p>
+	    </item>
+	    <item>
+	      <p>GeneralFamily .. is a rough grouping of the appearance of
+		a font. The values of this HintType for alphabetical fonts
+		are Roman, SansSerif, Typewriter and Script. The values
+		for CJK hieroglyphs are Mincho, Gothic and Maru. Symbol
+		is the value for symbolic fonts. You can set your preferred
+		value to this HintType if none of the above matches to your
+		font.</p>
+	    </item>
+	    <item>
+	      <p>Shape .. includes other appearance information like
+		Serif/NoSerif, Upright/Italic/Oblique, and Condensed/Expanded.
+	      </p>
+	    </item>
+	  </list>
+	  In addition, essential information is also included in hints.
+	  As the word `essential' tells, this information is required
+	  for most categories. The values for some of the essential HintTypes
+	  are predefined. Following is a list of essential information.
+	  <list>
+	    <item>
+	      <p>FontName .. is a real name of the font. You should not
+		specify more than one values to this HintType. The value
+		should be PostScript-like font name.
+	      </p>
+	      <p>Charset .. represents standards of collections of
+		characters which the font contains. The values for
+		this HintType is predefined and is listed below.
+		<list>
+		  <item>
+		    <p>ISO8859-<em>n</em> (n = 1..15)</p>
+		  </item>
+		  <item>
+		    <p>KOI8-R (Russian standard)</p>
+		  </item>
+		  <item>
+		    <p>KOI8-U (Ukrainian standard)</p>
+		  </item>
+		  <item>
+		    <p>JISX0208, JISX0212, JISX0201 (Japanese standards)</p>
+		  </item>
+		  <item>
+		    <p>KSX1001, KSX1003 (Korean standards)</p>
+		  </item>
+		  <item>
+		    <p>GB2312, GBK, GB18030 (Chinese (PRC) standards)</p>
+		  </item>
+		  <item>
+		    <p>CNS11643-<em>n</em> (Taiwan national standard)</p>
+		  </item>
+		  <item>
+		    <p>BIG5 (Taiwan de-facto standard)</p>
+		  </item>
+		  <item>
+		    <p>BIG5-HKSCS (HongKong standard)</p>
+		  </item>
+		  <item>
+		    <p>font-specific (for symbolic fonts)</p>
+		  </item>
+		  <item>
+		    <p>ISO10646-1</p>
+		  </item>
+		</list>
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		UniCharset .. represents actual Charset contained by a font
+		whose Charset is ISO10646-1. ISO10646-1 can be considered as
+		a collection of already existing Charsets, so when Charset
+		of a font is ISO10646-1, UniCharset should represent its
+		actual content.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		Encoding .. represents which encoding is used to access
+		the font. Most categories do not limit the encoding,
+		so this HintType is omitted in most cases.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		Direction .. represents the direction of writing for
+		which the glyphs of the font are for. The value is
+		either Vertical or Horizontal.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		Location .. is only used in truetype category. defoma-hints
+		will automatically set this value, so you do not need to
+		consider about this HintType.
+	      </p>
+	    </item>
+	  </list>
+	  Finally, additional information is also included in hints.
+	  <list>
+	    <item>
+	      <p>Alias .. represents other name(s) of the font. As the
+	      same as FontName, the value for this HintType should be
+	      PostScript-like.</p>
+	    </item>
+	    <item>
+	      <p>Priority .. represents the degree of preference of the font.
+		This value should be specified in an integer between 0 and 99.
+		Generally, beautiful scalable fonts should have higher priority.
+	      </p>
+	    </item>
+	    <item>
+	      <p>X-FontName .. is XLFD(s) of the font, if the font is
+		used in X.  Defoma doesn't take part in font configuration in
+		X, so packages must install the font to X separately.
+		Usually the value can be taken from .scale file.</p>
+	      <p>
+		NOTE: x-ttcidfont-conf manages configuration of TrueType
+		and CID fonts for X through the Defoma framework, so font packages
+		for these fonts do not or should not install the font to X
+		separately. Instead, just register fonts to Defoma.
+	      </p>
+	    </item>
+	    <item>
+	      <p>Transform .. controls if the font is transformed into
+		Bold shape and/or Slanted shape. Its values are: Boldize,
+		Slant, NotBoldize and NotSlant.
+	      </p>
+	    </item>
+	  </list>
+	</p>
+	<sect1>
+	  <heading>Multiple Face/Charset in a Single Font.</heading>
+	  <p>
+	    Some Type1 fonts contain multiple charsets in a single pfa/pfb
+	    file, and TrueType Collection fonts (.ttc) contain multiple
+	    faces in a single ttc file. It means individual hints are needed
+	    for each face/charset. To realize this, defoma provides subhints
+	    mechanism.
+	  </p>
+	  <p>
+	    This is an example of a hintfile for a type1 font with multiple
+	    encoding. The font a.pfa (Helvetica) is usually accessed in
+	    ISO8859-1 encoding, but by re-encoding the font, it can also
+	    be accessed in ISO8859-2 and KOI8-R encodings.
+	    <example>
+	      category type1
+	      begin /font/a.pfa
+	        FaceNum = 3
+	        Inherit = Weight Shape Width Priorty Family GeneralFamily
+	        FontName = Helvetica
+	        Charset = ISO8859-1
+	        Weight = Medium
+	        Shape = Upright NoSerif
+	        Family = Helvetica
+	        GeneralFamily = SansSerif
+	        Priority = 20
+	        X-FontName = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso8859-1
+
+	        FontName1 = Helvetica-ISO8859-2
+	        Charset1 = ISO8859-2
+	        X-FontName1 = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso8859-2
+
+	        FontName2 = Helvetica-KOI8-R
+	        Charset2 = KOI8-R
+	        X-FontName2 = -foo-bar-medium-r-normal--0-0-0-0-p-0-koi8-r
+	      end
+	    </example>
+	    You will find out unfamiliar hinttype FaceNum and Inherit, and
+	    numbered hinttypes.
+	  </p>
+	  <p>
+	    Non-numbered hints contain hints for the
+	    default charset ISO8859-1 in the same way as usual Type1 fonts.
+	    Hints can be inherited to subhints, and Inherit hinttype
+	    decides which hinttypes to be inherited, so hints that are
+	    common to most of the subhints like Family, Weight and Shape,
+	    you should set the hinttype Inherit.
+	  </p>
+	  <p>
+	    FaceNum hinttype specifies how many subhints the hints
+	    contain. In this example, there are two subhints plus default
+	    hints, so its value is set to 3.
+	  </p>
+	  <p>
+	    Numbered hints are called subhints, which consist of charset
+	    specific hints. In this example, subhints only contains FontName,
+	    Charset and X-FontName. Other important hinttypes are inherited
+	    from Non-numbered hints.
+	  </p>
+	  <p>
+	    Here's another example for a Unicode Type1 font, which is usually
+	    accessed in Unicode encoding, and by re-encoding the font,
+	    it can also be accessed in ISO8859-1, ISO8859-2 and ISO8859-3.
+	    <example>
+	      category type1
+	      begin /font/b.pfa
+	        FaceNum = 4
+	        Inherit = Weight Shape Width Proirty Family GeneralFamily
+	        FontName = Helvetica-Unicode
+	        Charset = ISO10646-1
+	        UniCharset = ISO8859-1 ISO8859-2 ISO8859-3
+	        Weight = Medium
+	        Shape = Upright NoSerif
+	        Family = Helvetica
+	        GeneralFamily = SansSerif
+	        Priority = 20
+	        X-FontName = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso10646-1
+
+	        FontName1 = Helvetica-ISO8859-1
+	        Charset1 = ISO8859-1
+	        X-FontName1 = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso8859-1
+
+	        FontName2 = Helvetica-ISO8859-2
+	        Charset2 = ISO8859-2
+	        X-FontName1 = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso8859-2
+
+	        FontName1 = Helvetica-ISO8859-3
+	        Charset1 = ISO8859-3
+	        X-FontName1 = -foo-bar-medium-r-normal--0-0-0-0-p-0-iso8859-3
+	      end
+	    </example>
+	    Note that the value of non-numbered Charset is ISO10646-1 and
+	    UniCharset represents what charsets the Unicode Type1 font
+	    actually consists of.
+	  </p>
+	  <p>
+	    This is an example for Unicode TrueType fonts whose glyphs are
+	    correspondent to a collection of ISO8859-1, ISO8859-2 and ISO8859-3.
+	    <example>
+	      category truetype
+	      begin /font/c.ttf
+	        FontName = Verdy-Bold
+	        Charset = ISO8859-1 ISO8859-2 ISO8859-3 ISO10646-1
+	        UniCharset = ISO8859-1 ISO8859-2 ISO8859-3
+	        Encoding = Unicode
+	        Location = English Slovenian Turkish
+	        Weight = Bold
+	        Shape = NoSerif
+	        GeneralFamily = SansSerif
+	        Family = Verdy
+	      end
+	    </example>
+	    No subhint is needed to represent multiple charsets of TrueType
+	    fonts. Setting Charset to the available charsets will do.
+	  </p>
+	</sect1>
+      </sect>
+      <sect>
+	<heading>Packaging.</heading>
+	<p>
+	  Now let's build a Defoma-aware font package. To make things easier,
+	  using debhelper is strongly recommended. Following tutorial
+	  describes about a debhelper-based package.
+	</p>
+	<sect1>
+	  <heading>Using dh_installdefoma.</heading>
+	  <p>
+	    Since defoma 0.7.0, it provides a debhelper program for defoma
+	    named dh_installdefoma. Using this program makes it much easier
+	    to defoma-ize a package.
+	  </p>
+	  <p>
+	    <enumlist>
+	      <item>
+		<p>
+		  Put the hintfile into <tt>debian/</tt> subdirectory and
+		  name it as defoma-hints.
+		  <example>
+		    mv fonts/hintfile debian/defoma-hints
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Edit <tt>debian/rules</tt> to calldh_installdefoma in
+		  binary-indep or binary-arch phase. it may be best to add
+		  it just after dh_installdebconf.
+		  <example>
+		    (ex: debian/rules)
+		    binary-indep: build install
+		            dh_testdir
+		            dh_testroot
+		            dh_installdebconf
+		            dh_installdefoma
+		            dh_installdocs
+                            ...
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Edit <tt>debian/control</tt> to make the package depend
+		  and build-depend on defoma.
+		  <example>
+		    (ex: debian/control)
+		    Build-Depends: defoma (>= 0.7.0)
+		    ...
+		    Depends: defoma
+		    ...
+		  </example>
+		</p>
+	      </item>
+	    </enumlist>
+	  </p>
+	</sect1>
+	<sect1>
+	  <heading>Without using dh_installdefoma.</heading>
+	  <p>
+	    Although using dh_installdefoma is strongly recommended,
+	    sometimes you have to do what dh_installdefoma does manually.
+	    Following lists describes this ordinal way of defoma-izing.
+	  </p>
+	  <p>
+	    <enumlist>
+	      <item>
+		<p>
+		  Put hintfile(s) into <tt>debian/</tt> subdirectory.
+		  <example>
+		    mv fonts/hintfile debian/
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Edit the <tt>debian/rules</tt> file to install the hintfile(s)
+		  into <tt>etc/defoma/hints/</tt> directory as
+		  <tt>&lt;package-name&gt;.hints</tt>.
+		  <example>
+		    (ex: debian/rules)
+		    PKG = &lt;package-name&gt;
+		    DIR = `pwd`/debian/&dollar;(PKG)
+		    install: build
+		    ...
+		    install -m 644 debian/hintfile &bsol;
+		    &dollar;(DIR)/etc/defoma/hints/&dollar;(PKG).hints
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  To create the <tt>etc/defoma/hints</tt> directory before
+		  actually installing the hintfile there, edit
+		  <tt>debian/dirs</tt>. 
+		  <example>
+		    (ex: debian/dirs)
+		    etc/defoma/hints
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  The hintfile must be a conffile, so edit
+		  <tt>debian/conffiles</tt>.
+		  <example>
+		    (ex: debian/conffiles)
+		    /etc/defoma/hints/&lt;package-name&gt;.hints
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Registration of fonts must be performed at postinst.
+		  Edit <tt>debian/postinst</tt> to call defoma-font with
+		  reregister-all command. NOTE that the command is not
+		  register-all. Using this command is able to not only
+		  just register fonts described in a hintfile, but also
+		  update revised hints to Defoma, so this command is
+		  used for both newly installing and upgrading purpose.
+		  <example>
+		    (ex: debian/postinst)
+		    ...
+		    FILE='/etc/defoma/hints/&lt;package-name&gt;.hints'
+		    if [ "&dollar;1" = configure ]; then
+		    /usr/bin/defoma-font reregister-all &dollar;FILE
+		    fi
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Unregistration of fonts must be performed at prerm
+		  when the package is going to be removed.
+		  Edit <tt>debian/prerm</tt> to call defoma-font with
+		  purge-all command.
+		  <example>
+		    (ex: debian/prerm)
+		    ...
+		    FILE='/etc/defoma/hints/&lt;package-name&gt;.hints'
+		    if [ "&dollar;1" = remove ]; then
+		    /usr/bin/defoma-font purge-all &dollar;FILE
+		    fi
+		  </example>
+		</p>
+	      </item>
+	      <item>
+		<p>
+		  Edit <tt>debian/control</tt> to make the package depend
+		  on defoma.
+		  <example>
+		    (ex: debian/control)
+		    ...
+		    Depends: defoma
+		    ...
+		  </example>
+		</p>
+	      </item>
+	    </enumlist>
+	  </p>
+	</sect1>
+      </sect>
+    </chapt>
+    <chapt>
+      <heading>Application Package's HOWTO</heading>
+      <p>
+	Applications that are configurable about fonts and have users
+	configure about fonts by some means are able to achieve dynamic
+	configuration about fonts through Defoma framework. This chapter
+	describes how to build a Defoma-aware application package step
+	by step.
+      </p>
+      <p>
+	<enumlist>
+	  <item>
+	    <p>
+	      Prepare a Defoma-configuration script. This script is
+	      provided by each application that uses the Defoma framework
+	      and configures fonts for its application. It is
+	      called whenever a font is installed or removed, so that
+	      it updates the configuration about fonts. How to write
+	      a Defoma-configuration script is not described in this
+	      document, so please refer others.
+	    </p>
+	    <p>
+	      The Defoma configuration script must be put under
+	      <tt>debian/</tt> subdirectory and its name should be
+	      <tt>&lt;package-name&gt;.defoma</tt>.
+	    </p>
+	  </item>
+	  <item>
+	    <p>
+	      Edit <tt>debian/rules</tt> to call dh_installdefoma in
+	      binary-arch or binary-indep phase.
+	      <example>
+		(ex: debian/rules)
+		binary-indep: build install
+		       dh_testdir
+		       dh_testroot
+		       dh_installdebconf
+		       dh_installdefoma
+		       dh_installdocs
+                       ...
+	      </example>
+	    </p>
+	    <p>
+	      FYI, dh_installdefoma actually performs the following steps.
+	      <list>
+		<item>
+		  <p>
+		    Edit <tt>debian/rules</tt> file to install the script
+		    into <tt>usr/share/defoma/scripts</tt>.
+		    <example>
+		      (ex: debian/rules)
+		      DIR = `pwd`/debian/&lt;package-name&gt;
+		      ...
+		      install: build
+		      ...
+		      install -m 644 debian/&lt;package-name&gt;.defoma &bsol;
+		      &dollar;(DIR)/usr/share/defoma/scripts
+		    </example>
+		  </p>
+		</item>
+		<item>
+		  <p>
+		    Edit <tt>debian/dirs</tt> file to create
+		    <tt>usr/share/defoma/scripts</tt> and
+		    <tt>var/lib/defoma/&lt;package-name&gt;.d</tt> directories.
+		    <example>
+		      (ex: debian/dirs)
+		      usr/share/defoma/scripts
+		      var/lib/defoma/&lt;package-name&gt;.d
+		    </example>
+		  </p>
+		</item>
+		<item>
+		  <p>
+		    When the application package is installed, the
+		    Defoma-configuration script needs to configure about
+		    installed fonts for the application. To make it possible,
+		    edit <tt>debian/postinst</tt> file to call defoma-app
+		    with update command.
+		    <example>
+		      (ex: debian/postinst)
+		      ...
+		      if [ "&dollar;1" = configure ]; then
+		      /usr/bin/defoma-app update &lt;package-name&gt;
+		      fi
+		      ...
+		    </example>
+		  </p>
+		</item>
+		<item>
+		  <p>
+		    When the application package is removed/upgraded, the
+		    Defoma-configuration script needs to clean up the
+		    configuration. Edit <tt>debian/prerm</tt> file to
+		    call defoma-app with purge/clean command respectively. 
+		    <example>
+		      (ex: debian/prerm)
+		      ...
+		      if [ "&dollar;1" = remove ]; then
+		      /usr/bin/defoma-app purge &lt;package-name&gt;
+		      fi
+		      if [ "&dollar;1" = upgrade ]; then
+		      /usr/bin/defoma-app clean &lt;package-name&gt;
+		      fi
+		      ...
+		    </example>
+		  </p>
+		  <p>
+		    In addition, when the application package is removed,
+		    <tt>/var/lib/defoma/&lt;package-name&gt;.d</tt> directory
+		    MUST be removed without fail. Edit <tt>debian/postrm</tt>
+		    file to remove the directory.
+		    <example>
+		      (ex: debian/postrm)
+		      ...
+		      if [ "&dollar;1" = remove ]; then
+		      /bin/rm -fr /var/lib/defoma/&lt;package-name&gt;.d
+		      fi
+		      ...
+		    </example>
+		  </p>
+		</item>
+	      </list>
+	    </p>
+	  </item>
+	  <item>
+	    <p>
+	      If the application package provides a public subst-rule
+	      (see Defoma::Subst manpage), the rulefile should be created
+	      at postinst if the rulefile doesn't exist. Edit
+	      <tt>debian/postinst</tt> file to call defoma-subst with
+	      new-rule command. It should be called before defoma-app.
+	      <example>
+		(ex: debian/postinst)
+		...
+		if [ "&dollar;1" = configure ]; then
+		  if [ ! -f "/etc/defoma/&lt;rulename&gt;.subst-rule ]; then
+		    /usr/bin/defoma-subst new-rule &lt;rulename&gt;
+		  fi
+		  ..
+		  /usr/bin/defoma-app update &lt;package-name&gt;
+		fi
+	      </example>
+	    </p>
+	    <p>
+	      Created rulefile is considered as conffile, so it must be
+	      removed when the package is purged. Edit <tt>debian/postrm</tt>
+	      file to remove the rulefile at purge.
+	      <example>
+		(ex: debian/postrm)
+		...
+		FILE='/etc/defoma/&lt;rulename&gt;.subst-rule'
+		if [ "&dollar;1" = purge ]; then
+		  /bin/rm -f &dollar;FILE &dollar;FILE&tilde;
+		fi
+	      </example>
+	    </p>
+	  </item>
+	  <item>
+	    <p>
+	      Edit <tt>debian/control</tt> to make the package depend
+	      on defoma.
+	      <example>
+		(ex: debian/control)
+		Build-Depends: defoma (>= 0.7.0)
+		...
+		Depends: defoma (>= x.y.z)
+		...
+	      </example>
+	      Which version to depend is decided by what function the script
+	      makes use of. See
+	      <tt>/usr/share/doc/defoma-doc/version-dependency.txt</tt>
+	      for more detail.
+	    </p>
+	  </item>
+	  <item>
+	    <p>
+	      It is recommended to provide README.Defoma which describes
+	      categories which the script accepts and installs to,  and
+	      HintTypes which the script particularly uses.
+	    </p>
+	  </item>
+	</enumlist>
+      </p>
+    </chapt>
+  </book>
+</debiandoc>
+

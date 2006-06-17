@@ -1,0 +1,25 @@
+.TH defoma-psfont-installer 1 "March  4, 2001"
+.SH NAME
+defoma-psfont-installer \- register fonts installed in a PostScript printer.
+.SH SYNOPSIS
+.B defoma-psfont-installer
+.SH DESCRIPTION
+.B defoma-psfont-installer
+is a tool to register fonts installed in a PostScript printer to
+Defoma, Debian Font Manager. Those who want to print a PostScript
+file using the printer fonts may want to have all the printer fonts
+appear in a PostScript font selection menu of an application. 
+.B defoma-psfont-installer
+helps registering printer fonts. It can parse PPD -- PostScript 
+Printer Description -- file and retrieve available printer font
+names from the file, then presumes the hints according to each of
+the font name, and creates a hintfile and register them.
+It is strongly recommended to prepare a PPD file.
+.SH FILES
+.TP
+/etc/defoma/hints/defoma-ps.hints
+Hintfile that 
+.B defoma-psfont-installer
+generates.
+.SH SEE ALSO
+.BR defoma (1).

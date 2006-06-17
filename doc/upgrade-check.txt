@@ -1,0 +1,230 @@
+This document describes rough changes of each version and instruction.
+
+[0.11]
+------
+
+o Id::defoma_id_grep_cache($id, ..., sorttype => $stype, sortkey => $skey) --
+	New Feature.
+    The order of the result of this function was random before this version,
+    but now it can be outputted in a certain order, if specified by sorttype
+    and sortkey arguments.
+    $stype should be either 'a', 'n' or 'p', which stand for alphabetical
+    order, numeric order and priority order respectively. $skey should be
+    either 'id', 'font', 'type', 'priority', 'category', 'depid', or 'depfont'.
+    It must be set when $stype is 'a' or 'n' but not 'p', in order to specify
+    in which entry you want to sort the result.
+    And here is an example of how $stype = 'p' is used:
+      @index = defoma_id_grep_cache($id, 'font', id => "Foo", sorttype => 'p');
+    First, all font entries (real, alias and subst entries) whose id is Foo
+    are selected out. Then they are sorted in the same order as defoma decides
+    which font to install when several fonts have the same id. For example,
+    if there are three fonts (A, B and C) with same id Foo for RealName, Alias,
+    and Substituted respectively, font A is the most prior. But if font B is
+    marked as USE through dfontmgr, font B becomes the most prior.
+    NOTE that the result is larger-to-smaller priority order when $stype = s,
+    while smaller-to-larger when $stype = a or n.
+
+o defoma-hints --no-question ... -- New Feature.
+    Non-interactive mode. All values are set to default.
+
+[0.10]
+------
+
+o defoma-app ignore <app> <category>.. -- New command.
+    Remove fonts registered in the <category> from the configuration of the
+    <app> like "defoma-app clean <app> <category>", and set "ignore' flag to 
+    prevent the fonts in the <category> from being registered to the <app>.
+
+o defoma-app clean|update <app> <category>.. -- Additional feature.
+    Multiple <category> is allowed.
+
+o defoma-user update|reconfigure -- New command.
+    Commands for Userlevel Defoma.
+
+o "-u" -- New option for defoma-font,app,id.
+    Switches to Userlevel Defoma mode.
+
+o Common::app_readfile($file) -- New function.
+o Common::readfile($file) -- New function.
+    Read the $file, chomp each of the lines and return in an array.
+    $file must be a relative path from the package specific directory
+    (ROOTDIR/<app>.d) for app_readfile(), and must be a absolute path
+    for readfile().
+
+o Common::app_writefile($file, @lines) -- New function.
+o Common::writefile($file, @lines) -- New function.
+    Write @lines to the $file. @lines must not contain the terminating "\n".
+    In the same way as app_readfile() and readfile(), $file must be a relative
+    and absolute path for app_writefile() and writefile() respectively.
+
+o Common::app_symlink($src, $dest) -- New function.
+    Create a symlink $dest that points to $src. $src must be a absolute path
+    and $dest must be a relative path from the package specific directory
+    (ROOTDIR/<app>.d).
+    This function can be used to create a symlink of a font file in the
+    package specific directory.
+
+o Common::app_unlink($file) -- New function.
+    Remove the $file. $file must be a relative path from the package specific
+    directory.
+
+o Common::DEFOMA_TEST_DIR, ROOTDIR, HOMEDIR, LOCALE -- New function.
+    These functions behave as constant variables. HOMEDIR and LOCALE are
+    used in Userlevel Defoma: HOMEDIR represents the home directory and
+    LOCALE represents the current locale.
+
+o User::defoma_user_update_dotfile($file, $begin, $end, @lines) -- New func.
+    This function is used in Userlevel Defoma. It replaces the content between
+    the two lines specified by $begin and $end of $file, so is useful for
+    the purpose of adding the configuration by defoma to a dotfile which the 
+    user might directly modify.
+    $file must be a relative path from HOMEDIR.
+
+o $APPINFO -- New variable.
+    This variable is a reference to a hash and is used in the header of a
+    Defoma-configuration scripts in order to describe the additional
+    information and setting.
+    There're currently following keys.
+    
+    - $APPINFO->{require}
+      Specifies the required version of defoma.
+      ex.) $APPINFO->{require} = "0.10.0";
+    
+    - $APPINFO->{subdirs}
+      Specifies subdirectories under ROOTDIR/<app>.d. They'll be automatically
+      created when defoma-app update <app> is run.
+      ex.) $APPINFO->{subdirs} = ["dirs/fonts", "dirs/CMap"];
+           ROOTDIR/<app>.d/dirs/fonts and ROOTDIR/<app>.d/dirs/CMap will be
+	   created.
+    
+    - $APPINFO->{links}
+      Specifies symlinks that points to a file/directory under 
+      ROOTDIR/<app>.d. They'll be automatically created/removed when
+      defoma-app update/purge <app> is run.
+      ex.) $APPINFO->{links} = ["dirs/CMap /usr/share/ghostscript/CMap",
+                                "dirs/fonts /usr/share/ghostscript/fonts"];
+	   Symlink files /usr/share/ghostscript/{CMap|fonts} that point to
+	   ROOTDIR/<app>.d/dirs/{CMap|fonts} will be created.
+      
+[0.9]
+-----
+
+o Common::get_xlfd_of_font(<font>, type => <type>, face => <face>) -- New func.
+    Returns an array of XLFDs of <font>.
+    <type> must be 'min', 'normal', or 'max' and controls the amount of
+    returned XLFDs.
+    Specifying <face> makes is return XLFDs of the specified <face> of <font>.
+
+[0.8]
+-----
+
+o defoma-font register-one <hintfile> <font> -- New command.
+o defoma-font unregister-one <hintfile> <font> -- New command.
+o defoma-font reregister-one <hintfile> <font> -- New command.
+o defoma-font purge-one <hintfile> <font> -- New command.
+    register/unregister/reregister/purge one font with hints and category
+    described in the hintfile. 
+
+o <Hintfile format>
+   - Duplication of font definition is now permitted. It means several
+     begin..end blocks for one font are allowed. Only the last begin..end
+     block is interpreted.
+   - Declaration of `category' specification is now permitted. It means
+     you can describe hints of fonts which belong to several category
+     in one hintfile like this:
+       category truetype
+       begin <fontA>
+         ...
+       end
+       category type1
+       begin <fontB>
+         ...
+       end
+   - obsolete <font>
+     It declares the font as obsoleted. The font is re-registered to
+     `obsoleted' category with no hints so that the font is never used
+     in defoma.
+     This function is really useful in the situation that a maintainer
+     wants some fonts that are ordinally described in a hintfile to be
+     unregistered in the next version. Removing the begin..end blocks
+     of these fonts doesn't cause these fonts to be unregistered, while
+     just adding this `obsolete' line for each of these fonts does.
+     ex.)
+       category type1
+       begin <fontA>
+         ...
+       end
+       begin <fontB>
+         ...
+       end
+       begin <fontC>
+         ...
+       end
+       obsolete <fontA>
+       obsolete <fontB>
+     In this example, fontA and fontB will be obsoleted.
+
+o DEFOMA_TEST_DIR
+    Ordinally this environmental variable are always referred by deciding
+    the top directory. Now it is only referred when -d is specified.
+
+o /usr/local/share/defoma/scripts
+    When -d is specified, defoma looks for this directory for
+    defoma-configuration scripts.
+
+[0.7]
+-----
+
+o Font::defoma_font_get_failed(<category>, <font>) -- New function.
+    it is used to get a hash which contains the applications for which the
+    specified <font> is failed to be registered as its keys, and the
+    return value as its values.
+
+o Id::defoma_id_set(<id_object>, <id>, <font>, <flag>) -- New function.
+o Id::defoma_id_unset(<id_object>, <id>, <font>) -- New function.
+    these are used to set/unset the flag (install and exclude) and to
+    force the specified id/font to be installed and excluded.
+
+o /usr/bin/defoma-id -- New function.
+    it is supposed to be invoked from dfontmgr, which is a GUI frontend
+    of defoma. It was going to be installed in defoma 0.7.0, but not
+    realized.
+
+o /usr/bin/dh_installdefoma -- New function.
+    it is a debhelper program for defoma-ized font and application packages.
+    Now only you have to do to defoma-ize a font package is to create a
+    hintfile and name it as defoma-hints, and invoke dh_installdefoma in
+    debian/rules. In the same way, you can defoma-ize a application package
+    only by creating a defoma-configuration script and name it as defoma,
+    and invoke dh_installdefoma in debian/rules.
+
+[0.6]
+-----
+
+o Common::weight_ascii2integer(<weight>) -- New function.
+o Common::weight_a2i(<weight>) -- abbreviation for weight_ascii2integer()
+    it is used to convert a string representing weight of a font into
+    an integer value, so is useful for comparing.
+
+    ex.)
+	if (weight_a2i('Medium') < weight_a2i($h->{Weight})) {
+	    # the font is bolder.
+	} elsif (weight_a2i('Medium') > weight_a2i($h->{Weight})) {
+	    # the font is lighter.
+	}
+
+o Transform -- New hinttype.
+    It controls transformation of a face of a font like boldization and
+    slantization.
+    If you want to prevent a font from being boldized and/or slanted, you
+    should add "Transform = NotBoldize" and/or "Transform = NotSlant" to the
+    hintfile, and reregister the font.
+    You should add "Transform = Boldize" and/or "Transform = Slant" to the
+    hintfile to make the font boldized and/or slanted.
+
+    Note that the transformation of a font is supported only by a few
+    applications, so this hinttype has no effect for most of the
+    configurations. The default action taken by a acript of an application
+    supporting the transformation when it is not set is not determined.
+
+

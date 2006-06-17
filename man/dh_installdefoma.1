@@ -1,0 +1,52 @@
+.TH DH_INSTALLEDEFOMA 1 "20 August 2000" "Debhelper Commands" "Debhelper Commands"
+.SH NAME
+dh_installdefoma \- install a defoma related scripts
+.SH SYNOPSIS
+.B dh_installdefoma
+.I "[debhelper options] [-n]"
+.SH "DESCRIPTION"
+dh_installdefoma is a debhelper program that is responsible for installing
+files related to defoma (DEbian FOnt MAnager) into package build directories. dh_installdefoma
+can be used by defoma-aware packages and/or font packages using defoma.
+.P
+It also automatically generates the postinst and pre/postrm commands needed to
+register a package as a defoma-aware and/or font package using defoma. See
+.BR dh_installdeb (1)
+for an explanation of how this works.
+.P
+If a file named debian/package.defoma exists, then it is installed into
+usr/share/defoma/scripts/package.defoma in the package build directory and put
+an un/registration method in maintainer scripts with defoma-app.    
+If a file named debian/package.defoma-hints exists, then it is installed in
+etc/defoma/hints/package.hints in the package build
+directory and put an un/registration method in maintainer scripts with defoma-font.
+So when you create a defoma font package, what you need to do is
+only to put its hints file in debian/package.defoma-hints and install font files written
+in the hints file in the apropriate locations. When you create a defoma-aware
+package, what you need to do is only to put its defoma-script file in
+debian/package.defoma. The script file is automatically installed in the
+package build directory.
+.SH OPTIONS
+.TP
+.B debhelper options
+See
+.BR debhelper (1)
+for a list of options common to all debhelper commands.
+.TP
+.B \-n, \--noscripts
+Do not modify postinst/postrm scripts.
+.TP
+.SH ENVIRONMENT
+See
+.BR debhelper (1)
+for a list of environment variables that affect all debhelper commands.
+.SH NOTES
+Note that this command is not idempotent. "dh_clean -k" should be called
+between invocations of this command. Otherwise, it may cause multiple
+instances of the same text to be added to maintainer scripts.
+.SH "SEE ALSO"
+.TP
+.BR debhelper (1)
+.SH AUTHOR
+Masato Taruishi <taru@debian.org>
+

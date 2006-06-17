@@ -1,0 +1,21 @@
+#! /bin/sh
+
+set -e
+
+FILE='/etc/defoma/hints/defoma-ps.hints'
+CONF='/etc/defoma/config/psfontmgr.conf'
+
+if [ "$1" = remove ]; then
+  if [ -f $FILE ]; then
+    /usr/bin/defoma-font -t purge-all $FILE
+  fi
+  
+  /usr/bin/defoma-app -t purge psfontmgr
+fi
+
+if [ "$1" = upgrade ]; then
+  /usr/bin/defoma-app -t clean psfontmgr
+fi
+
+#DEBHELPER#
+

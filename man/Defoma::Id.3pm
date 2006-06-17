@@ -1,0 +1,409 @@
+.TH Defoma::Id 1 "March  4, 2001"
+.SH NAME
+Defoma::Id \- Defoma module to handle Id cache.
+.SH SYNOPSIS
+.nh
+use Defoma::Id;
+
+$Id = defoma_id_open_cache(
+.IR suffix ,
+.IR package_name
+);
+
+defoma_id_close_cache(
+.IR id_object
+);
+
+defoma_id_register(
+.IR id_object ,
+.br
+.RI " type => " type ,
+.br
+.RI " font => " font ,
+.br
+.RI " id => " id ,
+.br
+.RI " priority => " priority ,
+.br
+.RI " category => " category ,
+.br
+.RI " origin => " origin ,
+.br
+.RI " depend => " depend ,
+.br
+.RI " hints => " hints
+);
+
+defoma_id_unregister(
+.IR id_object ,
+.br
+.RI " type => " type ,
+.br
+.RI " font => " font ,
+.br
+.RI " id => " id 
+);
+
+@index = defoma_id_grep_cache(
+.IR id_object ,
+.IR search-type ,
+.br
+.RI " id => " id ,
+.br
+.RI " font => " font ,
+.br
+.RI " type => " type ,
+.br
+.RI " category => " category ,
+.br
+.RI " depid => " depid ,
+.br
+.RI " depfont => " depfont
+);
+
+@hints = defoma_id_get_hints(
+.IR id_object , 
+.IR index
+);
+
+defoma_id_set(
+.IR id_object ,
+.IR id ,
+.IR font ,
+.IR flag
+);
+
+defoma_id_unset(
+.IR id_object ,
+.IR id ,
+.IR font
+);
+
+.hy
+.SH DESCRIPTION
+Defoma::Id is a Defoma module to handle identifiers of fonts and id\-caches.
+It provides functions listed above which are supposed to be called from
+Defoma\-configuration scripts. 
+.PP
+id\-cache is sort of a database and its aim is to avoid name space 
+confliction. Applications often access fonts through their identifiers,
+so it is desirable that one identifier point only one font. It is a
+difficult requirement for automatic configuration because it can easily
+happen that two or more fonts have the same identifier. Automatic 
+configuration scripts can hardly detect which font is the best to be named
+the identifier, or even such a situation occur. Defoma::Id is help for
+this problem.
+.PP
+The rough flow of how Defoma::Id works is:
+.br
+1. open an id\-cache at
+.I init
+command of a Defoma\-configuration script.
+.br
+2. register identifier(s) of a font at
+.I register
+command of the script.
+.br
+3. Defoma::Id looks up the id\-cache to check if there's any other
+font that has the same identifier, and calls back the script to make
+the most appropriate font have the identifier, by do\-install\- command
+and do\-remove\- command.
+.SH TYPE OF IDENTIFIER
+It can handle three types of identifiers:
+RealName, Alias, and Substituted. 
+.PP
+.I RealName
+is a real name of a font and is usually taken from the FontName hint.
+If you want to register a font to an id\-cache, at least one RealName
+must be registered. You can pass the hints to
+.I options
+when you register a RealName.
+.br
+.I Alias
+is another name of a font and is usually taken from the Alias hint.
+You have to specify the RealName of the font with
+.I origin
+when you register an Alias.
+.br
+.I Substituted
+is yet another name of a font, but unlike Alias, it is not taken from the
+hints of the font, nor directly registered to an id\-cache by 
+Defoma\-configuration scripts. It is rather taken from a subst\-rule,
+which is handled by Defoma::Subst module, and is registered by the module.
+If you want a certain font to substitute for another id, you should
+register the font (and its realname) to a subst\-cache. For more detail,
+please refer the Defoma::Subst manpage.
+.SH DETAIL OF HOW DEFOMA::ID WORKS
+Registration and Unregistraton of ids of a font are usually performed on
+Defoma-configuration scripts at register and unregister commands respectively,
+and actual installation and removal for a certain id of a font must not be 
+performed at register and unregister commands, but at 
+.nh
+.I do\-install\-(real,alias,subst)
+and
+.I do\-remove\-(real,alias,subst)
+.hy
+commands respectively.
+Following explains how an id of a font is 
+registered/unregistered to/from an id\-cache.
+.IP 1.Registeration
+Defoma::Id module records the id, font, type, priority and some other 
+informations in the id\-cache.
+.IP 1.2
+the module seeks fonts which provides the id from the id\-cache, and gets 
+the most prior font of them. RealName is always more prior to Alias, and Alias
+is always more prior to Substituted.
+.IP 1.3
+If no font is actually installed for the id, the module calls back the script
+with do-install-<type> command. If the script succeeds installation of
+the font for the id, the module records the id and the font as INSTALLED.
+.IP 1.4
+If another font is already INSTALLED for the id, the module calls back the
+script with do-remove-<type> command to remove the old most-prior font for 
+the id, and removes the INSTALLED entry. Then the module calls back again the
+script with do-install-<type> command to install the new most-prior font
+for the id. If the scrpt succeeds installation of the font for the id,
+the module records the id and the font as INSTALLED.
+.IP 2.Unregistration
+If the font is installed for the id, Defoma::Id module calls back the
+script with do-remove-<type> command to remove the font for the id,
+and removes the INSTALLED entry. Then the module seeks fonts which provides
+the id from the id\-cache. If the id is provided by other fonts, the module
+seeks the most-prior font from them, and installs it as mentioned above section
+ 1.3. 
+.IP 2.2
+The module removes the entry recording the id and the font.
+.PP
+These processes make only one, more appropriate font provide an certain id,
+so the name-space confliction would be avoided.
+.SH FORMAT OF ID CACHE
+id\-cache holds eight items for each entry: id, font, type, priority,
+category, depid, depfont and hints.
+.PP
+.B type
+represents the type of the entry in a combination of some letters. 
+id\-cache handles font entry and mark entry. The latter is used to 
+have a certain less prior font installed for a certain id 
+(i.e. marked as USE), or to keep a certain font 
+from being installed for a certain id (i.e. marked as EXCLUDE), and is 
+supposed to be set by users and not to be refered from Defoma\-configuration
+scripts, just for internal use. On the other hand, font entry holds
+information of a certain id of a cont and may be refered from the scripts.
+.PP
+.B type
+consists of two or three letters.
+The first letter represents the type of the entry and is either
+.BR "S " or " M "
+(font entry or mark entry, respectively). If the first letter is 
+.BR S ,
+which means it is font entry, the second letter represents the type of 
+the font and is either 
+.BR r , " a" , " S "
+(real, alias or subst respectively).
+If the first letter is 
+.BR M ,
+which means it is mark entry,
+the second letter represents the type
+of the mark and either of 
+.BR " u " or " x "
+(use or exclude respectively).
+If the entry is font entry,
+which means the first letter is
+.BR S ,
+and the font and the id of the entry is INSTALLED,
+there's a third letter and it is
+.BR I .
+.PP
+.B depid
+and
+.B depfont
+represent dependency of the id of the font. The font never gets installed
+unless the
+.B depfont
+is installed for the
+.BR depid .
+.I origin
+and
+.I depend
+arguments of
+.B defoma_id_register
+affect these items. If the id of the font doesn't depend on any other
+id and/or font, these items are set to '.'.
+.PP
+.B hints
+represents the hints of the id of the font. It is specified by
+.I hints
+argument of
+.BR defoma_id_register .
+You must use 
+.B defoma_id_get_hints
+to access the value of this item.
+.PP
+An item of each entry of an id\-cache are accessible as an element of
+id\-object whose key is e_id, e_font, e_type, e_priority, e_category,
+e_depid, e_depfont. For example, 
+.nh
+$Id->{e_font}->[3]
+.hy
+accesses the font of entry #3 of id\-object $Id.
+.PP
+.nf
+.nh
+Here's an example of an id\-cache.
+
+# e_id        e_font e_type e_priority e_category ...
+0 Helvetica   a.pfa  SrI    20         type1 ...
+1 Courier     a.pfa  Sa     20         type1 ...
+2 Times-Roman b.ttf  SrI    30         truetype ...
+3 Courier     b.ttf  SaI    30         truetype ...
+
+.hy
+.fi
+It show a.pfa has two identifiers: Helvetica for RealName and 
+Courier for Alias, and b.ttf has two identifiers: Times-Roman 
+for RealName and Courier For Alias.
+.br
+Two fonts have the same identifier Courier, but this id\-cache
+makes Courier point to b.ttf (in other words, lets b.ttf provide
+Courier). 
+.SH FUNCTIONS
+.B defoma_id_open_cache
+is a function used to open an id\-cache. id\-caches are independent
+between applications so usually a Defoma\-configuration script
+of a certain application cannot open an id\-cache of another application.
+Each application can have more than one id\-caches, and each of them
+are distinguished by its
+.I suffix 
+unique to the application. You can omit the
+.I suffix
+argument if the application uses only one id\-cache. 
+.I package_name
+should be omitted for most cases. It returns
+.I id_object
+which is used as a descriptor for further handling of the id\-cache.
+.PP
+.B defoma_id_close_cache
+is a function used to close an id\-cache. Internally it writes the
+content of an id\-cache to the file which is identified by
+.IR id_object .
+.PP
+.B defoma_id_register
+is a function used to register a font and one of its ids to an id\-cache 
+identified by
+.IR id_object .
+ You must at least pass
+.IR " type" , " font" , " id " and " priority"
+as its arguments.
+.I type
+is either of 'real', 'alias' or 'subst', which corresponds to RealName,
+Alias or Substituted mentioned above, respectively. 'subst' should be
+specified only by Defoma::Subst module, so 'real' and 'alias' are
+possible choices.
+If 'alias' is specified as the type of a font, you must specify the
+RealName of the font by
+.IR origin .
+Specifying the 
+.I origin
+is required for non-RealName ids because they should not be installed
+unless the RealName of the font is installed. 
+If 'real' is specified as the type, you can specify the hints of the font by
+.IR hints .
+.PP
+.B defoma_id_unregister
+is a function used to unregister one or all registered id(s) of
+a certain font from and id\-cache. If 
+.I id
+is specified, only the id of the specified
+.I font
+is unregistered from the id\-cache specified by
+.IR id_object .
+Otherwise, all ids of the font are unregistered.
+.PP
+.B defoma_id_grep_cache
+is a function that searches the id\-cache specified by
+.I id_object
+for the specified id/font/category/depid/depfont,
+and returns a list of indexes.
+.I search-type
+is either of real, alias, subst, font, installed or mark, which
+narrows down the subjects of searching. 
+.IR "id " , "font " , "type " , "category " , "depid " and " depfont "
+decides the subjects of searching more specifically. Not all of these,
+nor none of these are required.
+.PP
+.B defoma_id_get_hints
+is a function that returns hints of the 
+.I index
+of the id\-cache specified by
+.I id_object .
+If the index of Alias or Substituted is specified, it returns the hints of 
+its RealName that is specified in the
+.I origin
+argument of
+.B defoma_id_register
+when the Alias/Substituted identifier was registered.
+.PP
+.B defoma_id_set
+is a function used to make the specified
+.I font
+provide the specified
+.IR id ,
+or to prevent the specified
+.I font
+from providing the specifid
+.IR id .
+.B install
+or
+.B exclude
+may be given to the
+.IR flag .
+.B defoma_id_unset
+is a function used to unset the set flag of the specified
+.IR id and font .
+.SH EXAMPLES
+.nf
+.nh
+
+# Open an id\-cache with 'test' as its suffix.
+$Id = defoma_id_open_cache('test');
+
+# register ids in register command.
+my $font = shift;
+my $h = parse_hints_start('Alias', @_);
+my $fontname = $h->{FontName};
+my @alias = split(/ /, $h->{Alias});
+my $pri = $h->{Priority};
+  
+defoma_id_register($Id,
+                   type => 'real',
+                   font => $font,
+                   id => $fontname,
+                   priority => $pri,
+                   hints => join(' ', @_);
+  
+foreach my $i (@alias) {
+  defoma_id_register($Id,
+                     type => 'alias',
+                     font => $font,
+                     id => $i,
+                     priority => $pri,
+                     origin => $fontname);
+}
+
+# unregister ids.
+defoma_id_unregister($Id, type => 'alias', font => $font);
+defoma_id_unregister($Id, type => 'real', font => $font);
+
+# close an id\-cache
+defoma_id_close_cache($Id);
+
+# get a list of indexes of installed fonts that have
+#'Helvetica' for the id.
+my @list = defoma_id_grep_cache($Id, 'installed', id => 'Helvetica');
+
+.hy
+.fi
+.SH SEE ALSO
+.BR defoma (1).
+.BR Defoma::Font (1).
+.BR Defoma::Subst (1).

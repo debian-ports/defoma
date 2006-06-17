@@ -1,0 +1,397 @@
+#! /usr/bin/perl -w
+
+$COMNAME = $0;
+
+package dfontmgr;
+
+require 5.000;
+use strict 'vars', 'refs', 'subs';
+
+if ($main::COMNAME eq '/usr/bin/dfontmgr') {
+    use lib "/usr/share/perl5/Debian/Dfontmgr";
+} else {
+    use lib "./";
+}
+
+use Dfontmgr;
+
+use POSIX;
+use vars qw(%SIG);
+
+use Debian::Defoma::Common;
+use Debian::Defoma::Font;
+use Debian::Defoma::Id;
+use Debian::Defoma::Subst;
+import Debian::Defoma::Common qw(&get_files &readfile &writefile);
+
+require("/usr/share/defoma/libperl-file.pl");
+
+my $LastStatus = 0;
+
+main();
+
+sub main {
+    $Glade::PerlRun::pixmaps_directory = "/usr/share/pixmaps";
+
+    window1->app_run();
+    
+    exit 0;
+}
+
+sub load_scripts {
+    my $dir = shift;
+
+    return unless (-d $dir);
+
+    my @scripts = get_files("\\.defoma\$", $dir);
+    
+    foreach my $script (@scripts) {
+	my @ACCEPT_CATEGORIES = ();
+	my $APPINFO = {};
+	my $file = "$dir/$script";
+
+	my $app = $script;
+	$app =~ s/\.defoma$//;
+	my $s = $app;
+	$s =~ s/[^a-zA-Z0-9]/_/g;
+
+	my @lines = readfile($file);
+
+	my $l = -1;
+	for (my $i = 0; $i < @lines; $i++) {
+	    if ($lines[$i] =~ /^package[ \t]+$s;/) {
+		$l = $i;
+		last;
+	    }
+	}
+
+	if ($l >= 0) {
+	    my $line = '';
+	    for (my $i = 0; $i < $l; $i++) {
+		$line .= $lines[$i]  . "\n";
+	    }
+
+	    eval($line);
+	} else {
+	    require $file;
+	}
+
+	&Debian::Defoma::Configure::set_app_categories($app,
+						       @ACCEPT_CATEGORIES);
+	&Debian::Defoma::Configure::set_app_info($app, 'info', $APPINFO);
+
+	undef $APPINFO;
+    }
+}
+
+sub userspace {
+    return USERSPACE;
+}
+
+sub homedir {
+    return HOMEDIR;
+}
+
+sub defomatestdir {
+    return DEFOMA_TEST_DIR;
+}
+
+sub userlogin {
+    return USERLOGIN;
+}
+
+sub initialize {
+    &Debian::Defoma::Configure::clear_app_info();
+    
+    defoma_font_init();
+
+    &Debian::Defoma::Configure::init();
+    load_scripts(SCRIPTDIR);
+    
+    &Debian::Defoma::Common::clear_id_object();
+    &Debian::Defoma::Common::clear_subst_object();
+}
+
+sub userupdate1 {
+    return unless (USERSPACE);
+    initialize();
+    invoke_defoma("user update-font");
+}
+
+sub userupdate2 {
+    return unless (USERSPACE);
+    &defomauser::main();
+}
+
+sub check_configuring {
+    return (-l LOCKFILE) ? 1 : 0;
+}
+
+sub check_configuring_u {
+    return (USERSPACE && -l DEFOMA_TEST_DIR . "/var/lib/defoma/locked") ?
+	2 : 0;
+}
+
+sub get_font_categories {
+    return keys(%Debian::Defoma::Font::Fobjs);
+}
+
+sub get_apps {
+    return &Debian::Defoma::Configure::get_apps();
+}
+
+sub get_app_categories {
+    return &Debian::Defoma::Configure::get_app_categories(shift);
+}
+
+sub get_app_info {
+    return &Debian::Defoma::Configure::get_app_info(shift);
+}
+
+sub get_app_ignore {
+    my $appinfo = get_app_info(@_);
+
+    return ($appinfo->{ignore_category}) ?
+	keys(%{$appinfo->{ignore_category}}) : ();
+}
+
+sub get_app_status {
+    my $appinfo = get_app_info(@_);
+
+    my $stat;
+    my $ch = $appinfo->{script_change};
+    if ($ch eq 'new') {
+	$stat = 'not-configured';
+    } else {
+	$stat = 'configured';
+
+	if ($appinfo->{ignore_category}) {
+	    $stat .= " (except ". join(' ', get_app_ignore(@_)) . ")";
+	}
+	
+	if ($ch eq 'updated') {
+	    $stat .= ', needs-updating.';
+	} elsif ($ch eq 'same') {
+	    $stat .= ', up-to-date.';
+	} elsif ($ch eq 'obsoleted') {
+	    $stat .= ', needs-purging.';
+	}
+    }
+
+    return $stat;
+}
+
+sub get_fonts {
+    my $ctg = shift;
+    return defoma_font_get_fonts($ctg);
+}
+
+sub get_failed {
+    my $ctg = shift;
+    my $font = shift;
+    return defoma_font_get_failed($ctg, $font);
+}
+
+sub get_hints {
+    my $ctg = shift;
+    my $font = shift;
+    return defoma_font_get_hints($ctg, $font);
+}
+
+sub exist_font {
+    my $font = shift;
+    
+    foreach my $c (get_font_categories()) {
+	return $c if (defoma_font_if_register($c, $font));
+    }
+    return '';
+}
+
+sub get_id_caches {
+    my $app = shift;
+
+    my $pkgdir = ROOTDIR . '/' . $app . '.d';
+    my @files = get_files("id-cache.*", $pkgdir);
+    my $i;
+    my (@ret1, @ret2);
+
+    foreach $i (@files) {
+	if ($i eq 'id-cache') {
+	    $i = '';
+	    push(@ret1, $i);
+	} else {
+	    $i =~ s/^id-cache\.//;
+	    push(@ret2, $i);
+	}
+    }
+
+    return (@ret1, @ret2);
+}
+
+sub get_hintfiles {
+    my $dir = shift;
+
+    my @files = get_files("\\.hints\$", $dir);
+
+    return @files;
+}
+
+sub open_id_cache {
+    my $suffix = shift;
+    my $app = shift;
+
+    return defoma_id_open_cache($suffix, $app);
+}
+
+sub check_root {
+    my $lockfile = LOCKFILE;
+    my $flag = 0;
+    my $op = shift;
+
+    symlink("ok", $lockfile) || return 0;
+    unlink($lockfile);
+
+    return 1;
+}
+
+sub check_system_categories {
+    my $c = shift;
+    my @cs = &Debian::Defoma::Common::get_system_categories();
+
+    return scalar(grep($_ eq $c, @cs));
+}
+
+sub convert_hints2hintfile {
+    my $flag = 0;
+    my $text = '';
+    
+    foreach my $h (@_) {
+	if ($h =~ /^--(.*)/) {
+	    $text .= "\n\t$1";
+	    $flag = 1;
+	} else {
+	    $text .= " =" if ($flag);
+	    $text .= " " .$h;
+	    $flag = 0;
+	}
+    }
+
+    return $text;
+}
+
+sub invoke_defoma {
+    my @com = split(' ', shift);
+
+    my $pid = fork();
+    return -1 unless (defined($pid));
+    
+    if ($pid == 0) {
+	close STDERR;
+	close STDOUT;
+	exec('/usr/bin/defoma', OPTIONS, @com);
+	exit 0;
+    }
+
+    waitpid($pid, 0);
+
+    return 0;
+}
+
+sub read_from_file {
+    return readfile(@_);
+}
+
+sub write_to_file {
+    return writefile(@_);
+}
+
+package defomauser;
+
+use Debian::Defoma::Common;
+use lib "/usr/share/perl5/Debian/DefomaWizard";
+use DefomaWizard;
+
+sub user_update_invoke {
+    &dfontmgr::invoke_defoma("app @_");
+}
+
+sub user_update_message {
+    return 0;
+}
+
+sub user_update_question {
+    return 0;
+}
+
+sub main {
+    require("/usr/share/defoma/libdefoma-user2.pl");
+
+    &defomauser::user_update();
+
+    &defomawizard::destroy();
+}
+
+package defomahints;
+
+use Debian::Defoma::Font;
+import Debian::Defoma::Font;
+use Debian::Defoma::Common;
+
+use vars qw(@EXITREMOVE $LIBDIR);
+
+@EXITREMOVE = ();
+
+my $ERRORMSG;
+my $CATEGORY;
+
+sub exitfunc {
+    my $e = (@_ > 0) ? shift(@_) : 0;
+    my $msg = (@_ > 0) ? shift(@_) : undef;
+
+    unlink @EXITREMOVE if (@EXITREMOVE);
+
+    $ERRORMSG = (defined($msg)) ? $msg :
+	'internal error in ' . join(' ', caller());
+    
+    die("\n");
+}
+
+sub main {
+    $CATEGORY = shift;
+    my $font = shift;
+    
+    @EXITREMOVE = ();
+    undef $ERRORMSG;
+
+    $LIBDIR = "/usr/share/defoma";
+    require("$LIBDIR/libperl-hint.pl");
+    
+    hint_beginlib('HintsGenerator', 70, 'gtk');
+
+    my $LIBFILE = "$LIBDIR/libhint-$CATEGORY.pl";
+
+    if (-e $LIBFILE) {
+	require($LIBFILE);
+	my $funcptr;
+	eval("\$funcptr = \\&defomahints::sethint_$CATEGORY");
+	
+	my $lhints = eval("&{\$funcptr}(\$font);");
+	return () if (! defined($lhints) || defined($ERRORMSG));
+
+	my @hints = ("category $CATEGORY", "begin $font");
+	push(@hints, lhints2hints($lhints));
+	push(@hints, "end");
+
+	return @hints;
+    }
+
+    $ERRORMSG = "HintGenerator Library for $CATEGORY not found.";
+    return ();
+}
+
+sub get_status {
+    return defined($ERRORMSG) ? $ERRORMSG :
+	'Cancelled the registration of this font.';
+}
+
+1;

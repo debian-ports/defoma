@@ -1,0 +1,1058 @@
+<!DOCTYPE debiandoc SYSTEM>
+<debiandoc>
+  <book>
+    <titlepag>
+      <title>A Tutorial on Writing Defoma Configuration Script</title>
+      <author>
+	<name>Yasuhiro Take</name>
+      </author>
+      <abstract>
+	This document describes how to write Defoma-configuration script.
+      </abstract>
+    </titlepag>
+    <chapt>
+      <heading>Introduction</heading>
+      <sect>
+	<heading>What is Defoma-configuration script?</heading>
+	<p>
+	  Defoma-configuration script is a perl script which is
+	  provided by each of Defoma-aware application packages. This script
+	  does configuration about fonts for its application. It
+	  is called whenever a font is installed or removed, and its package
+	  is installed and removed, so that it can update the
+	  configuration about fonts dynamically.
+	</p>
+	<p>
+	  BTW, applications using fonts are divided into two groups:
+	  base-level applications that access fonts directly and provide
+	  logical fonts, and higher-level applications that access fonts
+	  via logical fonts provided by base-level applications.
+	  The examples of former applications are: X and ghostscript.
+	  which provide XLFD and PostScript fonts. VFlib can also be said as
+	  base-level application. The major latter applications are
+	  X applications that output a PostScript file. Defoma-configuration
+	  scripts of base-level applications can register their logical fonts
+	  to Defoma from the scripts, so that the scripts of higher-level
+	  applications can update configuration about logical fonts
+	  immediately.
+	</p>
+	<p>
+	  The big problem of automatic configuration is name-space
+	  conflict. If two different fonts /usr/lib/fonts/foo.pfa
+	  and /usr/share/fonts/foo.pfb have the same name Foo, only
+	  one of the two should be actually installed and the other
+	  shouldn't be installed unless the installed one is removed.
+	  This complicated problem can be solved by using Defoma::Id
+	  module. 
+	</p>
+      </sect>
+      <sect>
+	<heading>Format.</heading>
+	<p>
+	  Defoma-configuration script must be written as a perl library.
+	  That is, the script must end up with '1;' line.
+	</p>
+	<p>
+	  The script must declare what categories of fonts
+	  the script accepts in the first line. Use global array variable
+	  <tt>@ACCEPT_CATEGORIES</tt>.
+	</p>
+	<p>
+	  Any codes and declarations must be packaged with its script
+	  name. If the name of the script is <tt>bar.defoma</tt>,
+	  you have to put <example>package bar;</example> before
+	  any perl code except <tt>@ACCEPT_CATEGORIES</tt>. If the name of
+	  the script contains characters other than alphabets, numbers and
+	  underscore,
+	  replace them with underscore.
+	</p>
+	<p>
+	  Functions for each acceptable category must exist. The name of
+	  the function must be the same as the name of the acceptable category,
+	  except that replacing non-alphabetic non-numeric non-underscore
+	  characters with underscore. These functions will be called from
+	  defoma and Defoma::Id module, so they are
+	  sort of interface between Defoma and the script.
+	</p>
+	<p>
+	  Here is an example of a package named '<tt>foo-bar</tt>' which has a
+	  Defoma-configuration script, which configures about fonts
+	  in type1 and x-postscript categories.
+	</p>
+	<p>
+	  <example>
+	    # Declare acceptable categories.
+	    @ACCEPT_CATEGORIES = ('type1', 'x-postscript');
+	    # no code allowed here.
+	    package foo_bar;
+	    my $GlobalVariable1;
+	    my @GlobalVariable2;
+	    ...
+	    # function for type1 category.
+	    sub type1 {
+	      ...
+	    }
+
+	    # function for x-postscript category.
+	    sub x_postscript {
+	      ...
+	    }
+
+	    # end up with 1; this is the requirement of perl library.
+	    1;
+	  </example>
+	</p>
+      </sect>
+      <sect>
+	<heading>Arguments of function.</heading>
+	<p>
+	  Functions whose names are the same as acceptable categories
+	  are called with some arguments. Its first argument always
+	  represents command. Following is a list of commands and their
+	  descriptions.
+	</p>
+	<p>
+	  <list>
+	    <item>
+	      <p>
+		init .. this command is passed only once before any other
+		command is passed to the function. In this command the
+		script should open id-caches and subst-caches if necessary,
+		and read config files if exist.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		register .. this command is passed whenever a font in the
+		category is newly registered to Defoma. Following arguments
+		consist of the font and its hints. If registration of the font
+		is failed, the function must return non-zero. Otherwise
+		the function must return zero.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		unregister .. this command is passed whenever a font in the
+		category is unregistered from Defoma. Following arguments
+		consist of the font and its hints.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		term .. this command is passed after all registration and
+		unregistration is done, and before quitting. In this
+		command the script should close id-caches and subst-caches
+		if necessary, and might update the configuration of fonts.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		do-install-real, do-install-alias, do-install-subst ..
+		these commands are passed from Defoma::Id module, so
+		if the script doesn't use Defoma::Id module, the script
+		never comes across these commands. Following arguments
+		consists of the font, the id and some hints.
+	      </p>
+	      <p>
+		In these commands the script must do installation
+		of the font with the id.
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		do-remove-real, do-remove-alias, do-remove-subst ..
+		these commands are passed from Defoma::Id module, so
+		if the script doesn't use Defoma::Idd module, the script
+		never comes across these commands. Following arguments
+		consists of the font, the id and some hints.
+	      </p>
+	      <p>
+		In these commands the script must do removal of the font
+		with the id.
+	      </p>
+	    </item>
+	  </list>
+	</p>
+	<p>
+	  Here describes an example of a function <tt>type1</tt>.
+	  <example>
+	    sub type1 {
+	      my $com = shift;
+
+	      if ($com eq 'register') {
+	        return type1_register(@_);
+	      } elsif ($com eq 'unregister') {
+	        return type1_unregister(@_);
+	      } elsif ($com eq 'init') {
+	        return type1_init();
+	      } elsif ($com eq 'term') {
+	        return type1_term();
+	      }
+	      return 0;
+	    }
+	  </example>
+	</p>
+      </sect>
+    </chapt>
+    <chapt>
+      <heading>Simple Defoma-configuration script.</heading>
+      <p>
+	This chapter describes writing a Defoma-configuration script for
+	a package named `example1' which accepts truetype and type1 category
+	fonts. The application reads a font-configuration file which just
+	lists available truetype and type1 fonts. The script generates
+	<tt>font.conf</tt> file under
+	<tt>/var/lib/defoma/example1.d</tt>, which is supposed to be symlinked
+	or included from the font-configuration file the application actually
+	reads.
+      </p>
+      <p>
+	First of all, let's write a header of the script. The script
+	accepts truetype and type1 categories, and the name of the package
+	is `example1', so the header goes like this:
+	<example>
+	  @ACCEPT_CATEGORIES = qw(type1 truetype);
+
+	  package example1;
+	</example>
+      </p>
+      <p>
+	Before registration and unregistration of fonts is performed,
+	init command is certainly passed. And before quitting,
+	term command is certainly passed. Let the script read
+	the font-configuration file on init command and write
+	it on term command.
+	<example>
+	  package example1;
+	  my @file = ();
+	  my $readflag = 0;
+	  my $writeflag = 0;
+	  
+	  sub init {
+	    return 0 if ($readflag);
+
+	    $readflag = 1;
+	      
+	    open(F, '/var/lib/defoma/example1.d/font.conf') || return 0;
+	    while (&lt;F&gt;) {
+	      chomp($_);
+	      push(@file, $_);
+	    }
+	    close F;
+	    return 0;
+	  }
+
+	  sub term {
+	    return 0 if ($writeflag);
+
+	    $writeflag = 1;
+	  
+	    open(F, '&gt;/var/lib/defoma/example1.d/font.conf') || return 0;
+	    foreach my $i (@file) {
+	      print F $i, "\n" if ($i ne '');
+	    }
+	    close F;
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	Let the script add the font to @file on register and erase
+	the font from @file on unregister command.
+	<example>
+	  sub register {
+	    my $font = shift;
+	    push(@file, $font);
+	    return 0;
+	  }
+
+	  sub unregister {
+	    my $font = shift;
+	    my $i;
+	    for ($i = 0; $i < @file; $i++) {
+	      if ($file[$i] eq $font) {
+	        $file[$i] = '';
+	        return 0;
+	      }
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	The functions above are not directly called. <tt>type1()</tt> and
+	<tt>truetype()</tt> must call them according to the command.
+	<example>
+	  sub type1 {
+	    my $com = shift;
+	    if ($com eq 'init') {
+	      return init();
+	    } elsif ($com eq 'term') {
+	      return term();
+	    } elsif ($com eq 'register') {
+	      return register(@_);
+	    } elsif ($com eq 'unregister') {
+	      return unregister(@_);
+	    }
+	    return 0;
+	  }
+	  sub truetype {
+	    my $com = shift;
+	    if ($com eq 'init') {
+	      return init();
+	    } elsif ($com eq 'term') {
+	      return term();
+	    } elsif ($com eq 'register') {
+	      return register(@_);
+	    } elsif ($com eq 'unregister') {
+	      return unregister(@_);
+	    }
+	    return 0;
+	  }
+
+	  1;
+	</example>
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Using hints.</heading>
+      <p>
+	register and unregister commands are called with hints of the font.
+	Let's use hints in font configuration. This chapter describes
+	a package named 'example2' which accepts truetype category fonts.
+	The Defoma-configuration script generates <tt>default.conf</tt>,
+	<tt>ja.conf</tt>, <tt>ko.conf</tt>, <tt>zh_cn.conf</tt> and
+	<tt>zh_tw.conf</tt> under <tt>/var/lib/defoma/example2.d/dirs</tt>
+	directory, which is supposed to be symlinked from the required place.
+	These files list the font (path) and its font name taken from hints.
+	Location hint decides which file to write.
+      </p>
+      <p>
+	Header, init and term goes the same way as the previous chapter's
+	example, so the detail is not described here. Only one difference
+	is that this script declares to use
+	<tt>Debian::Defoma::Common</tt> module because this script calls
+	parse_hints_start() function.
+	<example>
+	  @ACCEPT_CATEGORIES = qw(truetype);
+
+	  package example2;
+	  use Debian::Defoma::Common;
+	  import Debian::Defoma::Common;
+	  
+	  my @default = ();
+	  my @ja = ();
+	  my @ko = ();
+	  my @zh_cn = ();
+	  my @zh_tw = ();
+
+	  sub init {
+	    if (open(F, '/var/lib/defoma/example2.d/dirs/default.conf')) {
+	      while (&lt;F&gt;) {
+	        chomp($_);
+	        push(@default, $_);
+	      }
+	      close F;
+	    }
+	    if (open(F, '/var/lib/defoma/example2.d/dirs/ja.conf')) {
+	      while (&lt;F&gt;) {
+	        chomp($_);
+	        push(@ja, $_);
+	      }
+	      close F;
+	    }
+	    if (open(F, '/var/lib/defoma/example2.d/dirs/ko.conf')) {
+	      while (&lt;F&gt;) {
+	        chomp($_);
+	        push(@ko, $_);
+	      }
+	      close F;
+	    }
+	    if (open(F, '/var/lib/defoma/example2.d/dirs/zh_cn.conf')) {
+	      while (&lt;F&gt;) {
+	        chomp($_);
+	        push(@zh_cn, $_);
+	      }
+	      close F;
+	    }
+	    if (open(F, '/var/lib/defoma/example2.d/dirs/zh_tw.conf')) {
+	      while (&lt;F&gt;) {
+	        chomp($_);
+	        push(@zh_tw, $_);
+	      }
+	      close F;
+	    }
+	    return 0;
+	  }
+
+	  sub term {
+	    my $i;
+	    if (open(F, '&gt;/var/lib/defoma/example2.d/dirs/default.conf')) {
+	      foreach $i (@default) {
+	        print F $i, "\n" if ($i ne '');
+	      }
+	      close F;
+	    }
+	    if (open(F, '&gt;/var/lib/defoma/example2.d/dirs/ja.conf')) {
+	      foreach $i (@ja) {
+	        print F $i, "\n" if ($i ne '');
+	      }
+	      close F;
+	    }
+	    if (open(F, '&gt;/var/lib/defoma/example2.d/dirs/ko.conf')) {
+	      foreach $i (@ko) {
+	        print F $i, "\n" if ($i ne '');
+	      }
+	      close F;
+	    }
+	    if (open(F, '&gt;/var/lib/defoma/example2.d/dirs/zh_cn.conf')) {
+	      foreach $i (@zh_cn) {
+	        print F $i, "\n" if ($i ne '');
+	      }
+	      close F;
+	    }
+	    if (open(F, '&gt;/var/lib/defoma/example2.d/dirs/zh_tw.conf')) {
+	      foreach $i (@zh_tw) {
+	        print F $i, "\n" if ($i ne '');
+	      }
+	      close F;
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	On register command, the hints must be parsed to pick out Location and
+	FontName hints. parse_hints_start() is used for this purpose. This
+	function converts hints stored in an array to a hash. For more
+	detail, please refer the manpage of Defoma::Common.
+      </p>
+      <p>
+	If these necessary HintTypes, Location and FontName are not found,
+	the script returns non-zero to tell defoma that the script failed
+	to register the font.
+	Unregister command goes the similar way except that
+	the script does not check if Location and FontName exist, because
+	defoma does not pass the registration-failed fonts to the script
+	on unregister command.
+	<example>
+	  sub register {
+	    my $font = shift;
+	    my $h = parse_hints_start(@_);
+
+	    unless (exists($h->{Location}) || exists($h->{FontName})) {
+	      return 1;
+	    }
+
+	    my @locs = split(/ /, $h->{Location});
+	    my $fontname = $h->{FontName};
+	    # If there're more than one fontnames, only the first one
+	    # is used and the others are removed.
+	    $fontname=~ s/ .*//;
+
+	    if (grep($_ eq 'Japanese', @locs)) {
+	      push(@ja, $fontname.' '.$font);
+	    } elsif (grep($_ eq 'Korean', @locs)) {
+	      push(@ko, $fontname.' '.$font);
+	    } elsif (grep($_ eq 'Chinese-China', @locs)) {
+	      push(@zh_cn, $fontname.' '.$font);
+	    } elsif (grep($_ eq 'Chinese-Taiwan', @locs)) {
+	      push(@zh_tw, $fontname.' '.$font);
+	    } else {
+	      push(@default, $fontname.' '.$font);
+	    }
+	    return 0;
+	  }
+
+	  sub unregister {
+	    my $font = shift;
+	    my $h = parse_hints_start(@_);
+
+	    my $fontname = $h->{FontName};
+	    $fontname =~ s/ .*//;
+
+	    my $i;
+	    for ($i = 0; $i < @default; $i++) {
+	      $default[$i] = '' if ($default[$i] eq $fontname.' '.$font);
+	    }
+	    for ($i = 0; $i < @ja; $i++) {
+	      $ja[$i] = '' if ($ja[$i] eq $fontname.' '.$font);
+	    }
+	    for ($i = 0; $i < @ko; $i++) {
+	      $ko[$i] = '' if ($ko[$i] eq $fontname.' '.$font);
+	    }
+	    for ($i = 0; $i < @zh_cn; $i++) {
+	      $zh_cn[$i] = '' if ($zh_cn[$i] eq $fontname.' '.$font);
+	    }
+	    for ($i = 0; $i < @zh_tw; $i++) {
+	      $zh_tw[$i] = '' if ($zh_tw[$i] eq $fontname.' '.$font);
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	<tt>truetype()</tt> function is the same as the previous chapter's,
+	so please refer it. The generated file would go like:
+	<example>
+	  Helvetica /usr/share/fonts/truetype/helvetic.ttf
+	  Courier /usr/share/fonts/truetype/courier.ttf
+	  Times-Roman /usr/share/fonts/truetype/times.ttf
+	</example>
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Using Defoma::Id module.</heading>
+      <p>
+	The one major problem of the example of previous chapter is that
+	it doesn't consider the situation that two different fonts
+	has the same FontName. It is so-called name-space conflict,
+	and should be avoided if possible. Defoma::Id module can solve
+	this problem. 
+      </p>
+      <p>
+	This chapter describes a package named 'example3' which accepts
+	truetype category fonts. The application accesses fonts put
+	in a certain directory (like X), and reads <tt>fonts.dir</tt>
+	file put in the directory which lists a fontfile and its real name,
+	and <tt>fonts.alias</tt> which lists an alias and its real name
+	of a font. The Defoma-configuration script generates the files
+	and symlinks under <tt>/var/lib/defoma/example3.d/dirs</tt>, which
+	is supposed to be symlinked from the required directory.
+      </p>
+      <p>
+	In Header of the script, declaration of using Defoma::Id module
+	is needed.
+	<example>
+	  @ACCEPT_CATEGORIES = qw(truetype);
+
+	  package example3;
+	  use Debian::Defoma::Id;
+	  use Debian::Defoma::Common;
+	  import Debian::Defoma::Id;
+	  import Debian::Defoma::Common;
+
+	  my $Id;
+	  my $DIR = '/var/lib/defoma/example3.d/';
+	  my @dir = ();
+	  my @scale = ();
+	</example>
+      </p>
+      <p>
+	In init command, the script needs to open an id-cache.
+	In the same way as the previous examples, the script
+	reads <tt>fonts.dir</tt> and <tt>fonts.alias</tt> files.
+	<example>
+	  sub init {
+	    unless ($Id) {
+	      $Id = defoma_id_open_cache();
+	      if (open(F, $DIR.'fonts.dir')) {
+	        while (&lt;F&gt;) {
+	          chomp($_);
+	          push(@dir, $_);
+	        }
+	        close F;
+	      }
+	      if (open(F, $DIR.'fonts.alias')) {
+	        while (&lt;F&gt;) {
+	          chomp($_);
+	          push(@alias, $_);
+	        }
+	        close F;
+	      }
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	In register command, the script parses the hints, and
+	obtain the FontName, Alias and Location from them.
+	The script returns error when some required hints are
+	missing, or the font doesn't contain Korean characters.
+	<example>
+	  
+	  sub register {
+	    my $font = shift;
+	    my $h = parse_hints_start(@_);
+
+	    unless (exists($h->{FontName}) && exists($h->{Location})) {
+	      return 1;
+	    }
+
+	    my $fontname = $h->{FontName};
+	    $fontname =~ s/ .*//;
+	    my $priority = $h->{Priority} || 20;
+	    my @locs = split(/ /, $h->{Location});
+	    my @alias = split(/ /, $h->{Alias});
+
+	    return 2 unless(grep($_ eq 'Korean', @locs));
+	  
+	</example>
+	Now the script calls defoma_id_register to register the fontname
+	and the aliases to the id-cache.
+	<example>
+	    defoma_id_register($Id, type => 'real', font => $font,
+	                       id => $fontname, priority => $priority,
+	                       hints => join(' ', @_));
+
+	    foreach my $i (@alias) {
+	      defoma_id_register($Id, type => 'alias', font => $font,
+	                         id => $fontname, priority => $priority,
+	                         origin => $fontname);
+	    }
+
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	Process in unregister command becomes a bit easier. The following
+	codes will do.
+	<example>
+	  sub unregister {
+	    my $font = shift;
+	    defoma_id_unregister($Id, type => 'alias', font => $font);
+	    defoma_id_unregister($Id, type => 'real', font => $font);
+
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	Codes up to this point do nothing about actual configuration.
+	The script needs to do two things: create a symlink of a fontfile
+	under <tt>/var/lib/defoma/example3.d/dirs</tt>, and generate
+	<tt>fonts.dir</tt> and <tt>fonts.scale</tt> files.
+	Let's perform these on do-install-* and do-remove-* commands.
+      </p>
+      <p>
+	Both do-install-* commands and do-remove-* commands are invoked
+	by Defoma::Id module. In these commands actual installation and
+	removal are supposed to be performed in Defoma framework.
+	Let's create and remove symlinks in these commands in this example.
+      </p>
+      <p>
+	In this example, a font may have multiple ids, one real name
+	and some aliases. Creating a symlink of a font is not necessary
+	for each id. It should be done when the real name is installed,
+	because aliases never get installed unless the real name is
+	not installed. That means creating and removing a symlink should be
+	done in do-install-real and do-remove-real commands.
+      </p>
+      <p>
+	If creating a symlink fails, the script returns non-zero to tell
+	Defoma::Id that the font is not installed, which prevents its aliases
+	from getting installed.
+	<example>
+	  sub do_install_real {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    $font =~ /^(.*)\/(.+)$/;
+	    my $fontfile = $2;
+
+	    symlink($font, $DIR.$fontfile) || return 1;
+
+	    push(@dirs, "/$id ($fontfile) ;");
+	    return 0;
+	  }
+
+	  sub do_remove_real {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    $font =~ /^(.*)\/(.+)$/;
+	    my $fontfile = $2;
+
+	    unlink($DIR.$fontfile);
+
+	    for (my $i = 0; $i < @dirs; $i++) {
+	      if ($dirs[$i] eq "/$id ($fontfile) ;") {
+	        $dirs[$i] = '';
+	      }
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	Installation and removal for aliases are done in do-install-alias
+	and do-remove-alias commands respectively. This script modifies
+	@alias in these commands. Note that the fourth argument represents
+	the origin of the alias, which is specified in the arguments of
+	defoma_id_register and is actually the real name of the font.
+	<example>
+	  sub do_install_alias {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    push(@alias, "/$id /$depid ;");
+	    return 0;
+	  }
+
+	  sub do_remove_alias {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    for (my $i = 0; $i < @alias; $i++) {
+	      if ($alias[$i] eq "/$id /$depid ;") {
+	        $alias[$i] = '';
+	      }
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	term command is almost the same as the previous examples, except
+	closing the id-cache.
+	<example>
+	  sub term {
+	    my $i;
+	    if ($Id) {
+	      defoma_id_close_cache($Id);
+	      if (open(F, '&gt;'.$DIR.'fonts.dir')) {
+	        foreach $i (@dir) {
+	          print F $i, "\n"; if ($i ne '');
+	        }
+	        close F;
+	      }
+	      if (open(F, '&gt;'.$DIR.'fonts.alias')) {
+	        foreach $i (@alias) {
+	          print F $i, "\n"; if ($i ne '');
+	        }
+	        close F;
+	      }
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	The <tt>truetype</tt> function goes like this:
+	<example>
+	  sub truetype {
+	    my $com = shift;
+	    if ($com eq 'init') {
+	      return init();
+	    } elsif ($com eq 'term') {
+	      return term();
+	    } elsif ($com eq 'register') {
+	      return register(@_);
+	    } elsif ($com eq 'unregister') {
+	      return unregister(@_);
+	    } elsif ($com eq 'do-install-real') {
+	      return do_install_real(@_);
+	    } elsif ($com eq 'do-install-alias') {
+	      return do_install_alias(@_);
+	    } elsif ($com eq 'do-remove-real') {
+	      return do_remove_real(@_);
+	    } elsif ($com eq 'do-remove-alias') {
+	      return do_remove_alias(@_);
+	    }
+	    return 0;
+	  }
+
+	  1;
+	</example>
+      </p>
+      <p>
+	The generated files go like:
+	<example>
+	  fonts.dir:
+	  /URWGothicL-Bold (gothicb.ttf) ;
+	  /URWSanL-Obli (sano.ttf) ;
+	  fonts.alias:
+	  /Helvetica-Oblique /URWSanL-Obli ;
+	  /AvantGarde-Bold /URWGothicL-Bold ;
+	</example>
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Using Defoma::Id (2)</heading>
+      <p>
+	This chapter describes another way of creating
+	<tt>fonts.dir</tt> and <tt>fonts.alias</tt> files mentioned
+	in the previous example. Only the different point is described,
+	so please also refer the previous chapter.
+      </p>
+      <p>
+	The general strategy is, get a list of installed fonts and ids
+	from the id-cache in term command and create the files using
+	the list. Reading these files in init command, adding/removing
+	a font and its id to/from @dir in do_install_real/do_remove_real,
+	and codes for do_install_alias/do_remove_alias commands are not
+	necessary now.
+	<example>
+	  sub init {
+	    unless ($Id) {
+	      $Id = defoma_id_open_cache();
+	    }
+	    return 0;
+	  }
+
+	  sub do_install_real {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    $font =~ /^(.*)\/(.+)$/;
+	    my $fontfile = $2;
+
+	    symlink($font, $DIR.$fontfile) || return 1;
+	    return 0;
+	  }
+
+	  sub do_remove_real {
+	    my $font = shift;
+	    my $id = shift;
+	    my $depfont = shift;
+	    my $depid = shift;
+	    my @hints = @_;
+
+	    $font =~ /^(.*)\/(.+)$/;
+	    my $fontfile = $2;
+
+	    unlink($DIR.$fontfile);
+	    return 0;
+	  }
+
+	  sub truetype {
+	    my $com = shift;
+	    if ($com eq 'init') {
+	      return init();
+	    } elsif ($com eq 'term') {
+	      return term();
+	    } elsif ($com eq 'register') {
+	      return register(@_);
+	    } elsif ($com eq 'unregister') {
+	      return unregister(@_);
+	    } elsif ($com eq 'do-install-real') {
+	      return do_install_real(@_);
+	    } elsif ($com eq 'do-remove-real') {
+	      return do_remove_real(@_);
+	    }
+	    return 0;
+	  }
+	</example>
+      </p>
+      <p>
+	In term command, the script needs to obtain a list of installed
+	fonts and ids. First the script creates <tt>fonts.dir</tt> file.
+	<example>
+	  my $i;
+	  my $font;
+	  my $fontfile;
+	  my $id;
+	  my $depid;
+
+	  my @list = defoma_id_get_font($Id, 'installed', type => 'SrI');
+
+	  open(F, '&gt;'.$DIR.'fonts.dir');
+	  foreach $i (@list) {
+	    $font = $Id->{e_font}->[$i];
+	    $font =~ /^(.*)\/(.+)$/;
+	    $fontfile = $2;
+	    $id = $Id->{e_id}->[$i];
+
+	    print F "/$id ($fontfile) ;\n";
+	  }
+	  close F;
+	</example>
+	The <tt>defoma_id_get_font</tt> function searches ids that match the
+	specified rules from the specified id-cache, and returns
+	the indexes of id-cache which point to the matched fonts.
+	In this example, the function returns the indexes of installed
+	real names. Following is codes to create <tt>fonts.alias</tt>.
+	<example>
+	  my @list = defoma_id_get_font($Id, 'installed', type => 'SaI');
+
+	  open(F, '&gt;'.$DIR.'fonts.alias');
+	  foreach $i (@list) {
+	    $id = $Id->{e_id}->[$i];
+	    $depid = $Id->{e_depid}->[$i];
+
+	    print F "/$id /$depid ;\n";
+	  }
+	  close F;
+	</example>
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Using Defoma::Subst module.</heading>
+      <p>
+	This document describes How to write Defoma-configuration script
+	using font substitution mechanism. Font substitution mechanism
+	makes fonts substitute for a certain id described in a subst-rule.
+	The subst-rule file describes required ids and their appearance
+	information as hints, called rules, so that more similar fonts
+	substitute for the described required id. Substitutive fonts are
+	registered in a subst-cache. When a new id is added to a subst-rule,
+	fonts registered in the subst-cache similar to the id will substitute
+	for the id.
+      </p>
+      <p>
+	Usually a subst-rule may be edited by users, but there is one
+	that cannot be edited.
+	It is called private subst-rule. Private subst-rule is
+	supposed to add/remove rules from a Defoma-configuration script.
+	This chapter describes a modifiable subst-rule.
+      </p>
+      <p>
+	The script needs to call <tt>defoma_subst_open()</tt> in
+	init command. This function opens the subst-rule and subst-cache
+	specified by the rulename argument. You need to specify the
+	id-cache to which the substituted ids are registered.
+	<example>
+	  ...
+	  $Id = defoma_id_open_cache();
+	  $Sb = defoma_subst_open(rulename => 'gsfonts',
+	                          idobject => $Id);
+	  ...
+	</example>
+      </p>
+      <p>
+	The script needs to call <tt>defoma_subst_register()</tt> and
+	<tt>defoma_subst_unregister()</tt> functions in register and
+	unregister commands respectively. You need to pass the substitutive
+	font and its realname to the arguments. It is required to
+	pass the hints of the font to the arguments of
+	<tt>defoma_id_register()</tt> on registering the real name.
+	<example>
+	  sub register {
+	    ...
+	    defoma_id_register($Id, type => 'real', font => $font,
+	                       id => $realname, priority => $priority,
+	                       hints => join(' ', @hints));
+	    defoma_subst_register($Sb, $font, $realname);
+	    ...
+	  }
+
+	  sub unregister {
+	    ...
+	    defoma_subst_unregister($Sb, $font);
+	    defoma_id_unregister($Id, type => 'real', font => $font);
+	    ...
+	  }
+	</example>
+      </p>
+      <p>
+	The script needs to call <tt>defoma_subst_close()</tt>
+	in term command.
+	<example>
+	  ...
+	  defoma_subst_close($Sb);
+	  defoma_id_close_cache($Id);
+	  ...
+	</example>
+      </p>
+      <p>
+	The substituted ids are directly registered to the id-cache.
+	Then Defoma::Id module calls back the script with
+	<tt>do-install-subst</tt> and <tt>do-remove-subst</tt> commands,
+	so the script must handle these commands.
+	<example>
+	  type1 {
+	    my $com = shift;
+	    if (
+	    ...
+	    } elsif ($com =~ /^do-install-(alias|subst)$/) {
+	      return do_install_alias(@_);
+	    } elsif ($com =~ /^do-remove-(alias|subst)$/) {
+	      return do_remove_alias(@_);
+	    }
+	    ...
+	  }
+	</example>
+	This example unite the operation for -subst into -alias.
+	It it appropriate because substituted ids are considered as alias.
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Using x-postscript Category.</heading>
+      <p>
+	Many X applications that output a PostScript file and substitute
+	X fonts for PostScript fonts for displaying want a list of
+	PostScript fonts and substitute X fonts. x-postscript category
+	will satisfy this demand. A font in this category is a name
+	of PostScript font with `&lt;X&gt;/' prefix added, like
+	<tt>&lt;X&gt;/Times-Roman</tt>, and each font has a XLFD
+	as a hint. The XLFD is considered to have the most similar
+	appearance to the PostScript font. If the script wants to
+	make use of x-postscript category, its package must `Depends:'
+	on psfontmgr.
+      </p>
+      <p>
+	The strategy of the Defoma-configuration script which
+	accepts only x-postscript category is to ignore all commands
+	except term, and generate a configuration file in term commands.
+	To obtain available PostScript fonts and their substitutive XLFDs,
+	the script calls <tt>defoma_font_get_fonts()</tt> function,
+	which returns a list of fonts registered in the specified
+	category, and <tt>defoma_font_get_hints()</tt> function,
+	which returns hints of the specified font.
+	All and only available (installed) x-postscript category fonts are
+	obtained through these functions.
+      </p>
+      <p>
+	Following is an example of the header of the script.
+	Note that there's declaration of using Defoma::Font module for
+	<tt>defoma_font_get_fonts()</tt> and
+	<tt>defoma_font_get_hints()</tt> functions.
+	<example>
+	  @ACCEPT_CATEGORIES = ('x-postscript');
+
+	  package example;
+	  use Debian::Defoma::Font;
+	  import Debian::Defoma::Font;
+	</example>
+      </p>
+      <p>
+	The main routine goes like this:
+	<example>
+	  sub x_postscript {
+	    my $com = shift;
+	    return 0 if ($com ne 'term');
+
+	    open(F, '&gt;/var/lib/defoma/example.d/font.conf');
+	    my @fonts = defoma_font_get_fonts('x-postscript');
+
+	    foreach my $psfont (@fonts) {
+	      my @hints = defoma_font_get_hints('x-postscript', $psfont);
+	      $psfont =~ s/^\&lt;X\&lt;\///;
+	      my $xfont = $hints[0];
+
+	      print F "$psfont $xfont\n";
+	    }
+	    close F;
+	  }
+	  
+	</example>
+      </p>
+      <p>
+	This simple codes will generate a list of PostScript fonts and
+	XLFDs like following.
+	<example>
+	  Helvetica -adobe-helvetica-medium-r-normal--0-0-0-0-p-0-iso8859-1
+	  Helvetica-Bold -adobe-helvetica-bold-r-normal--0-0-0-0-p-0-iso8859-1
+	  Ryumin-Light-H -misc-mincho-medium-r-normal--0-0-0-0-c-0-jisx0208.1983-0
+	</example>
+      </p>
+    </chapt>
+  </book>
+</debiandoc>

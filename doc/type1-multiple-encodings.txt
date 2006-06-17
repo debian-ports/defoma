@@ -1,0 +1,57 @@
+I've recently heard type1 font supports multiple encodings, but defoma
+dealt with only single encoding for type1 font.
+From defoma 0.5.0, it supports multiple encodings. This document describes
+how to add information of multiple encodings to a hintfile.
+
+Please look at the following example.
+
+category type1
+begin n021003l.pfa
+  FontName = NimbusRomNo9L-Regu
+  Charset = ISO8859-1
+  Family = Nimbus
+  GeneralFamily = Roman
+  Weight = Medium
+  Width = Variable
+  Shape = Upright
+  Priority = 20
+  X-FontName = -urw-numbus-medium-r-normal--0-0-0-0-p-0-iso8859-1
+end
+
+This type1 font, n021003l.pfa, actually contains ISO8859-2, ISO8859-15,
+CP1251 and KOI8-R. You have to add hints for each of these encodings
+manually using subhints mechanism like:
+
+category type1
+begin n021003l.pfa
+  FaceNum = 5
+  Inherit = Family GeneralFamily Weight Width Shape Priority
+  FontName = NimbusRomNo9L-Regu
+  Charset = ISO8859-1
+  Family = Nimbus
+  GeneralFamily = Roman
+  Weight = Medium
+  Width = Variable
+  Shape = Upright
+  Priority = 20
+  X-FontName = -urw-numbus-medium-r-normal--0-0-0-0-p-0-iso8859-1
+  
+  Charset1 = ISO8859-2
+  X-FontName1 = -urw-numbus-medium-r-normal--0-0-0-0-p-0-iso8859-2
+  
+  Charset2 = ISO8859-15
+  X-FontName2 = -urw-numbus-medium-r-normal--0-0-0-0-p-0-iso8859-15
+  
+  Charset3 = CP1251
+  X-FontName3 = -urw-numbus-medium-r-normal--0-0-0-0-p-0-microsoft-cp1251
+  
+  Charset4 = KOI8-R
+  X-FontName4 = -urw-numbus-medium-r-normal--0-0-0-0-p-0-koi8-r
+end
+
+You must write default encoding (ISO8859-1) and common hints (Family,
+GeneralFamily, Weight, Width, Shape, Priority) in non-numbered hints,
+and write non-default encodings (ISO8859-2, ISO8859-15, CP1251, KOI8-R)
+in each numbered hints.
+Default/non-default is decided by whether the encoding needs re-encoding
+or not.

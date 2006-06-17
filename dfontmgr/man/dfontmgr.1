@@ -1,0 +1,49 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH dfontmgr 1 "November  27, 2001"
+.SH NAME
+dfontmgr \- GUI frontend for defoma
+.SH SYNOPSIS
+.B defoma-id
+.RI [ options ]
+.SH DESCRIPTION
+.B dfontmgr
+is a GUI frontend for defoma. You can see the fonts registered to defoma,
+their hints, their status (which applications they are succeeded or failed
+to be registered), the applications using defoma framework, information
+of the applications and the contents of their id-caches. You can also 
+register a font by drag-and-drop'ing a font file, generating its hints
+as much as possible by asking you some questions, unregister a registered 
+font, change hints of and re-register a registered font. 
+If a defoma-aware application uses an id-cache and if there's an identifier 
+conflict (which means some fonts provide the same identifier) in the 
+id-cache, you can set which font to provide the identifier. 
+.SH Overview
+There are two buttons Font and Application under the top menu which currently
+consists only of the File menu.
+.SH Font Information
+There are three panes. The leftmost pane shows all font categories. When you
+choose one of the categories, the list of all fonts registered in the category
+is shown in the upper-right pane, and when you choose one of the fonts, its 
+detailed information is shown in the lower-right pane.
+.SH Application Information
+There are three panes. The leftmost pane shows all applications using defoma
+framework. When you choose one of the applications, its information is shown
+in the upper-right pane. If the application make uses of id-caches, the
+content is shown in the lower-right pane.
+.SH Id Cache Pane
+There are some buttons to control id-cache, one menu to specify which id-cache
+is shown, and a column list to show the content of selected id-cache.
+There are three columns: Type, Identifier and Font. The Type column represents
+the type of the identifier (either of RealName, Alias, User-defined Alias or 
+Substituted Id of the font) with its status (asterisk and plus means the Id
+is provided by the Font). When you select one of the Id/Font pair, its 
+information is shown in the Application Information pane (upper-right pane). 
+You can re-sort the list by clicking one of the column title: Type, Identifier 
+or Font. When several fonts provide the same identifier, you can force the 
+specific font to provide the identifier by selecting the id/font pair and 
+clicking the Install button. You can also force the specific font not to 
+provide the identifier by clicking the Exclude button. You can clean up
+this forced status by clicking the unset button.
+.SH SEE ALSO
+.BR defoma (1).
+.BR dfontmgr (1).

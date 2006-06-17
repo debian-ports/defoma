@@ -1,0 +1,835 @@
+#! /usr/bin/perl -w
+# Defoma - Debian Font Manager
+# Copyright (C) 2000 Yasuhiro Take <take@debian.org>
+# This program is free software. You can freely use, copy, modify, and
+# redistribute it under the terms of the GNU General Public License, Version 2.
+
+use Debian::Defoma::Font;
+import Debian::Defoma::Font;
+use Debian::Defoma::Common;
+import Debian::Defoma::Common qw($DEFOMA_TEST_DIR USERSPACE $ROOTDIR);
+
+exit 0 if (USERSPACE);
+#defoma_common_init();
+
+$LIBDIR= "$DEFOMA_TEST_DIR/usr/share/defoma";
+$CONFDIR= "$DEFOMA_TEST_DIR/etc/defoma";
+$DATAFILE = "$LIBDIR/psprfonts.data";
+$DATAFILE2 = "$LIBDIR/psprfonts.data2";
+$CACHEFILE = "$ROOTDIR/psfontmgr.d/psprint.font-cache";
+$HINTFILE = "$ROOTDIR/psfontmgr.d/ps-hints.private-cache";
+$CEDATAFILE = "$CONFDIR/ps-cset-enc.data";
+
+$PREFIX = 'pspr1';
+
+@EXITREMOVE = ();
+
+$SIG{'HUP'} = \&exitfunc;
+$SIG{'INT'} = \&exitfunc;
+$SIG{'QUIT'} = \&exitfunc;
+$SIG{'TERM'} = \&exitfunc;
+$SIG{'__DIE__'} = \&emes;
+
+@CHARSET_LIST = ('Standard', 'Standard Roman charset.',
+		 'Special', 'font-specific charset.',
+		 'Adobe-Japan1', 'Japanese standard charsets.',
+		 'Adobe-Japan2', 'Japanese extended charsets.',
+		 'Adobe-Korea1', 'Korean charsets.',
+		 'Adobe-CNS1', 'Traditional Chinese charsets.',
+		 'Adobe-GB1', 'Simplified Chinese charsets.');
+
+%FAMILY2GFAMILY_LIST = ();
+
+$CUT = '/usr/bin/cut';
+
+require("$LIBDIR/libperl-hint.pl");
+
+sub exitfunc {
+    my $e = (@_ > 0) ? shift(@_) : 0;
+    $e = 0 if ($e =~ /[^0-9]/);
+    
+    unlink @EXITREMOVE if (@EXITREMOVE);
+    exit $e;
+}
+
+sub emes {
+    my $msg = shift;
+    print 'defoma-psfont-installer: ', $msg, "\n";
+    exitfunc 1;
+}
+
+my $RETCHARSET;
+my $RETENCODING;
+
+my @STANDARD_LINES;
+
+sub read_standard {
+    my $lcharset;
+    my $lencoding;
+    my $lscharset;
+    my $lsencoding;
+
+    open(F, $CEDATAFILE) || return 0;
+    
+    while (<F>) {
+	chomp($_);
+	
+	next if ($_ eq '' || $_ =~ /^\#/);
+	
+	my @list = split(/[ \t]+/, $_);
+	next if (@list < 3);
+	next if ($list[0] eq '');
+	
+	push(@STANDARD_LINES, join(' ', @list));
+    }
+    
+    close F;
+    
+    return 0;
+}
+
+sub get_standard {
+    my $acharset = shift;
+    my $aencoding = shift;
+
+    $RETCHARSET = $RETENCODING = '';
+
+    my $line;
+    foreach (@STANDARD_LINES) {
+	$line = $_;
+	my @list = split(/[ \t]+/, $line);
+
+	my $lcharset = $list[0];
+	my $lencoding = $list[1];
+	my $lscharset = $list[2];
+	my $lsencoding = (@list > 3) ? $list[3] : '';
+
+	$lcharset =~ s/\*/\.\*/g;
+	$lcharset =~ s/\?/\./g;
+
+	$lencoding =~ s/\*/\.\*/g;
+	$lencoding =~ s/\?/\./g;
+
+	if ($acharset =~ /^($lcharset)$/ && $aencoding =~ /^($lencoding)$/) {
+	    $RETCHARSET = $lscharset;
+	    $RETENCODING = $lsencoding;
+
+	    return 1;
+	}
+    }
+
+    return 0;
+}
+
+sub get_standard_list {
+    my $acharset = shift;
+    my @ret = ();
+    my $line;
+    
+    foreach (@STANDARD_LINES) {
+	$line = $_;
+	my @list = split(/[ \t]+/, $line);
+
+	next if ($list[2] eq 'ignore');
+
+	my $lcharset = $list[0];
+	my $lscharset = $list[2];
+	if (@list > 3) {
+	    $lscharset .= ' ';
+	    $lscharset .= $list[3];
+	}
+
+	$lcharset =~ s/\*/\.\*/g;
+	$lcharset =~ s/\?/\./g;
+
+	if (! $acharset || $acharset =~ /^($lcharset)$/) {
+	    push(@ret, $lscharset);
+	}
+    }
+
+    return @ret;
+}
+
+my @HINTTYPE = qw(Family GeneralFamily Weight Width Shape PSCharset
+		  PSEncoding Direction);
+
+my @HINTFILE_DATA;
+my @DATAFILE_DATA;
+my @DATAFILE2_DATA;
+
+sub clear_hints {
+    my $hashptr = shift;
+    
+    foreach my $i (@HINTTYPE) {
+	$$hashptr{$i} = '';
+    }
+}
+
+sub parse_hints {
+    my $hashptr = shift;
+    my $pattern = join('|', @HINTTYPE);
+    my $i;
+
+    clear_hints($hashptr);
+
+    while (@_ > 0) {
+	$i = shift;
+
+	if ($i =~ /^--($pattern)$/) {
+	    $i = $1;
+
+	    while (@_ > 0) {
+		my $j = shift;
+
+		if ($j =~ /^--/) {
+		    unshift(@_, $j);
+		    last;
+		}
+		
+		if ($i =~ /^(Shape|Weight)$/) {
+		    $$hashptr{$i} .= ' ' if ($$hashptr{$i} ne '');
+		    $$hashptr{$i} .= $j;
+		} else {
+		    $$hashptr{$i} = $j;
+		}
+	    }
+	}
+    }
+}
+
+sub read_hints {
+    if (open(F, $HINTFILE)) {
+	while (<F>) {
+	    chomp($_);
+	    push(@HINTFILE_DATA, $_);
+	}
+	close F;
+    }
+    if (open(F, $DATAFILE)) {
+	while (<F>) {
+	    chomp($_);
+	    push(@DATAFILE_DATA, $_);
+	}
+	close F;
+    }
+    if (open(F, $DATAFILE2)) {
+	while (<F>) {
+	    chomp($_);
+	    push(@DATAFILE2_DATA, $_);
+	}
+	close F;
+    }
+
+    for my $i (@HINTFILE_DATA, @DATAFILE_DATA, @DATAFILE2_DATA) {
+	my @list = split(' ', $i);
+	my %hints = ();
+	parse_hints(\%hints, @list);
+
+	if ($hints{'Family'} ne '' && $hints{'GeneralFamily'} ne '') {
+	    $FAMILY2GFAMILY_LIST{$hints{'Family'}} = $hints{'GeneralFamily'};
+	}
+    }
+}
+
+sub get_not_registered_font {
+    my %list = ();
+    my $psfontname;
+    my @ret = ();
+
+    foreach (@DATAFILE_DATA) {
+	$psfontname = $_;
+	$psfontname =~ s/^([^ ]+).*/$1/;
+	$list{$psfontname} = 1;
+    }
+
+    foreach (@HINTFILE_DATA) {
+	$psfontname = $_;
+	$psfontname =~ s/^([^ ]+).*/$1/;
+	$list{$psfontname} = 1;
+    }
+
+    if (open(F, $CACHEFILE)) {
+	while (<F>) {
+	    $psfontname = $_;
+	    chomp($psfontname);
+	    $psfontname =~ s/^([^ ]+).*/$1/;
+	    if ($psfontname =~ /^$PREFIX\//) {
+		delete($list{$'});
+	    }
+	}
+	close F;
+    }
+
+    @ret = sort (keys(%list));
+
+    return @ret;
+}
+
+sub get_hints {
+    my $font = shift;
+    my $pscharset = shift;
+    my $psencoding = shift;
+    my $hashptr = shift;
+    my $tmp;
+    
+    my @list;
+
+    my $line;
+    foreach (@HINTFILE_DATA) {
+	$line = $_;
+	@list = split(' ', $line);
+	if ($list[0] eq $font) {
+	    $tmp = shift(@list);
+	    parse_hints($hashptr, @list);
+	    unless ($$hashptr{'Charset'}) {
+		$$hashptr{'PSCharset'} = $pscharset;
+		$$hashptr{'PSEncoding'} = $psencoding;
+	    }
+	    
+	    return 1;
+	}
+    }
+
+    foreach (@DATAFILE_DATA) {
+	$line = $_;
+	@list = split(' ', $line);
+	
+	if ($list[0] eq $font) {
+	    $tmp = shift(@list);
+	    $pscharset = shift(@list);
+	    $psencoding = shift(@list);
+	    parse_hints($hashptr, @list);
+	    $$hashptr{'PSCharset'} = $pscharset;
+	    $$hashptr{'PSEncoding'} = $psencoding;
+
+	    return 1;
+	}
+    }
+
+    foreach (@DATAFILE2_DATA) {
+	$line = $_;
+	
+	@list = split(' ', $line);
+	$list[0] =~ s/\*/\.\*/g;
+	$list[0] =~ s/\?/\./g;
+	
+	if ($font =~ /^($list[0])$/) {
+	    $tmp = shift(@list);
+	    parse_hints($hashptr, @list);
+	    $$hashptr{'PSCharset'} = $pscharset;
+	    $$hashptr{'PSEncoding'} = $psencoding;
+
+	    return 1;
+	}
+    }
+
+    return 0;
+}
+
+my $PSCHARSET;
+my $PSENCODING;
+
+sub input_ps_charset_encoding {
+    my $font = shift;
+    my $defcset = shift;
+    my $defenc = shift;
+    my $text;
+    my $pscharset;
+    my $psencoding = '';
+
+    $PSCHARSET = '';
+    $PSENCODING = '';
+
+    $text = <<EOF
+Choose the PostScript Charset of $font.
+* PostScript Charset is just temporarilly used for deciding (National)
+* Standard Charset and Encoding according /etc/defoma/ps-cmap-enc.data.
+EOF
+    ;
+
+    $pscharset = input_menu2("Input the PostScript Charset of $font.",
+			     $defcset, '[^ ]', 0, '<None>', $text,
+			     @CHARSET_LIST, '<None>', ' ');
+    return if ($result != 0);
+
+    if ($pscharset =~ /^(Standard|Special)$/) {
+	$psencoding = $pscharset;
+    } else {
+	my $cmaplist = '';
+	my $cmapfile = "$ROOTDIR/psfontmgr.d/$pscharset.cmaps.private-cache";
+	
+	if (-f $cmapfile) {
+	    $cmaplist = `$CUT -d ' ' -f 1 $cmapfile`;
+	} elsif (-f ($cmapfile = "$LIBDIR/$pscharset.default-cmap")) {
+	    $cmaplist = `/bin/cat $cmapfile`;
+	}
+	
+	if ($cmaplist ne '') {
+	    $text = <<EOF
+Choose the CMap of $font.
+* CMap represents the charsets, encoding and direction of a font, and
+* it is often equivalent to the FontName which the Family and some
+* Subfamilies removed from. For example, GothicBBB-Medium-78-EUC-H is
+* a font whose Family is GothicBBB and Weight is Medium. Its CMap is
+* 78-EUC-H, which means it is JIS-78 charset, EUC encoding, Horizontal
+* direction.
+EOF
+    ;
+	    $psencoding =input_menu("Input the CMap of $font.",
+				    $defenc, '[^ ]', 0, '<None>', $text,
+				    split(/\n/, $cmaplist), '<None>');
+	} else {
+	    $psencoding = input_menu("Input the Encoding of $font.",
+				     $defenc, '[^ ]', 0);
+	}
+	return if ($result != 0);
+    }
+
+    $PSCHARSET = $pscharset;
+    $PSENCODING = $psencoding;
+
+    return;
+}
+
+my $S_CHARSET;
+my $S_ENCODING;
+
+sub get_charset_encoding {
+    my $font = shift;
+    my $pscharset = shift;
+    my $psencoding = shift;
+    my $text;
+    my $charset = '';
+    my $encoding = '';
+
+    $S_CHARSET = '';
+    $S_ENCODING = '';
+
+    if (get_standard($pscharset, $psencoding) == 0) {
+	$text = <<EOF
+In processing $font:
+No Standard Charset/Encoding is found that matches the pair of 
+$pscharset/$psencoding in /etc/defoma/ps-cmap-enc.data. Choose the 
+Standard Charset/Encoding from the following list of ones that matches
+the PostScript Charset.
+EOF
+    ;
+	my $text2 = <<EOF
+In processing $font:
+No Standard Charset/Encoding is found that matches the pair of 
+$pscharset/$psencoding in /etc/defoma/ps-cmap-enc.data. 
+Input the Standard Charset and Encoding manually separating by space. 
+If multiple charsets corresponds, separate them by comma. Encoding is not 
+required to input. 
+Ex.\) JISX0208,JISX0201 EUC (JISX0208 & 0201 are Charset, EUC is encoding.)
+EOF
+    ;
+	my @list = get_standard_list($pscharset);
+	push (@list, '<None>') if (@list > 0);
+	
+	my $ret = input_menu($text2, '', '.', 0, '<None>', $text, @list);
+	return 0 if ($result != 0);
+	
+	@list = split(' ', $ret);
+
+	$charset = $list[0];
+	$encoding = $list[1] if (@list > 1);
+    } else {
+	$charset = $RETCHARSET;
+	$encoding = $RETENCODING;
+    }
+
+    $charset =~ s/,/ /g;
+
+    $S_CHARSET = $charset;
+    $S_ENCODING = $encoding;
+
+    return 1;
+}
+
+sub get_generalfamily {
+    my $font = shift;
+    my $family = shift;
+    my %hints;
+    my $ret;
+
+    if (exists($FAMILY2GFAMILY_LIST{$family})) {
+	$result = 0;
+	return $FAMILY2GFAMILY_LIST{$family};
+    }
+
+    $ret = input_generalfamily($font, '');
+    return if ($result != 0);
+
+    $FAMILY2GFAMILY_LIST{$family} = $ret;
+}
+
+sub create_hintslines {
+    my $font = shift;
+    my $hintsptr = shift;
+    my $verbose = shift;
+
+    my $pcset = $$hintsptr{'PSCharset'};
+    my $penc = $$hintsptr{'PSEncoding'};
+    
+    my $text = <<EOF
+In processing $font:
+Charset: $pcset
+Encoding: $penc
+
+Specified PostScript Charset/Encoding ($pcset/$penc) of this font
+is marked as 'ignore' according to /etc/defoma/ps-cset-enc.data.
+$font is not registered anyway.
+EOF
+    ;
+
+    unless ($$hintsptr{'Charset'}) {
+	get_charset_encoding($font, $pcset, $penc);
+	return if ($result != 0);
+	
+	if ($S_CHARSET eq 'ignore') {
+	    if ($verbose != 0) {
+		msgbox($text);
+	    }
+	    return '';
+	}
+    
+	$$hintsptr{'Charset'} = $S_CHARSET;
+	$$hintsptr{'Encoding'} = $S_ENCODING;
+    }
+
+    $hints = "begin $PREFIX/$font\n";
+    
+    foreach my $key (keys(%{$hintsptr})) {
+	if ($$hintsptr{$key} ne '') {
+	    $hints .= "  $key = $$hintsptr{$key}\n";
+	}
+    }
+
+    $hints .= "end\n";
+
+    return $hints;
+}
+
+sub new_font {
+    my $verbose = shift;
+    my $font = shift;
+    my $pscharset = shift;
+    my $psencoding = shift;
+    my $hintflag = '';
+
+    my %hints = ();
+    clear_hints(\%hints);
+    
+    if (get_hints($font, $pscharset, $psencoding, \%hints)) {
+	$hintflag = '--RegisteredHints';
+
+	if ($hints{'Direction'} eq '') {
+	    $hints{'Direction'} = 'Horizontal';
+	    $hints{'Direction'} = 'Vertical' if ($font =~ /^.*-V$/);
+	}
+    } else {
+	$hintflag = '--AssumedHints';
+	
+	$hints{'PSCharset'} = $pscharset;
+	$hints{'PSEncoding'} = $psencoding;
+	$hints{'Family'} = $font;
+	$hints{'Family'} =~ s/^([^-]+).*$/$1/;
+	
+	$hints{'Direction'} = 'Horizontal';
+	$hints{'Direction'} = 'Vertical' if ($font =~ /^.*-V$/);
+	
+	$hints{'Weight'} = 'Medium';
+	$hints{'Weight'} = 'Bold' if ($font =~ /Bold/);
+	$hints{'Weight'} = 'Semibold' if ($font =~ /Semibold/);
+	$hints{'Weight'} = 'Semibold' if ($font =~ /Demi/);
+	$hints{'Weight'} = 'Light' if ($font =~ /Light/);
+	
+	$hints{'Width'} = 'Variable';
+	
+	my $slant = 'Upright';
+	my $serif = 'Serif';
+	my $swidth = '';
+	
+	$slant = 'Oblique Italic' if ($font =~ /Italic/);
+	$slant = 'Oblique' if ($font =~ /Obli/);
+	
+	$swidth = 'Condensed' if ($font =~ /Narrow|Condensed/);
+	$swidth = 'Expanded' if ($font =~ /Expanded/);
+	
+	my $gfamily = get_generalfamily($font, '');
+	return if ($result != 0);
+	
+	$serif = 'NoSerif' if ($gfamily eq 'SansSerif');
+	$hints{'Width'} = 'Fixed' if ($gfamily eq 'Typewriter');
+	
+	$hints{'Shape'} = "$slant $serif";
+	$hints{'Shape'} .= " $swidth" if ($swidth ne '');
+	
+	if ($gfamily eq 'Symbol') {
+	    $hints{'PSCharset'} = $hints{'PSEncoding'} = 'Special';
+	    $hints{'Weight'} = '';
+	    $hints{'Width'} = '';
+	    $hints{'Shape'} = '';
+	}
+	
+	$hints{'GeneralFamily'} = $gfamily;
+    }
+
+    return create_hintslines($font, \%hints, $verbose);
+}
+	    
+### ----------- register --------------
+
+@HINTFILE = ();
+@SKIPPED = ();
+
+sub com_register_1 {
+    my $verbose = shift;
+    my $ppdfileptr = shift;
+    
+    my $text = <<EOF
+If you have the PPD (Postscript Printer Description) file for your 
+PS Printer, select the file. Otherwise choose Cancel.
+EOF
+    ;
+    my $ppdfile = fileselector($text);
+    
+    $$ppdfileptr = $ppdfile;
+    return $result;
+}
+
+sub com_register_2a {
+    my $verbose = shift;
+    my $ppdfile = shift;
+
+    my $font;
+    my $charset;
+    my $encoding;
+    my $hints;
+    my @list;
+    
+    my $tempfile = `/bin/tempfile`;
+    chomp($tempfile);
+    push(@EXITREMOVE, $tempfile);
+    
+    system("/bin/cat '$ppdfile' | /usr/bin/tr '\\r' '\\n' > $tempfile");
+    
+    if (open(F, $tempfile)) {
+	while (<F>) {
+	    my $line = $_;
+	    chomp($line);
+	    
+	    if ($line =~ /^\*Font /) {
+		@list = split(' ', $line);
+		
+		$font = $list[1];
+		$font =~ s/:$//;
+		
+		next if ($font =~ /[^a-zA-Z0-9.-]/);
+		
+		$encoding = $list[2];
+		$charset = $list[4];
+
+		$hints = new_font($verbose, $font, $charset, $encoding);
+		return $result if ($result != 0);
+
+		if ($hints ne '') {
+		    push(@HINTFILE, $hints);
+		} else {
+		    push(@SKIPPED, $font);
+		}
+	    }
+	}
+	close F;
+    }
+
+    unlink($tempfile);
+    $tempfile = pop(@EXITREMOVE);
+
+    return 0;
+}
+
+sub com_register_2b {
+    my $verbose = shift;
+
+    my $font;
+    my $hints;
+    my @list;
+    my $text;
+    
+    @list = get_not_registered_font();
+    
+    if (@list > 0) {
+	$text = <<EOF
+Mark fonts you want to register as installed in you PS Printer.
+Use SPACE key to toggle the mark on/off.
+EOF
+    ;
+	$ret = checklist_single_onargs($text, 10, '', @list);
+	return $result if ($result != 0);
+	
+	@list = split(/\n/, $ret);
+	foreach (@list) {
+	    $font = $_;
+	    $hints = new_font($verbose, $font, 0, 0);
+	    return $result if ($result != 0);
+
+	    if ($hints ne '') {
+		push(@HINTFILE, $hints);
+	    } else {
+		push(@SKIPPED, $font);
+	    }
+	}
+    }
+
+    return 0;
+}
+
+sub com_register_3b {
+    my $verbose = shift;
+    
+    my $text = <<EOF
+If your PS Printer has other fonts that did not appear in the
+previous list, and you can input the name, charset and encoding
+of them, answer Yes. Otherwise answer No.
+EOF
+    ;
+
+    my $font;
+    my $charset;
+    my $encoding;
+    my $hints;
+    my @list;
+    my $ret;
+    
+    if (yesnobox($text) == 0) {
+	while (1) {
+	    $text = 'Input the name of the font manually. (Courier-Bold)';
+	    $ret = input_menu($text, '', '[a-zA-Z0-9.-]', 0, '');
+	    last if ($result == 1);
+	    return $result if ($result != 0);
+	    $font = $ret;
+	    
+	    input_ps_charset_encoding($font, '', '');
+	    next if ($result != 0);
+
+	    $hints = new_font($verbose, $font, $PSCHARSET, $PSENCODING);
+	    next if ($result != 0);
+
+	    if ($hints ne '') {
+		push(@HINTFILE, $hints);
+	    } else {
+		push(@SKIPPED, $font);
+	    }
+
+	    last if (yesnobox("Do you want to continue registering?") != 0);
+	}
+    }
+
+    return 0;
+}
+
+sub com_register {
+    my $ppdfile;
+    my $verbose = 0;
+    my $text;
+
+    my $ret = com_register_1($verbose, \$ppdfile);
+    if ($ret == 0) {
+	$ret = com_register_2a($verbose, $ppdfile);
+	exitfunc(1) if ($ret);
+    } elsif ($ret == 1) {
+	$ret = com_register_2b($verbose);
+	exitfunc(1) if ($ret);
+
+	$ret = com_register_3b($verbose);
+	exitfunc(1) if ($ret);
+    } else {
+	exitfunc(1);
+    }
+
+    if (@HINTFILE > 0) {
+	my $file = "$DEFOMA_TEST_DIR/etc/defoma/hints/defoma-ps.hints";
+	
+	unless (open(F, ">$file")) {
+	    $text = <<EOF
+You don\'t have a write permission in /etc/defoma/hints.
+Please become root and run defoma-psfont-installer again.
+EOF
+    ;
+	    msgbox($text);
+	    exitfunc(1);
+	}
+
+	$text = <<EOF
+# List of PostScript Fonts Installed in the PS Printer with Hints.
+# After modifying this file, run 
+#   defoma-font reregister-all $file
+category psprint
+EOF
+    ;
+	print F $text;
+	print F @HINTFILE;
+	close F;
+
+	my $text = <<EOF
+Done. The hintfile for PostScript Printer fonts is created as:
+$file. 
+You can change the hints of the fonts by editting the file.
+EOF
+    ;
+	my $command = "/usr/bin/defoma-font reregister-all $file";
+
+	if ($NOOUTPUT) {
+	    infobox("Registering fonts...");
+	    system("$command > /dev/null 2>&1");
+	    msgbox($text);
+	} else {
+	    print "Registering fonts...\n";
+	    system($command);
+	    print $text;
+	}
+    } else {
+	if ($NOOUTPUT) {
+	    msgbox("No font gets registered. ");
+	} else {
+	    print("No font gets registered. ");
+	}
+    }
+}
+
+sub note {
+    my $text = <<EOF
+defoma-psfont-installer is a tool to register PostScript fonts
+installed in a PostScript printer to Defoma. It is strongly
+recommended for you to have the PPD file ready, but not required.
+EOF
+    ;
+
+    msgbox($text);
+    return 0;
+}
+
+$DWIDTH = 70;
+$DIALOGTITLE = 'PostScript Font Manager';
+$NOOUTPUT = 0;
+$MODE = 'g';
+
+while (@ARGV > 0) {
+    my $s = shift(@ARGV);
+    $NOOUTPUT = 1 if ($s eq '--no-output');
+    $MODE = 'c' if ($s eq '-c');
+}
+
+defoma_font_init();
+hint_beginlib($DIALOGTITLE, $DWIDTH, $MODE);
+read_hints();
+read_standard();
+
+note();
+com_register();
+
+exitfunc(0);
+
+

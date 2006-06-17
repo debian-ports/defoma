@@ -1,0 +1,15 @@
+Document: defoma-script
+Title: A Tutorial on Writing Defoma Configuration Scripts
+Author: Yasuhiro Take
+Abstract: This document describes how to write Defoma-configuration scripts.
+Section: Debian
+
+Format: DebianDoc-SGML
+Files: /usr/share/doc/defoma-doc/defoma-script.sgml.gz
+
+Format: HTML
+Index: /usr/share/doc/defoma-doc/defoma-script.html
+Files: /usr/share/doc/defoma-doc/defoma-script.html
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/defoma-script.txt.gz

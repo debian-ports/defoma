@@ -1,0 +1,9 @@
+usr/bin
+usr/share/defoma
+usr/share/doc/defoma/examples
+usr/share/perl5/Debian/Defoma
+etc/defoma
+var/lib/defoma/scripts
+usr/share/man/man1
+usr/share/man/man3
+usr/share/debhelper/autoscripts

@@ -1,0 +1,36 @@
+.\"Traduction Jeudi 8 novembre 2002 par Antoine Gémis
+.\"(agemis@netuup.com)
+.\"(defoma 0.11.1) 
+.TH defoma-hints 1 "4 mars 2001"
+.SH NOM
+defoma-hints \- fabrique les fichiers d'indications de polices.
+.SH SYNOPSIS
+.B defoma-hints
+.IR [ \-c ]
+.IR [ \-\-no-question ]
+.I catégorie polices...
+.br
+.SH DESCRIPTION
+.B defoma-hints
+est l'outil qui fabrique les fichiers d'indications de polices.
+Il pose diverses questions au sujet des types de caractères,
+extrait des données des fichiers de polices et affiche les
+indications sur la sortie standard, au format des fichiers 
+d'indications.
+.SH FICHIERS
+.TP
+/usr/share/defoma/libhint-*.pl
+Bibliothèques Perl spécifiques à chaque catégorie de police, 
+elles fabriquent les fichiers d'indications de cette catégorie.
+.SH EXEMPLES
+1. Création du fichier d'indications type1.hints pour les polices
+de catégorie type1 contenues dans le répertoire 
+/usr/share/fonts/type1.
+
+.nf
+defoma-hints type1 /usr/share/fonts/type1/*.pfb > type1.hints
+.fi
+.SH VOIR AUSSI
+.BR defoma (1).
+.SH TRADUCTION
+Antoine Gémis <agemis@netuup.com>.

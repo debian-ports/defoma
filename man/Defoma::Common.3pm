@@ -1,0 +1,257 @@
+.TH Defoma::Common 1 "March  4, 2001"
+.SH NAME
+Defoma::Common \- Defoma module providing miscellaneous functions.
+.SH SYNOPSIS
+.nh
+use Defoma::Common;
+
+$h = parse_hints_start(
+.I hints...
+);
+
+$hsub = parse_hints_subhints(
+.IR hints_hash ,
+.I face
+);
+
+$hsub = parse_hints_subhints_inherit(
+.IR hints_hash ,
+.I face
+);
+
+parse_hints_cut(
+.IR hints_hash ,
+.I hinttypes...
+);
+
+parse_hints_cut_except(
+.IR hints_hash ,
+.I hinttypes...
+);
+
+@hints = parse_hints_build(
+.I hints_hash
+);
+
+$charset = get_charset(
+.I xencoding
+);
+
+$xencoding = get_xencoding(
+.IR charset ,
+.I encoding
+);
+
+@XLFDs = get_xlfd_of_font(
+.IR font ,
+.RI " level => " level ,
+.RI " face => " face
+);
+
+my $num = weight_ascii2integer(
+.I weightstring
+);
+
+my $num = weight_a2i(
+.I weightstring
+);
+
+.hy
+.SH DESCRIPTION
+.B parse_hints_start
+is a function to convert hints in an array to a hash. Hints consist of
+a list of hinttype and its value(s). Following is the example of hints
+in an array form.
+
+.nh
+--FontName Helvetica-BoldItalic --Family Helvetica --GeneralFamily
+SansSerif --Weight Bold --Shape NoSerif Italic --Charset ISO8859-1
+.hy
+
+In this example, FontName, Family, GeneralFamily, Weight, Shape and
+Charset are hinttypes. Items starting with double minus characters
+'--' are taken as hinttype. The others are taken as values.
+The function converts this array to a hash described in the following style.
+
+.nh
+.nf
+FontName => 'Helvetica-BoldItalic',
+Family => 'Helvetica',
+GeneralFamily => 'SansSerif',
+Weight => 'Bold',
+Shape => 'NoSerif Italic',
+Charset => 'ISO8859-1'
+.fi
+.hy
+
+You see that hinttypes are used as keys of a hash, and that Shape has
+two values, NoSerif and Italic. If a certain hinttype has more than 
+one values, they are combined into a single string separated by space.
+.PP
+.B parse_hints_subhints
+is a function to get a sub hint hash pointed by
+.I facenum
+from the hint hash specified by
+.IR hints_hash .
+Please look at following example of a hint hash.
+
+.nh
+.nf
+$h = {Inherit => 'Charset Weight',
+      FontName => 'Helvetica',
+      Charset => 'ISO8859-1',
+      Weight => 'Medium',
+      Shape => 'Upright',
+      FontName1 => 'Helvetica-Bold',
+      Weight1 => 'Bold',
+      FontName2 => 'Helvetica-Unicode',
+      Charset2 => 'ISO10646-1'};
+.fi
+.hy
+
+You see there're some numbered hinttypes.
+.B parse_hints_subhints
+extracts the hints of the specific number from it. For example,
+you can extract the non-numbered hints FontName and Charset by:
+
+.nh
+.nf
+$hsub = parse_hints_subhints($h, 0);
+.fi
+.hy
+
+and the content of $hsub will be:
+
+.nh
+.nf
+FontName => 'Helvetica',
+Charset => 'ISO8859-1',
+Weight => 'Medium',
+Shape => 'Upright'
+.fi
+.hy
+
+If you set 1 to the second argument of
+.BR parse_hints_subhints ,
+the content of $hsub will be:
+
+.nh
+.nf
+FontName => 'Helvetica-Bold',
+Weight => 'Bold'
+.fi
+.hy
+
+Note that the number of each hinttype is removed.
+.PP
+.B parse_hints_subhints_inherit
+is almost the same as
+.BR parse_hints_subhints ,
+only differs it inherits non-numbered hints specified by Inherit hinttype. 
+Following is the result of 
+.B parse_hints_subhints_inherit
+with 1 and 2 set to the second argument in the example of
+.BR parse_hints_subhints .
+
+.nh
+.nf
+FontName => 'Helvetica-Bold',
+Weight => 'Bold',
+Charset => 'ISO8859-1'
+
+FontName => 'Helvetica-Unicode',
+Weight => 'Medium',
+Charset => 'ISO10646-1'
+.fi
+.hy
+
+.PP
+.B parse_hints_cut
+is a function to remove hinttypes specified by
+.I hinttypes
+and their values from the hint hash.
+It is supposed to be used together with
+.B parse_hints_build
+function.
+.PP
+.B parse_hints_cut_except
+is a function to remove all hinttypes except those specified by
+.I hinttypes
+and their values from the hint hash.
+It is supposed to be used together with
+.B parse_hints_build
+function.
+.PP
+.B parse_hints_build
+is a function to convert hints in a hash to an array. 
+.PP
+.B get_charset
+is a function to convert X\-RegistryEncoding specified by
+.I xencoding
+into Charset. X\-RegistryEncoding is the last two elements of XLFD,
+like iso8859\-1 and jisx0208.1983\-0. The returned values of these two
+are ISO8859-1 and JISX0208 respectively.
+.PP
+.B get_xencoding
+is a function to convert Charset and Encoding specified by
+.I charset
+and
+.I encoding
+into X\-RegistryEncoding.
+.I encoding
+is often omitted.
+.PP
+.B weight_ascii2integer
+is a function to convert Weight in string (like Bold and Medium) into
+a numeric value (integer). Medium is always zero, and the bolder, the
+larger, the lighter, the smaller. For example, Bold is +2, and Light
+is \-2.
+.B weight_a2i
+is abbreviation for
+.BR weight_ascii2integer .
+.PP
+.B get_xlfd_of_font
+is a function to get an array of XLFDs of a font specified by
+.IR font .
+You can control the amount of gained XLFDs by
+.I level 
+and 
+.I face
+options.
+.I level
+must be either of
+.IR 'min' ,
+.IR 'normal' ,
+or
+.IR 'max' .
+When
+.I min
+is specified, not-slanted not-boldized XLFDs registered in xfont category
+will be returned.
+When 
+.I normal
+is specified, XLFDs including boldized and/or slanted (but not reverse slanted)
+ones registered in xfont category will be returned.
+When
+.I max
+is specified, all generated XLFDs will be returned.
+.SH EXAMPLES
+
+.nh
+$h = parse_hints_start(@_);
+
+@shape = split(/ /, $h->{Shape});
+@alias = split(/ /, $h->{Alias});
+$priority = $h->{Priority};
+$realname = $h->{FontName};
+$realname =~ s/ .*//;
+
+parse_hints_cut($h, 'Priority', 'FontName', 'Charset');
+@hints = parse_hints_build($h);
+.hy
+
+.SH SEE ALSO
+.BR defoma (1).
+
+
+

@@ -1,0 +1,20 @@
+.TH defoma 1 "March  4, 2001"
+.SH NAME
+defoma-reconfigure \- Reconfigure all from zero.
+.SH SYNOPSIS
+.B defoma-reconfigure 
+.IR [ -f ]
+.SH DESCRIPTION
+defoma\-reconfigure reconfigures font configuration from zero.
+It fixes a critical bug of data loss, but also is used for
+reconfiguration of fonts.
+.PP
+defoma\-reconfigure first removes almost all files and symlinks under 
+/var/lib/defoma, to clean up all font configuration, and
+run defoma\-app with update command. You should backup /var/lib/defoma
+if you put a important file there by yourself.
+.PP
+\-f option is used to fix the data confusion which occurs when defoma
+is aborted.
+.SH SEE ALSO
+.BR defoma (1).

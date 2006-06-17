@@ -1,0 +1,323 @@
+<!DOCTYPE debiandoc SYSTEM>
+<debiandoc>
+  <book>
+    <titlepag>
+      <title>Introduction to Defoma</title>
+      <author>
+	<name>Yasuhiro Take (take@debian.org)</name>
+      </author>
+
+      <abstract>
+	This document describes the fundamental idea of Defoma, including
+	how it works, what it can do and cannot do, how it benefits and
+	what users can do.
+      </abstract>
+      <copyright>
+	<copyrightsummary>
+	  Copyright &copy; 2001 Yasuhiro Take.
+	</copyrightsummary>
+	<p>
+	  This document is free software; you may redistribute it and/or
+	  modify it under the terms of the GNU General Public License
+	  as published by the Free Software Foundation; either version
+	  2, or (at your opinion) any later version.
+	</p>
+	<p>
+	  A copy of the GNU General Public License is available as
+	  <tt>/usr/share/common-licenses/GPL</tt> in the Debian GNU/Linux.
+	</p>
+      </copyright>
+    </titlepag>
+    <chapt>
+      <heading>The idea of Defoma</heading>
+      <p>
+	Whenever a font is installed or removed, every application that
+	depends on, makes use of, or has anything to do with the
+	font has to be configured for the font.  Such a process should be
+	automated, but in fact only a few applications automate it. It means
+	that each user or a system administrator needs to configure most of
+	applications manually about fonts, to make use of fonts from the
+	applications. This is really waste of time and requires considerable
+	technical knowledge.
+      </p>
+      <p>
+	Almost all the font packages installed in Debian configure themselves
+	for X. すなわちフォントパッケージに、 X という特定のアプリケーション
+	の設定が含まれているわけだ。X はフォントを扱うアプリケーションの中
+	では最も一般的なものだし、この方針は間違ってはいないだろう。しかし、
+	他のフォントを扱うアプリケーションの設定はどうしたらいい？それぞれ
+	のアプリケーション用の設定全てをフォントパッケージに持たせる？
+	それはちょっと非現実的だ。常にそのアプリがインストールされてるとは
+	限らないからだ。すなわち、フォントパッケージと、設定のプロセスは
+	分離されなければならない。
+      </p>
+      <p>
+	では、あるアプリケーション用の設定だけを含むパッケージを用意する？
+	悪くはないとは思うけど、例えば type1 フォントを扱うアプリケーション
+	が 5 個あって、type1 フォントパッケージが 10 個あったとしたら、設定
+	パッケージだけで 5 * 10 で 50 個も必要になってしまう。ただでさえ
+	Debian のパッケージ数は多いのに :(
+      </p>
+      <p>
+	Defoma では、フォントの各アプリケーション用の設定は、フォントの
+	メタデータを元に、スクリプトにより自動生成される。つまり、フォントを
+	扱うアプリケーションは、メタデータを元に設定を行うスクリプトを
+	用意するだけでいい。あとは、フォントがインストールされたり
+	アンインストールされる度に、そのフォントのメタデータがスクリプトに
+	渡されるので、スクリプトは設定を更新すればいいのだ。また、
+	アプリケーションが新しくインストールされたときは、インストール
+	されている全てのフォントとそのメタデータをスクリプトに渡すことに
+	より、既にインストールされているフォントに対する設定も行える。
+      </p>
+      <p>
+	これを実現するため、フォントパッケージはインストールされるとき
+	(すなわち postinst で)そのフォントパッケージに含まれるフォント全て
+	とそのメタデータを Defoma に登録しなければならない。登録された
+	フォントとそのメタデータは Defoma 内部で保持されるので、新たに
+	アプリケーションがインストールされた時も、保持されている
+	インストール済みのフォントのメタデータを元に設定を行えるわけだ。
+      </p>
+      <p>
+	このメタデータのことを Hints と呼び、一つまたはそれ以上のフォントの
+	Hints を記述したものを hintfile と呼ぶ。また、設定を行うスクリプトの
+	ことを Defoma-configuration script と呼ぶ。Hints には、設定を行う
+	のに必要な FontName, Family, Weight, Alias, Foundry, Charset,
+	Encoding などの他、どのような見た目なのかを表す GeneralFamily, Shape
+	などがある。もちろん、特定のアプリケーション専用の Hints (例えば
+	xtt 用の TTCap とか) なども持たせることができる。
+      </p>
+      <p>
+	なお、Defoma は、フォントパッケージやアプリケーションパッケージが
+	インストールされた時やアンインストールされた時、すなわち
+	postinst や prerm で実行され、フォントの設定の更新を行う。
+	すなわち、root 権限で実行され、Defoma によってなされるフォントの設定は
+	システムデフォルトであるということだ。各ユーザーのホームディレクトリの
+	ドットファイルでフォントの設定を行えるアプリケーションもあるが、
+	そういった所には Defoma はいっさい手を出さない。
+      </p>
+    </chapt>
+    <chapt>
+      <heading>抽象的なフォントに対する設定</heading>
+      <p>
+	フォントを扱うアプリケーションは大きく二つに分けることができる。
+	フォントそのものを扱うか、抽象的なフォントを扱うかである。
+	フォントそのものを扱うというのは、type1 フォントや TrueType フォント
+	を直接扱うということで、X や ghostscript が例として挙げられる。
+	抽象的なフォントを扱うというのは、X によって提供される XLFD や
+	ghostscript で提供される PostScript フォント名を扱うということで、
+	tgif などの X 上で動くアプリケーションが例として挙げられる。
+	Defoma では前者に属するアプリケーションの設定だけでなく、
+	後者に属するアプリケーションの設定も行うことができる。
+	前者については特に言及する必要はないだろう。
+	ここでは後者について説明したい。
+      </p>
+      <p>
+	例えば X は type1 フォントなどを扱い、抽象的なフォント 「XLFD」 を
+	提供し、ghostscript は、抽象的なフォント「PostScript フォント」を
+	提供する、と考えることができる(※なお、PostScript フォントというと
+	一般的に type1 フォントや type 0 フォントや type42 フォントなどを
+	指すが、このドキュメントでは Courier-BoldItalic といった
+	PostScript フォント名を指していると考えて欲しい)。
+	このように抽象的なフォントを提供するアプリケーションの
+	Defoma-configuration script は、この抽象的なフォントを Defoma に
+	登録する。すると、その抽象的なフォントを扱うアプリケーション(
+	すなわち先ほどの分類で後者に属するアプリケーション)の
+	Defoma-configuration script が呼ばれ、抽象的なフォント名を用いた
+	設定が行われる。
+      </p>
+      <p>
+	例えば、TrueType フォント foo.ttf が Defoma に登録されたとしよう。
+	ghostscript の Defoma-configuration script はこのフォントの Hints
+	から Foo-Bold という PostScript フォント名を得て、Fontmap に
+	追加するわけだが、同時に Defoma に Foo-Bold という抽象的なフォント
+	を登録する。すると、tgif の様な PostScript フォントをメニューで
+	選ばせ、PostScript ファイルを生成するアプリケーションの
+	Defoma-configuration script が呼ばれ、Foo-Bold が tgif の設定
+	ファイルに追加される、という感じである。
+      </p>
+    </chapt>
+    <chapt>
+      <heading>Miscellaneous issues</heading>
+      <sect>
+	<heading>Category</heading>
+	<p>
+	  Defoma ではフォントはその種類により様々なカテゴリに分類されて
+	  扱われる。これは TrueType フォントが Defoma に登録されたとき、
+	  TrueType フォントを扱うアプリケーションの Defoma-configuration
+	  script のみが呼ばれるようにするためだ。
+	</p>
+	<p>
+	  Category は small letter のみで表現され、次のようなものがある。
+	  <list>
+	    <item>
+	      <p>truetype .. TrueType フォント</p>
+	    </item>
+	    <item>
+	      <p>cid .. CID フォント</p>
+	    </item>
+	    <item>
+	      <p>type1 .. PostScript Type1 フォント</p>
+	    </item>
+	    <item>
+	      <p>type3 .. PostScript Type3 フォント</p>
+	    </item>
+	    <item>
+	      <p>xfont .. XLFD</p>
+	    </item>
+	    <item>
+	      <p>psprint .. 印刷可能な PostScript フォント名</p>
+	    </item>
+	    <item>
+	      <p>postscript .. PostScript フォント名</p>
+	    </item>
+	    <item>
+	      <p>x-postscript .. PostScript フォント名と XLFD との対応づけ</p>
+	    </item>
+	  </list>
+	  PostScript フォントに関しては別セクションを参照して欲しい。
+	</p>
+      </sect>
+      <sect>
+	<heading>Id Cache</heading>
+	<p>
+	  アプリケーションはしばしば、フォントに Identifier を与え、
+	  その Identifier で管理、設定をすることが多い。例えば ghostscript
+	  は b018012l.pfb という type1 フォントを URWBookmanL-Ligh という
+	  RealName や、Bookman-Light という Alias でアクセスする。
+	  この Identifier は扱うフォントが増えると name space confliction
+	  を起こす可能性が出てくる。例えば Foo-Bold という RealName を持つ
+	  foo.pfa と Foo-Bold を Alias として持つ foobar.pfa では、前者の
+	  方が優先されるべきだろう。このような問題をうまく処理するため、
+	  Id Cache という仕組みが用意されている。
+	</p>
+	<p>
+	  Id Cache はフォント(foo.pfa)、Identifier(Foo-Bold)、
+	  タイプ(RealNameなのか、Alias なのか、など)、プライオリティ(大きければ
+	  より優先される)、カテゴリ(前セクション参照)、状態、依存性、Hints を
+	  保持する。Id Cache への登録や削除は Defoma-configuration script
+	  から行われる。
+	</p>
+	<p>
+	  Id Cache に新たな Identifier が登録されると、Defoma は
+	  同じ Identifier を持つフォントが Id Cache 内に存在するかどうかを
+	  確かめる。もしあれば、どれがより優先されるべきかを、プライオリティや
+	  タイプから判断し、もっとも優先するフォントの設定をするよう
+	  Defoma-configuration script をコールバックし、他のフォントについて
+	  はそのデータが Id Cache に保持されるだけで設定はされない。もし
+	  同じ Identifier を持つフォントがなければ、そのフォントの設定をする
+	  ようにやはり script がコールバックされる。
+	  フォントの設定が行われると、Id Cache ではそのフォントの状態を
+	  「インストール状態」にセットする。
+	</p>
+	<p>
+	  例えば、現在次のフォントと Identifier が Id Cache に保持されている
+	  としよう。
+	  <example>
+-Identifier-    -Font-    -Type-    -Status-
+Foo-Medium      foo.pfa   RealName  Installed
+Bar-Medium      foo.pfa   Alias     Installed
+	  </example>
+	  Id Cache には foo.pfa というフォントの、Foo-Medium という RealName
+	  Bar-Medium という Alias が登録されており、どちらもインストール状態
+	  である。
+	</p>
+	<p>
+	  ここで、新たに bar.pfa というフォントが登録されたとしよう。この
+	  フォントは Bar-Medium という RealName と Foo-Medium という Alias
+	  を持つとしよう。Defoma-configuration script はこのフォントに
+	  対する設定をすぐ行わずに、まず Id Cache に登録する。
+	  <example>
+-Identifier-    -Font-    -Type-    -Status-
+Foo-Medium      foo.pfa   RealName  Installed
+Bar-Medium      foo.pfa   Alias     Installed
+Bar-Medium      bar.pfa   RealName
+Foo-Medium      bar.pfa   Alias
+	  </example>
+	</p>
+	<p>
+	  Defoma は Bar-Medium については、後から登録された bar.pfa の方が
+	  優先されると判断し、script をコールバックし、foo.pfa の
+	  Bar-Medium としての設定を取り消させ、bar.pfa の Bar-Medium として
+	  の設定を行わせる。Foo-Medium については、すでに設定済みの foo.pfa の
+	  方が優先されるのでそのままである。
+	  <example>
+-Identifier-    -Font-    -Type-    -Status-
+Foo-Medium      foo.pfa   RealName  Installed
+Bar-Medium      foo.pfa   Alias
+Bar-Medium      bar.pfa   RealName  Installed
+Foo-Medium      bar.pfa   Alias
+	  </example>
+	</p>
+      </sect>
+      <sect>
+	<heading>PostScript Fonts</heading>
+	<p>
+	  [このドキュメントで PostScript フォントといったら、Helvetica-Bold
+	  といった Type1 フォントや Type 42 フォントで提供される「PostScript
+	  フォント名」をさすことがほとんどなので注意して欲しい]
+	</p>
+	<p>
+	  Linux 上で動く印刷に関わるアプリケーションの多くが PostScript を
+	  採用しているが、PostScript フォントをめぐる環境は非常に複雑で、
+	  次のようないくつかのやっかいな問題を抱えている。
+	  <list>
+	    <item>
+	      <p>
+		#1 .. アプリケーションの多くが Type1 や Type42 を直接扱わず、
+		PostScript フォント名を扱う。つまり、設定ファイルに
+		PostScript フォントの名前を記述すればそのフォント名が
+		メニューに現れ、そのフォント名を用いた PostScript ファイルを
+		生成できる。
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		#2 .. WYSIWYG なアプリケーションの多くは、X での描画を XLFD を
+		介して行う。#1 と合わせると、PostScript フォントの名前と
+		それに対応する XLFD を設定ファイルに記述しなければならない。
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		#3 .. PostScript プリンターを用いて印刷する場合、PostScript
+		プリンターにインストールされているフォントを用いて印刷する
+		場合は、そのフォント名を設定ファイルに記述しなければならない。
+	      </p>
+	    </item>
+	    <item>
+	      <p>
+		#4 .. 印刷可能なフォントとプレビュー可能なフォントが完全に
+		一致するとは限らない。
+	      </p>
+	    </item>
+	  </list>
+	</p>
+      </sect>
+    </chapt>
+	  
+	</p>
+      </sect>
+      <sect>
+	<heading>PostScript Fonts.</heading>
+      </sect>
+    </chapt>
+    <chapt>
+      <heading>大まかな流れ</heading>
+      <sect>
+	<heading>フォントがインストールされるとき</heading>
+      </sect>
+      <sect>
+	<heading>アプリケーションがインストールされるとき</heading>
+      </sect>
+    </chapt>
+    <chapt>
+      <heading>Substitution について</heading>
+    </chapt>
+    <chapt>
+      <heading>ユーザーができること</heading>
+    </chapt>
+    <chapt>
+      <heading>語句</heading>
+    </chapt>
+  </book>
+</debiandoc>

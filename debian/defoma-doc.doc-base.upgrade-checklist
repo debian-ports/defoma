@@ -1,0 +1,9 @@
+Document: defoma-upgrade-checklist
+Title: Defoma Upgrade Checklist
+Author: Yasuhiro Take
+Abstract: This document describes rough changes of each version and
+ upgrade instructions.
+Section: Debian
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/upgrade-check.txt.gz

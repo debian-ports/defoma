@@ -1,0 +1,32 @@
+.\"Traduction Jeudi 8 novembre 2002 par Antoine Gémis
+.\"(agemis@netuup.com)
+.\"(defoma 0.11.1) 
+.TH defoma 1 "4 mars 2001"
+.SH NOM
+defoma-reconfigure \- configure à nouveau les polices.
+.SH SYNOPSIS
+.B defoma-reconfigure 
+.IR [ -f ]
+.SH DESCRIPTION
+defoma\-reconfigure 
+configure à nouveau les polices, en reprenant tout à zéro.
+Ceci résout un bogue critique de perte de données et permet 
+aussi de tout configurer.
+.PP
+defoma\-reconfigure 
+supprime d'abord presque tous les fichiers de
+/var/lib/defoma pour effacer toutes les informations de configuration des
+polices, puis lance 
+.BR defoma\-app 
+en lui demandant une mise à jour 
+(commande update). Si vous avez vous-même placé un fichier important dans
+/var/lib/defoma, vous devriez sauvegarder ce répertoire avant de lancer
+defoma-reconfigure.
+.PP
+L'option
+\-f est utilisée pour corriger la corruption de données produite par 
+l'interruption brutale de defoma-app.
+.SH VOIR AUSSI
+.BR defoma (1).
+.SH TRADUCTION
+Antoine Gémis <agemis@netuup.com>.

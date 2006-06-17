@@ -1,0 +1,9 @@
+Document: defoma-type1-multiple-encodings
+Title: Defoma type1 multiple encodings
+Author: Yasuhiro Take
+Abstract: This document describes how to add information of multiple
+ type1 font encodings to a hintfile.
+Section: Debian
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/type1-multiple-encodings.txt

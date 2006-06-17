@@ -1,0 +1,8 @@
+case "$1" in
+	upgrade)
+		/usr/bin/defoma-app clean #PACKAGE#
+		;;
+	remove)
+		/usr/bin/defoma-app purge #PACKAGE#
+		;;
+esac

@@ -1,0 +1,178 @@
+.TH Defoma::Subst 1 "March  4, 2001"
+.SH NAME
+Defoma::Subst \- Defoma module to handle Subst cache/rule.
+.SH SYNOPSIS
+.nh
+use Defoma::Subst;
+
+$Sb = defoma_subst_open(
+.br
+.RI "  rulename => " rulename ,
+.br
+.RI "  threshold => " threshold ,
+.br
+.RI "  idobject => " id_object ,
+.br
+.RI "  private => " private_flag
+);
+
+defoma_subst_close(
+.IR subst_object
+);
+
+defoma_subst_register(
+.IR subst_object ,
+.IR font ,
+.IR realname
+);
+
+defoma_subst_unregister(
+.IR subst_object ,
+.IR font
+.IR realname
+);
+
+defoma_subst_add_rule(
+.IR subst_object ,
+.IR required_id ,
+.IR rule...
+);
+
+defoma_subst_remove_rule(
+.IR subst_object ,
+.IR required_id ,
+.IR rule...
+);
+
+.hy
+.SH DESCRIPTION
+Defoma::Subst is a Defoma module to handle subst\-cache and subst\-rule.
+When a certain id is required but not provided as RealName or Alias
+by any font, fonts which have similar appearance and the same characters
+should substitute for such a font. Required ids and their information
+about appearance and charset things (called *rule*) are described in a 
+subst\-rule. 
+Defoma::Subst compares such a rule of a certain required id with hints of a 
+substitutive font and calculates the degree of similarity in percentage, and
+registers the required id and the font with the value as its priority
+as 'Substituted' type to an id\-cache through Defoma::Id module.
+.PP
+subst\-rule is mainly edittable by users, which means users edit 
+subst\-rule file to add/remove/modify
+the required ids and their information, but sometimes unedittable by them
+and modified by a Defoma\-configuration script. 
+The former is called
+.B public
+subst\-rule and the latter is called
+.B private
+subst\-rule.
+.PP
+subst\-cache holds fonts which are candidacies for substituting for 
+required ids. As mentioned above, a rule of a required id and hints
+of such a font are compared. Hints are not recorded in a subst\-cache 
+so retrieved from an id\-cache. In addition a required id and its rule
+are recorded in an subst\-rule, so subst\-cache, subst\-rule and id\-cache 
+are strongly linked up. Especially subst\-cache and subst\-rule are
+not separatable and Defoma::Subst handles these two through a single united
+object.
+.PP
+.B defoma_subst_open
+is a function used to open a subst\-cache and subst\-rule specified by
+.I rulename
+and
+.I private_flag
+and returns the
+.I subst_object 
+used for further operation.
+If the subst\-rule is private one, set
+.I private_flag
+to non-zero. Otherwise it can be omitted. The subst\-rule becomes public.
+.I id_object
+must be specified because subst\-cache and subst\-rule are strongly
+linked up to id\-cache as mentioned above. Hints of a substitutive font
+are retrieved from the id\-cache specified by the
+.IR id_object , 
+and required ids described in the subst\-rule are registered to the id\-cache.
+.I threshold
+prevents fonts that have less degree of similarity from being registered.
+If a required id is already registered in the id\-cache, substitutive
+fonts whose degree of similarity are less than this 
+.I threshold
+are not registered to an id\-cache. 
+.PP
+.B defoma_subst_close
+is a function used to close a subst\-cache and subst\-rule specified by 
+.IR subst_object .
+Internally it writes the content of cache and rule stored in a memory
+to files.
+.PP
+.B defoma_subst_register
+is a function used to register a font which is candidate for substituting
+for required ids to the subst\-cache specified by
+.IR subst_object .
+RealName of the font must be specified.
+.PP
+.B defoma_subst_unregister
+is a function used to unregister a font from the subst\-cache specified by
+.IR subst_object .
+RealName can be omitted.
+.PP
+.B defoma_subst_add_rule
+is a function used to add a required id and its rule to the subst\-rule
+specified by
+.IR subst_object .
+.PP
+.B defoma_subst_remove_rule
+is a function used to remove a required id and its rule from the subst\-rule
+specified by
+.IR sbst_object .
+If
+.I rule
+is omitted, all the rules describing the 
+.I required_id
+are removed from the subst\-rule. Otherwise only one rule specified by
+.IR "rule " and " required_id "
+is removed.
+.SH EXAMPLES
+1. Open private subst\-rule and subst\-rule.
+
+.nf
+$Id = defoma_id_open();
+$Sb = defoma_subst_open(rulename => 'subst1', 
+                        idobject => $Id);
+.fi
+
+2. Register a substitutive font.
+
+.nf
+defoma_id_register($Id, type => 'real',
+                   font => $font,
+                   id => $realname,
+                   priority => $priority,
+                   hints => join(' ', @_));
+defoma_subst_register($Sb, $font, $realname);
+.fi
+
+3. Unregister.
+
+.nf
+defoma_subst_unregister($Id, $font);
+defoma_id_unregister($Id, 'real', $font);
+.fi
+
+4. Add a rule.
+
+.nf
+defoma_subst_add_rule($Sb, 'Helvetica', @hints);
+.fi
+
+5. Remove all rules for Helvetica.
+
+.nf
+defoma_subst_remove_rule($Sb, 'Helvetica');
+.fi
+
+.SH SEE ALSO
+.BR defoma (1).
+.BR Defoma::Id (1).
+

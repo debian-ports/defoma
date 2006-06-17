@@ -1,0 +1,649 @@
+defoma (0.11.8-0.1) unstable; urgency=high
+
+  * NMU
+  * Apply patch by Jurij Smakov to fix redirecting the output
+    streams (Closes: #263270)
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sat, 21 Aug 2004 19:27:43 +0200
+
+defoma (0.11.8) unstable; urgency=low
+
+  * Fix some typos and engrish in dfontmgr.1, closes: #234329.
+  * Correct some misspellings of "Generator", closes: #235722.
+  * defoma-hints.1: Add explanation of command line options.
+    Closes: #235723
+  * Bug fix: "defoma-hints --no-question still displays some messages",
+    thanks to Flavio Stanchina (Closes: #244092).  Also fixed similar
+    problem with libhint-type1.perl.
+  * Bug fix: "defoma: --no-question asks questions" (Closes: #248942)
+
+ -- Angus Lees <gus@debian.org>  Tue, 25 May 2004 20:45:29 +1000
+
+defoma (0.11.7) unstable; urgency=low
+
+  * dh_installdefoma: remove call to checkdepends(), which was deleted in
+    0.11.6. oops. Closes: #229230.
+
+ -- Angus Lees <angus.lees@urnet.com.au>  Tue, 27 Jan 2004 13:44:53 +1100
+
+defoma (0.11.6) unstable; urgency=low
+
+  * Update defoma-hints.fr.1 to include --no-question too, closes: #212626.
+  * Upgrade defoma libft-perl dependency to "Recommends", closes: #222290.
+  * Remove version checking code from dh_installdefoma - it should be a
+    lintian check, if anything.
+  * Actually send "unregister" messages to defoma app scripts.  I hoped
+    this would help #179099, but it doesn't seem to :(
+
+ -- Angus Lees <gus@debian.org>  Sat,  3 Jan 2004 12:16:04 +1100
+
+defoma (0.11.5) unstable; urgency=low
+
+  * Remove unused psfontmgr.templates.{de,fr}. Closes: #207675
+  * Apply patch to allow defoma-hints to parse type1 files with different
+    newline characters, thanks to Neil Schemenauer. Closes: #207018
+  * Mention --no-question in defoma-hints manpage, helps #194106.
+  * Support whiptail as well as dialog, using patch from YAMASHITA Junji.
+    Closes: #94323
+  * Defoma docs need updating, but they have a doc-base control file now.
+    Closes: #115642
+
+ -- Angus Lees <gus@debian.org>  Sun, 21 Sep 2003 13:26:56 +1000
+
+defoma (0.11.4) unstable; urgency=low
+
+  * Remove psfontmgr debconfage entirely.  At present it's only two
+    obsolete (not used since 2001) and two trivial templates, telling you
+    to do what is already mentioned in README.Debian (run
+    defoma-psfont-installer).  Less prompting is a Good Thing.
+    - Thanks to Christian Perrier for causing me to look at the
+      templates - hopefully this will make the french translation easier ;)
+      (closes: #200123)
+  * Delete obsolete /etc/defoma/config/psfontmgr.conf on upgrade and
+    remove several other mentions of it elsewhere.
+  * Clean up some of the English in package descriptions.
+
+ -- Angus Lees <gus@debian.org>  Wed, 13 Aug 2003 09:50:44 +1000
+
+defoma (0.11.3) unstable; urgency=low
+
+  * Update Maintainer field ;)  (thanks tbm)
+
+ -- Angus Lees <gus@debian.org>  Sun, 15 Jun 2003 15:02:50 +1000
+
+defoma (0.11.2) unstable; urgency=low
+
+  * Adopt package, closes: #180188.
+    Note that Fielder George Dowding filed an ITA first, I expect him to
+    become a co-maintainer (or take over the package) once he becomes a
+    Debian Developer.
+  * Acknowledge bugs fixed in NMU, closes: #129805, 129824, 129953.
+  * Greatly improve defoma-reconfigure error handling by including patch
+    (modified slightly) from Peter Moulder, closes: #181749.
+  * Give dfontmgr a dependency on libft-perl, closes: #183160.
+  * Include french translations of several manpages thanks to Antoine Gémis.
+    Closes: #170411, #170412, #170415, #170416.
+  * Make /usr/share/defoma/defoma-test.sh executable. (lintian)
+  * Make a guess at psfontmgr: defoma-ps/psfont_rule Choices-de from the
+    Description-de.  Apologies to all German speakers. (lintian)
+  * Remove trailing full stops from Descriptions. (lintian)
+  * Add placeholder defoma-user manpage - its completely inadequate at the
+    moment, I'll fill it out once I work out what this defoma-user is all
+    about ;)
+
+ -- Angus Lees <gus@debian.org>  Sun, 15 Jun 2003 13:24:33 +1000
+
+defoma (0.11.1) unstable; urgency=low
+
+  * Fixed the bug of defoma_id_grep_cache() with sort option used.
+
+ -- Yasuhiro Take <take@debian.org>  Sat, 11 May 2002 00:23:53 +0900
+
+defoma (0.11.0) unstable; urgency=low
+
+  * Added --no-question option for defoma-hints.
+  * Added sorting feature in defoma_id_grep_cache(). (Closes: #142389)
+
+ -- Yasuhiro Take <take@debian.org>  Tue, 16 Apr 2002 13:09:35 +0900
+
+defoma (0.10.3) unstable; urgency=low
+
+  * Added fallback routine for broken id-cache. (Closes: #141137)
+  * Merged German templates, thanks to Sebastian Feltel. (Closes: #102336)
+
+ -- Yasuhiro Take <take@debian.org>  Thu, 11 Apr 2002 18:08:52 +0900
+
+defoma (0.10.2) unstable; urgency=medium
+
+  * Merged Frence templates, thanks to Denis Barbier. (Closes: #138061)
+  * Removes /var/lib/defoma when purged. (Closes: #139698)
+  * Fixed defoma-psfont-installer's bug that prevents it from running. 
+    (Closes: #139512)
+
+ -- Yasuhiro Take <take@debian.org>  Tue, 26 Mar 2002 21:42:17 +0900
+
+defoma (0.10.1.1) unstable; urgency=low
+
+  * NMU (sorry hirot, I needed them to build xfonts-abi).
+  * Applied Rafael Laboissiere's patches - closes: #129824, #129953, #129805
+
+ -- Masayuki Hatta <mhatta@debian.org>  Tue, 19 Feb 2002 21:08:15 +0900
+
+defoma (0.10.1) unstable; urgency=high
+
+  * Moved intro.sgml which is under writing into debian/ subdirectory.
+    (closes: #126919)
+  * Fixed the defoma.postinst bug that sometimes fails to cp .defoma files.
+    (closes: #127398, #127631)
+  * dh_installdefoma behaves in the same way as 0.9.1 or before.
+
+ -- Yasuhiro Take <take@debian.org>  Mon, 31 Dec 2001 09:20:10 +0900
+
+defoma (0.10.0) unstable; urgency=low
+
+  * New feature:
+    - Userlevel Defoma.
+    - $APPINFO in Defoma-script's header. Used to describe various infos.
+  * New command: defoma-app ignore <app> <category>
+  * Merged Anthony's patch:
+    - Support for GB18030, BIG5-HKSCS.
+    - Fix for typo and my en_JP of documents.
+  * FIX the bug that defoma-psfont-installer outputs perl errors,
+    Thanx to ysjj (Closes: #124197).
+  * FIX typo in description (Closes: #124545, #122841).
+  * TODO: documents update.
+
+ -- Yasuhiro Take <take@debian.org>  Sun, 30 Dec 2001 21:09:03 +0900
+
+defoma (0.9.1) unstable; urgency=high
+
+  * Invoke system scripts (psfontmgr & x-ttcidfont-conf) first.
+  * Fixes the IMPORTANT BUG that causes defoma to output a lot of perl error 
+    messages. (Closes: #122509)
+
+ -- Yasuhiro Take <take@debian.org>  Wed,  5 Dec 2001 15:05:43 +0900
+
+defoma (0.9.0) unstable; urgency=low
+
+  * New function:
+    - get_xlfd_of_font() ... gets XLFDs of a font that are controlled by
+                             x-ttcidfont-conf.
+  * New files: /usr/share/doc/defoma/examples/*.hints .. sample hintfiles.
+
+ -- Yasuhiro Take <take@debian.org>  Wed,  5 Dec 2001 03:37:23 +0900
+
+defoma (0.8.2) unstable; urgency=low
+
+  * defoma: not recommends dfontmgr and libft-perl, but suggest
+    (closes: #121620)
+
+ -- Yasuhiro Take <take@debian.org>  Tue,  4 Dec 2001 19:29:49 +0900
+
+defoma (0.8.1) unstable; urgency=low
+
+  * Letters other than [a-zA-Z0-9_-] are replaced with underscore for
+    rulename of subst-cache and suffix of id-cache (Id.pm, Subst.pm).
+  * dfontmgr does not attempt to register a hintfile itself but to register
+    all fonts described in the hintfile.
+  * Fixed typo in Description (flamework!)
+  * Asks AFM file path (libhint-type1.pl, libhint-cid.pl)
+  * Added KOI8-U and TIS620 to data files.
+  * defoma-hints adds "/path/to/" before a font file if the first font file
+    is not a full path.
+  * Removed using -t option on invoking /usr/bin/defoma from document and
+    debhelper files.
+  * /usr/bin/defoma-app,font,subst,id: ignores unknown options.
+
+ -- Yasuhiro Take <take@debian.org>  Tue,  4 Dec 2001 18:59:56 +0900
+
+defoma (0.8.0) unstable; urgency=medium
+
+  * New package: dfontmgr -- GUI frontend of defoma, DEbian FOnt MAnager.
+  * New library:
+    - libconsole.pl .. splitted from libperl-hint.pl. provides console
+                       frontend.
+    - libgtk.pl .. provides gtk frontend.
+    - libperl-file.pl .. provides get_file_category()
+  * New perl module:
+    - DefomaWizard.pm .. provides easy-to-use GUI dialog. libgtk.pl and
+                         Defontmgr.pm make use of this module.
+    - Dfontmgr.pm .. provides defoma GUI.
+  * New command:
+    - defoma-font register-one, unregister-one, reregister-one, purge-one
+  * New option:
+    - defoma-reconfigure -f
+    - defoma-hints -c
+  * libs/libconsole.pl:
+    - uses IPC::Open2 and doesn't invoke system() for security.
+  * libs/libhint-*.pl: Replace die() with exitfunc().
+  * libs/libhint-truetype.pl:
+    - Declaration of using library and initialization of variables are now
+      performed in BEGIN().
+    - freetype_init() .. undef freetype-related variables.
+  * libs/libperl-hint.pl:
+    - parse_all_hints*() .. Now uses defoma_font*() functions instead of grep.
+    - Some functions are moved from defoma-hints.
+  * pm/Common.pm:
+    - seeks the /use/local/share/defoma/scripts for
+      defoma-configuration scripts when -d is specified. (Closes: #114477)
+    - refers environmental variable DEFOMA_TEST_DIR only when -d is specified.
+    - BEGIN() is defined, and initialization of all global variables and
+      parsing options are done in this function.
+    - mylock() .. lockfile moves to /var/lib/defoma/locked.
+                  outputs some new notes when the lockfile exists.
+  * pm/Id.pm:
+    - defoma_id_unregister() .. preserves U-Alias entry unless purge mode.
+  * pm/Font.pm:
+    - defoma_font_reregister() .. accepts the case when the previous category
+      and the to-be-registered category differ.
+  * src/defoma-hints:
+    - accepts new option -c which forces console mode.
+    - use Defoma::Font, Defoma::Common.
+    - exitfunc() .. Accept 2nd argument for error message.
+    - main() .. Modified.
+  * src/defoma:
+    - doesn't call parse_hints.
+    - analyzes part of @ARGV before "use" commands.
+    - added some codes to handle new defoma-font commands.
+    - accepts a hintfile with new feature: obsolete <font>.
+    - allows a hintfile with duplicated font definition.
+  * src/defoma-reconfigure.
+    - accepts new option -f which is used when defoma has aborted.
+    - checks if it runs under root priviledge, and if not, outputs some notes
+      which are the same ones that mylock() in Common.pm outputs.
+  * psfontmgr/src/defoma-psfont-installer.
+    - Modified for new libperl-hint.pl.
+  * debian/control:
+    - defoma Depends: ADD file (for libperl-file.pl uses it).
+                      REMOVE debhelper (Closes: #120191, #120945).
+    - defoma Enhances: ADD debhelper.
+    - defoma Recommends: ADD dfontmgr.
+    - defoma Suggests: ADD x-ttcidfont-conf (Closes: #110006)
+
+ -- Yasuhiro Take <take@debian.org>  Sat, 24 Nov 2001 12:12:12 +0900
+
+defoma (0.7.0) unstable; urgency=low
+
+  * New package: dfontmgr -- suspended.
+  * New command: /usr/bin/defoma-id, /usr/bin/dh_installdefoma
+    (Thanks > taru@debian.org)
+  * New manpage: defoma-id.1, dh_installdefoma.1
+  * src/defoma: hintfile_convert_hints(): Accept hints without '='.
+  * src/defoma: Add defoma-id codes.
+  * New function: Font::defoma_font_get_failed()
+  * New function: Id::defoma_id_set(), defoma_id_unset()
+  * man/Defoma::Id.3pm, man/Defoma::Font.3pm: Add description about new
+    function.
+  * doc/developers.sgml: Modify to use dh_installdefoma.
+  * debian/rules: Modify to install new files:
+    /usr/bin/dh_installdefoma, /usr/share/man/man1/dh_installdefoma.1,
+    /usr/bin/defoma-id, /usr/share/man/man1/defoma-id.1,
+    /usr/share/debhelper/autoscripts/*.
+  * debian/defoma.dirs: Add usr/share/debhelper/autoscripts
+  * debian/changelog: The changelog for version 0.6.0 was missing something
+    after doc/. FIXED.
+  * src/defoma-hints: Modify to output the hints in a hintfile format to
+    STDOUT.
+  * man/defoma-hints.1: Modify to follow the change above.
+  * debian/control: 
+    - Depends: Add debhelper.
+    - Build-Depends: Replaced with Build-Depends-Indep.
+
+ -- Yasuhiro Take <take@debian.org>  Fri, 16 Nov 2001 18:20:17 +0900
+
+defoma (0.6.0) unstable; urgency=low
+
+  * New function: Common::numeric_weight()
+  * New file: doc/upgrade-check.txt.
+  * doc/developers.html: Add description about Transform hinttype.
+
+ -- Yasuhiro Take <take@debian.org>  Tue,  9 Oct 2001 20:49:10 +0900
+
+defoma (0.5.3) unstable; urgency=low
+
+  * doc/developers.sgml: add description in Multiple Face/Charset in a
+    single Font.
+  * debian/psfontmgr.defoma: keep FontName hint intact when registring 
+    a font in postscript category to subst cache, to realize better
+    substitution.
+
+ -- Yasuhiro Take <take@debian.org>  Sun,  7 Oct 2001 15:27:01 +0900
+
+defoma (0.5.2) unstable; urgency=low
+
+  * doc/developers.sgml: add Description about Multiple Face/Charset in a
+    Single Font.
+  * doc/type1-multiple-encoding.txt:
+    - Modified for changes of parse_hints_subhints_inherit().
+    - Add some description.
+
+ -- Yasuhiro Take <take@debian.org>  Sat,  6 Oct 2001 21:42:13 +0900
+
+defoma (0.5.1) unstable; urgency=low
+
+  * Common::parse_hints_subhints_inherit(): Refer Inherit.
+  * man/Defoma::Common.3pm: Modifiy description of 
+    parse_hints_subhints_inherit().
+
+ -- Yasuhiro Take <take@debian.org>  Sat,  6 Oct 2001 16:52:51 +0900
+
+defoma (0.5.0) unstable; urgency=low
+
+  * New function: Common::get_xencoding()
+  * New function: Common::get_charset()
+  * New function: Common::parse_hints_subhints()
+  * New document: doc/version-dependency.txt
+  * New document: doc/defoma-policy.txt
+  * man/Defoma::Common.3pm: Add description to new functions.
+  * debian/psfontmgr.defoma: Split xps.subst-cache by Charset.
+  * debian/control: psfontmgr: Depends: Add defoma (>= 0.5.0)
+  * doc/developers.sgml: Add description about Charset = ISO10646-1 and
+    UniCharset.
+  * conf/csetenc-xenc.data2: New file.
+  * debian/defoma.conffiles: Add conf/csetenc-xenc.data2.
+  * lib/csetenc-xenc.data2: New file.
+  * lib/xenc-cset.data: New file (Originally conf/xenc-cset.data). Add
+    CP1251 and ISO10646-1.
+  * conf/xenc-cset.data: Modified.
+  * debian/control: defoma: Conflicts: Add psfontmgr (<< 0.5.0), 
+    x-ttcidfont-conf (<< 0.5.0) to avoid an error of redefinition of function.
+
+ -- Yasuhiro Take <take@debian.org>  Sat,  6 Oct 2001 15:53:45 +0900
+
+defoma (0.4.14) unstable; urgency=low
+
+  * pm/Id.pm, IdCache.pm: More Speedup.
+    IdObject->{hash5}->{$depid} ... It is a hash whose key is an index to
+    an entry whose depid is $depid.
+    IdObject->{hash6}->{$depfont} ... It is a hash whose key is an index to
+    an entry whose depfont is $depfont.
+  * debian/defoma.postrm: Romoved. Now defoma can be removed/purged though
+    there's any font or any configuration of app left registered.
+    (Closes: #114434)
+
+ -- Yasuhiro Take <take@debian.org>  Fri,  5 Oct 2001 19:41:57 +0900
+
+defoma (0.4.13) unstable; urgency=high
+
+  * CRITICAL BUG FIX.
+  * 0.4.12 is nothing but buggy release.
+    /var/lib/dpkg/info/defoma.postinst fixes the failure by completely
+    reconfigures all from zero using defoma-reconfigure.
+    It saves what it was before reconfiguration in
+    /var/lib/defoma/origin.tar.bz2. (closes: #114437.)
+  * src/defoma-reconfigure: New command.
+  * man/defoma-reconfigure.1: New file.
+  * man/defoma.1: Add reference to defoma-reconfigure (1).
+  * src/defoma: Make defoma-app show which application defoma is configuring
+    for.
+
+ -- Yasuhiro Take <take@debian.org>  Fri,  5 Oct 2001 02:43:39 +0900
+
+defoma (0.4.12) unstable; urgency=high
+
+  * Common.pm: mylock() has a bug which allows more than one defoma process
+    run in parallel. FIXED.
+  * Id.pm: Obsoletes defoma_id_get_font. Use defoma_id_grep_cache instead.
+  * Id.pm: New function: defoma_id_get_hints().
+  * Id.pm: Support new global variable $IDOBJECT which represents currently
+    handling IdObject.
+  * Defoma::Id.3pm: Revised following the changes above.
+  * psfontmgr.defoma: replace defoma_id_get_font() with 
+    defoma_id_grep_cache().
+  * psfontmgr.defoma: Use defoma_id_get_hints() instead of direct access.
+  * developers.sgml: version specific dependency to defoma is needed.
+
+ -- Yasuhiro Take <take@debian.org>  Mon,  1 Oct 2001 18:09:51 +0900
+
+defoma (0.4.11) unstable; urgency=high
+
+  * IdCache.pm: grep() has a bug which makes grep($Id, $type) and
+    defoma_id_get_font($Id, $type) fail. FIXED.
+
+ -- Yasuhiro Take <take@debian.org>  Sun, 23 Sep 2001 09:51:39 +0900
+
+defoma (0.4.10) unstable; urgency=low
+
+  * Id.pm, IdCache.pm: More Speedup.
+      IdObject->{hash01_mark}->{$id.' '.$font}: contains one index of the 
+      entry whose id is $id, whose font is $font and whose type is mark.
+      IdObject->{hash0_installed}->{$id}: contains one index of the INSTALLED
+      entry whose id is $id and whose type is either of real, alias or subst.
+      IdObject->{g0}->{real|alias|subst|mark}->{$id}: It is a hash whose key
+      is an index to the entry whose id is $id.
+      IdObject->{g1}->{real|alias|subst|mark|installed}->{$font}: It is a hash
+      whose key is an index to the entry whose font is $font.
+      IdObject->{deleted}: It is an array which contains deleted indices.
+
+ -- Yasuhiro Take <take@debian.org>  Thu, 20 Sep 2001 22:46:37 +0900
+
+defoma (0.4.9) unstable; urgency=low
+
+  * Id.pm, IdCache.pm, Subst.pm: Add IdObject->{hash01} for more speedup.
+
+ -- Yasuhiro Take <take@debian.org>  Wed, 19 Sep 2001 05:32:02 +0900
+
+defoma (0.4.8) unstable; urgency=low
+
+  * Font.pm, Common.pm: The first argument of calling get_files() is not
+    correct. FIXED.
+  * Common.pm: Debina::Defoma::Configure::get_apps() is added.
+  * src/defoma: Add "defoma-subst remove-rule" command.
+  * man/defoma-subst.1: Add description about the "remove-rule" command.
+  * debian/psfontmgr.defoma: pspreview and psprint categories are obsoleted.
+  * debian/README.Defoma: Updated.
+  * debian/psfontmgr.config: Remove the code about PSFONT_INSTALLING_RULE.
+  * debian/psfontmgr.postinst: Remove the code about PSFONT_INSTALLING_RULE,
+    and add the code to replace the content of psfontmgr.conf file to notice 
+    that the file is obsoleted and removable.
+  * debian/psfontmgr.postrm: Add the definition of $FILE and $CONF which 
+    somehow lacked.
+  * debian/control: Add scigraphica-common (<= 0.7.1-3) to Conflicts.
+  * debian/control: Update to Standard-Version: 3.5.6.0
+  * debian/copyright: Modified Upstream Author to avoid warning of lintian.
+
+ -- Yasuhiro Take <take@debian.org>  Mon, 10 Sep 2001 18:33:01 +0900
+
+defoma (0.4.7) unstable; urgency=low
+
+  * defoma-font: Fixed the bug that "reregister" command doesn't behave as 
+    considered.
+
+ -- Yasuhiro Take <take@debian.org>  Tue, 31 Jul 2001 01:41:45 +0900
+
+defoma (0.4.6) unstable; urgency=low
+
+  * debian/psfontmgr.templates: 
+    o Fixed the two blank lines problem.
+    o Changed the Type: field from 'text' to 'note'.
+    o Fixed one grammer mistake: missing 'a' before a singular noun.
+    o Modified the Description of psfont_text.
+    Thanks a lot to Joey and Neil.
+    (Closes: #106360, #106346, #105589)
+
+ -- Yasuhiro Take <take@debian.org>  Mon, 30 Jul 2001 18:33:21 +0900
+
+defoma (0.4.5) unstable; urgency=low
+
+  * First of all, Sorry for delay.
+  * Fixed the bug that defoma-hints does not allow an alias including 't'.
+    Thanks > Dylan. (Closes: #100160)
+  * Fixed the 'Illegal devision by zero' bug.
+    Thanks > Arthur. (Closes: #100182)
+  * Install the perl module under /usr/share instead of /usr/lib.
+  * debian/control: Specify the dependency to Perl by the dh_perl variable.
+    Thanks > Brendan. (Closes: #102761)
+  * Replace HKGCCS with HKSCS.
+
+ -- Yasuhiro Take <take@debian.org>  Sat, 30 Jun 2001 21:02:50 +0900
+
+defoma (0.4.4) unstable; urgency=medium
+
+  * doc/*.sgml: Remove "dtd/debiandoc.dtd" from the top DOCTYPE tag.
+    Now it becomes buildable. Sorry for delay. (Closes: #97207)
+
+ -- Yasuhiro Take <take@debian.org>  Sat,  9 Jun 2001 00:01:27 +0900
+
+defoma (0.4.3) unstable; urgency=low
+
+  * Fixed the broken option passed to dialog. 
+    It'll fix the bug that defoma-psfont-installer exit abnormally
+    before PPD file selection menu. (Closes: #95930)
+    Thanx > Wichert.
+
+ -- Yasuhiro Take <take@debian.org>  Wed,  2 May 2001 13:24:09 +0900
+
+defoma (0.4.2) unstable; urgency=low
+
+  * libs/libhint-trurtype.pl, libs/libhint-cid.pl: do not ask X-FontName
+    anymore. XLFDs of TrueType and CID fonts are passed from x-ttcidfont-conf
+    package.
+
+ -- Yasuhiro Take <take@debian.org>  Wed,  2 May 2001 01:10:05 +0900
+
+defoma (0.4.1) unstable; urgency=low
+
+  * doc/developers.sgml: Add notes about TrueType and CID font configuration
+    for X.
+  * doc/developers.sgml: In chapter 'Application Package's HOWTO', description
+    about postinst and prerm is a bit modified.
+  * pm/Defoma/Common.pm: Add a new function: parse_hints_cut_except.
+  * man/Defoma::Common.3pm: Add a description about parse_hints_cut_except.
+  * man/Defoma::Id.3pm: Slightly modified.
+  * src/defoma: Show a brief message for defoma-app commands.
+  * debian/psfontmgr.defoma: Accept a new category: xfont.
+  * debian/psfontmgr.postinst/prerm: Follow the description of 
+    'APplication Package's HOWTO' in developers.sgml.
+  * debian/psfontmgr.preinst: Clean up font configuration when upgrade from
+    0.4.0 or before.
+
+ -- Yasuhiro Take <take@debian.org>  Tue,  1 May 2001 20:45:42 +0900
+
+defoma (0.4.0) unstable; urgency=low
+
+  * new command for defoma-subst: check-rule
+    which is originally suggested by Torsten in Bug#92929.
+    (closes: #92929)
+  * defoma-subst.1: add a description for the new command check-rule.
+
+ -- Yasuhiro Take <take@debian.org>  Fri,  6 Apr 2001 23:18:45 +0900
+
+defoma (0.3.0) unstable; urgency=low
+
+  * new command for defoma-subst: add-rule.
+  * defoma-subst.1: add a description for the new command add-rule,
+    and some examples.
+  * defoma-hints.1: add an example.
+  * defoma.1: Add a mention of deofma-hints in Hintfile paragraph.
+
+ -- Yasuhiro Take <take@debian.org>  Sat, 31 Mar 2001 10:01:06 +0900
+
+defoma (0.2.6) unstable; urgency=low
+
+  * debian/psfontmgr.config: use '.' instead of 'source' for sourcing
+    debconf confmodule. (closes: #92057)
+
+ -- Yasuhiro Take <take@debian.org>  Thu, 29 Mar 2001 22:45:45 +0900
+
+defoma (0.2.5) unstable; urgency=low
+
+  * subst-cache is removed when it stores no font.
+  * developers.sgml - Application Package's HOWTO:
+    - Modified the description about removing /var/lib/defoma/<package>.d.
+      It should be done at postrm/remove, not at postrm/purge.
+    - Add the description about creating and removing a public subst-rule.
+    - Modified the example about 'defoma-app update' command.
+  * Defoma::Subst.3pm
+    - Add the description about private and public subst-rule.
+
+ -- Yasuhiro Take <take@debian.org>  Tue, 20 Mar 2001 03:31:45 +0900
+
+defoma (0.2.4) unstable; urgency=low
+
+  * Change the package name from defoma-ps to psfontmgr.
+  * Change the command name from defoma-pspr to defoma-psfont-installer.
+  * Add manpages of Defoma modules.
+  * defoma-hints: Failed to generate hints for cid, type1 and truetype. FIXED.
+  * Defoma::Id, Defoma::Subst, Defoma::Common, Defoma::Font: 
+      Changed syntax of some functions.
+  * Add xenc-loc.data.
+  * Add documents, and install them in defoma-doc.
+  * debian/control: Add more detailed descriptions.
+  
+
+ -- Yasuhiro Take <take@debian.org>  Fri, 16 Mar 2001 22:23:16 +0900
+
+defoma (0.2.3.3) unstable; urgency=low
+
+  * Change the dependency about perl from 'perl' to 'perl | perl5' for
+    the use in potato.
+
+ -- Yasuhiro Take <take@debian.org>  Thu,  8 Mar 2001 19:39:22 +0900
+
+defoma (0.2.3.2) unstable; urgency=low
+
+  * defoma-font *-all commands return non-zero even if -t is specified. FIXED.
+
+ -- Yasuhiro Take <take@debian.org>  Thu,  8 Mar 2001 15:37:58 +0900
+
+defoma (0.2.3.1) unstable; urgency=low
+
+  * defoma.postinst, defoma-ps.postinst: force rmdir not to return error.
+
+ -- Yasuhiro Take <take@debian.org>  Wed,  7 Mar 2001 01:50:07 +0900
+
+defoma (0.2.3) unstable; urgency=low
+
+  * src/defoma: Add defoma-subst new-rule/edit-rule command.
+  * pm/Defoma.pm: Renamed to pm/Defoma/Common.pm and put under
+    /usr/lib/perl5/Debian/Defoma.
+  * pm/Defoma/SubstCache.pm: Change SubstObject->{cache_*} to 
+    SubstObject->{cache}->{} for speedup.
+  * debian/defoma-ps.defoma: accepts type1 and truetype category fonts to
+    provide x-postscript category in which consists of pairs of a PostScript 
+    font name and xfont similar to the PostScript font.
+  * Add manpages.
+  * libs/libhint-*.pl, src/defoma-hints: removed X-related hints generater.
+
+ -- Yasuhiro Take <take@debian.org>  Thu,  1 Mar 2001 23:56:50 +0900
+
+defoma (0.2.2) unstable; urgency=low
+
+  * pm/Defoma/IdCache.pm: grep(): use hash for seeking #0 and #1 items.
+  * debian/defoma-ps.postinst: Enable manual edit of defoma-ps.conf.
+  * debian/defoma-ps.config: Remove defoma-ps.conf when executed.
+  * debian/defoma.postrm: Remove /etc/defoma if possible.
+  * debian/defoma-ps.postrm: Remove backup files of defoma-ps.conf and
+    defoma-ps.hints.
+
+ -- Yasuhiro Take <take@debian.org>  Sun, 25 Feb 2001 00:30:47 +0900
+
+defoma (0.2.1) unstable; urgency=low
+
+  * Use anonymous array instead of anonymous hash.
+
+ -- Yasuhiro Take <take@debian.org>  Sun, 18 Feb 2001 12:08:16 +0900
+
+defoma (0.2.0) unstable; urgency=low
+
+  * Rewrite all codes in perl.
+  * all the backend components are unified into single program defoma.
+
+ -- Yasuhiro Take <take@debian.org>  Fri,  9 Feb 2001 09:10:38 +0900
+
+defoma (0.1.1) unstable; urgency=low
+
+  * Dirty hack for speed up.
+  * defoma-pspr registers fonts in postscript category instead of psprint.
+  * removed psprint.sh and pspreview.sh.
+  * modified defoma-ps.templates/config.
+
+ -- Yasuhiro Take <take@debian.org>  Thu,  8 Feb 2001 16:58:58 +0900
+
+defoma (0.1.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Yasuhiro Take <take@debian.org>  Sat,  2 Dec 2000 00:14:21 +0900
+
+

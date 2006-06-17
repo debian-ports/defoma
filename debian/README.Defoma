@@ -1,0 +1,48 @@
+psfontmgr accepts postscript, type1 and xfont categories.
+psfontmgr provides x-postscript categories.
+
+1. psprint, pspreview and postscript
+
+psprint and pspreview categories are obsoleted from psfontmgr 0.4.9.
+Postscript-previewer applications and Postscript-printer applications
+should now provide postscript category with an application specific tag
+is added, like <gs>/Courier-Bold.
+
+To keep backward compatibility, pspreview category is accepted. 
+psfontmgr registers fonts in this category to postscript category.
+
+2. truetype
+
+This category is obsoleted.
+psfontmgr now deals with XLFDs of truetype fonts provided by x-ttcidfont-conf
+as xfont category.
+
+3. xfont
+
+This category exists for providing x-postscript category, and is supposed
+to be provided by x-ttcidfont-conf. 
+It contains XLFDs of truetype and cid fonts with their hints including
+how they look.
+
+4. type1
+
+These categories only exist for x-postscript category.
+Fonts in these categories should have 'X-FontName' hint(s),
+which represents the XLFD of the font, if exists.
+
+Defoma-configuration script of psfontmgr will register PostScript fonts
+with '<X>/' added as prefix, to x-postscript category with the
+substitutive XLFD as the hint.
+
+You can get PostScript fonts and their substitutive XLFDs with
+following perl codes.
+
+@psfonts = defoma_font_get_fonts('x-postscript');
+foreach $psfont (@psfonts) {
+  my @hints = defoma_font_get_hints('x-postscript', $psfont);
+  
+  $xfont = $hints[0];
+  $psfont =~ s/^\<X\>\///;
+  ...
+}
+

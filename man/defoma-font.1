@@ -1,0 +1,138 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH defoma-font 1 "March  4, 2001"
+.SH NAME
+defoma-font \- register/unregister font(s) to Debian Font Manager
+.SH SYNOPSIS
+.B defoma-font
+.RI [ options ] 
+.B register
+.I category font hints...
+.br
+.B defoma-font
+.RI [ options ] 
+.B unregister
+.I category font
+.br
+.B defoma-font
+.RI [ options ] 
+.B reregister
+.I category font hints...
+.br
+.B defoma-font
+.RI [ options ] 
+.B purge
+.I category font
+.br
+.B defoma-font
+.RI [ options ] 
+.B register-all
+.I hintfile
+.br
+.B defoma-font
+.RI [ options ] 
+.B unregister-all
+.I hintfile
+.br
+.B defoma-font
+.RI [ options ] 
+.B reregister-all
+.I hintfile
+.br
+.B defoma-font
+.RI [ options ] 
+.B purge-all
+.I hintfile
+.SH DESCRIPTION
+.B defoma-font
+is a tool to register or unregister font(s) to Defoma, Debian
+Font Manager. Defoma then calls Defoma-configuration-scripts provided
+by applications to make the font(s) configured for the applications
+which can make use of them. It is supposed to be called from postinst 
+and prerm scripts, but may be called from console for not-packaged 
+addon fonts.
+.PP
+There are two methods of registering/unregistering font(s): by 
+specifying one font with its hints, or through a
+.I hintfile
+, which describes several fonts with their hints.
+Font packages may possibly use the latter method, installing a
+.I hintfile
+under /etc/defoma/hints as conffile.
+The latter method has '-all' added in the commands.
+.PP
+.I category
+specifies the category of a font like type1, truetype and so on.
+.I font
+specifies the font itself and is either a full path to the font, or
+a logical font name.
+.I hints
+specify the hints of the font, which contain essential information
+of the font like FontName, Charset and Encoding, appearance
+information of the font representing its face like Weight, Shape,
+GeneralFamily and Width, and additional informaiton of the font
+like Alias and Priority.
+.SH COMMANDS
+.TP
+.B register
+Register the specified
+.I font
+with the specified
+.I hints
+into the specified
+.I category
+unless the font is already registered.
+.TP
+.B unregister
+Unregister the specified
+.I font
+which must be already registered in the specified
+.IR category .
+If the font is marked as use or exclude in an Id cache of a certain
+application, the marks are left intact.
+.TP
+.B reregister
+If the specified
+.I font
+is already registered, the registered hints and the specified
+.I hints
+are compared. If these hints differs, the font first gets unregistered
+and then newly registered with the specified new hints.
+If the font is not registered, following process is the same as
+.B register
+command.
+.TP
+.B purge
+This command is almost the same as
+.B unregister
+command, except that this command removes the marks in an Id cache.
+.TP
+.B register-all
+.TP
+.B unregister-all
+.TP
+.B reregister-all
+.TP
+.B purge-all
+These commands operate all the fonts written in the specified
+.IR hintfile .
+.SH OPTIONS
+.TP
+.B \-t
+Exit with true value (0) even if error occurs.
+.TP
+.B \-v
+Verbose output.
+.TP
+.B \-d
+More verbose output.
+.TP
+.B \-q
+Quiet output.
+.SH EXAMPLES
+.nf
+defoma-font -vt register type1 /usr/share/fonts/type1/foo.pfa \\
+  --FontName Helvetica --Charset ISO8859-1 --Weight Medium \\
+  --Shape Upright NoSerif --GeneralFamily SansSerif
+defoma-font reregister-all /etc/defoma/hints/microsoft.hints
+.SH SEE ALSO
+.BR defoma (1).

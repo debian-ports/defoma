@@ -1,0 +1,9 @@
+Document: defoma-version-dependency
+Title: Guide to Defoma Versioned Dependencies
+Author: Yasuhiro Take
+Abstract: This document lists newly added functions and newly added
+ commands that need version dependency to defoma.
+Section: Debian
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/version-dependency.txt

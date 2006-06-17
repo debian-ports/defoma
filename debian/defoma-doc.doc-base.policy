@@ -1,0 +1,8 @@
+Document: defoma-policy
+Title: Draft Defoma Policy
+Author: Yasuhiro Take
+Abstract: Draft Defoma policy covering expected Defoma script behaviour.
+Section: Debian
+
+Format: Text
+Files: /usr/share/doc/defoma-doc/defoma-policy.txt

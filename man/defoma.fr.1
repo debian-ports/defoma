@@ -1,0 +1,192 @@
+.\"Traduction Mercredi 7 novembre 2002 par Antoine Gémis
+.\"(agemis@netuup.com)
+.\"(defoma 0.11.1) 
+.TH defoma 1 "4 mars 2001"
+.SH NOM
+defoma \- gestionnaire de polices Debian, outil de configuration automatique 
+des polices.
+.SH SYNOPSIS
+.B defoma-font
+.RI [ options ] 
+.I commande arguments
+.br
+.B defoma-app
+.RI [ options ]
+.I commande arguments
+.br
+.B defoma-subst
+.RI [ options ]
+.I commande arguments
+.SH DESCRIPTION
+Defoma signifie « Debian Font Manager ». C'est l'outil de configuration
+des polices de Debian. Cette page est une introduction à Defoma. 
+Reportez-vous aux pages de manuel de defoma-font, defoma-app 
+ou defoma-subst pour plus d'information sur chaque commande. 
+.PP
+Bien que les polices soient en général partagées par plusieurs applications, 
+il n'y a pas d'outil permettant de configurer les polices
+pour chaque application, par exemple, pour les applications
+de haut niveau comme les traitements de texte et les programmes
+de dessin vectoriel.
+Defoma propose une solution à ce problème. Quand une police est installée
+ou retirée, Defoma met à jour la configuration 
+des polices pour chaque application via un script propre à chaque
+application.
+.PP
+Le
+.B script de configuration Defoma
+est un script perl que l'application devrait installer sous le nom
+.nh
+.IR nom-application.defoma
+dans 
+.RI /usr/share/defoma/scripts
+.hy
+, il prend en charge la configuration d'une police pour une application.
+Voici un exemple de script, il s'agit de
+.nh
+foo.defoma.
+.hy
+.nf
+
+@ACCEPT_CATEGORIES = qw(type1 truetype);
+
+package foo;
+
+sub type1 {
+  my $com = shift;
+  ...
+}
+
+sub truetype {
+  my $com = shift;
+  ...
+}
+
+1;
+
+.fi
+Cet exemple est le script qui configure les polices 
+.I truetype 
+et 
+.I type1 
+de l'application
+.IR foo .
+Les fonctions portent le nom du type de police, elles sont appelées
+par Defoma qui leur passe une commande et des arguments.
+Voici la liste des commandes\ :
+
+.nf
+* register
+* unregister
+* do-install-real do-install-alias do-install-subst
+* do-remove-real do-remove-alias do-remove-subst
+* init
+* term
+* purge
+.fi
+
+Les commandes
+.IR "do-install-* " et " do-remove-*"
+sont appelées par la
+.B base de référence (id cache)
+et ne sont pas utilisées en pratique, à moins que le script n'y fasse
+explicitement appel.
+.IR init " et " term
+sont appelées, respectivement, avant le début de l'inscription et après
+la fin de la désinscription.
+.PP
+La
+.B base de référence
+est une autre caractéristique de Defoma.
+La configuration automatique soulève le problème  des conflits
+d'espaces de noms. D'habitude, les applications appellent les
+polices par leur nom logique (les noms 
+de polices XLFD et Postscript) plutôt que par leur nom propre
+(le nom du fichier de police). Les noms logiques, appelés identifiants
+par Defoma, peuvent rapidement entrer en conflit, surtout si
+l'utilisation des alias est autorisée. 
+Le fonctionnement de la base de référence permet de faire correspondre à
+un identifiant une seule police installée,
+même si plusieurs polices ont le même identifiant.
+.PP
+La
+.B substitution d'identifiant
+est une caractéristique supplémentaire de la
+.BR base\ de\ référence .
+
+
+Elle permet à une police donnée de fournir un identifiant donné spécifié
+dans un fichier de règle. Un fichier de règle décrit les règles,
+c'est-à-dire les identifiants devant
+être substitués (autrement dit, requis) et les indications qui leur
+sont
+associées. Les règles permettent, dans le cas d'un identifiant requis,
+d'avoir des polices plus ressemblantes avec la même substitution, pour 
+un identifiant requis. Cette fonctionnalité peut également être utilisée
+pour créer des correspondances entre polices de différentes catégories.
+.PP
+.B category
+est le type d'une police. La configuration de polices de même type
+est souvent similaire, ceci permet donc de regrouper les configurations
+semblables dans le script.
+.PP Les
+.B indications (hints)
+regroupent les caractéristiques principales de la police, représentées 
+par une liste de types d'indication avec leur valeurs associées.
+Elles peuvent être spécifiées sur la ligne de commande de defoma-font
+ou dans un 
+.BR fichier\ d'indications\ (hintfile) .
+.PP
+Le
+.B fichier d'indications
+est un fichier contenant plusieurs indications, pour une ou plusieurs
+polices. Comme il est placé dans
+.nh
+/etc/defoma/hints
+.hy
+, les utilisateurs peuvent modifier eux-mêmes les indications.
+.B defoma-hints
+est l'outil qui fabrique les fichiers d'indications, vous
+n'avez donc pas à écrire ces fichiers à la main.
+Voici une exemple de fichier d'indications\ :
+
+.nf
+category type1
+begin /usr/share/fonts/type1/foo.pfa
+  FontName = Helvetica
+  Charset = ISO8859-1
+  Family = Helvetica
+  Weight = Medium
+  Shape = Upright NoSerif
+  GeneralFamily = SansSerif
+  X-FontName = -urw-helvetica-medium-r-noraml--0-0-0-0-p-iso8859-1
+end
+begin /usr/share/fonts/type1/foob.pfa
+  FontName = Helvetica-Bold
+  Charset = ISO8859-1
+  Family = Helvetica
+  Weight = Bold
+  Shape = Upright NoSerif
+  GeneralFamily = SansSerif
+  X-FontName = -urw-helvetica-bold-r-noraml--0-0-0-0-p-iso8859-1
+end
+.fi
+
+.SH VOIR AUSSI
+.BR defoma-font (1).
+.BR defoma-app (1).
+.BR defoma-subst (1).
+.BR defoma-hints (1).
+.BR defoma-psfont-installer (1).
+.BR defoma-reconfigure (1).
+.BR Defoma::Font (3pm).
+.BR Defoma::Id (3pm).
+.BR Defoma::Subst (3pm).
+.BR Defoma::Common (3pm).
+.nh
+/usr/share/doc/defoma-doc/developers.html/index.html
+.br
+/usr/share/doc/defoma-doc/defoma-script.html/index.html
+.hy
+.SH TRADUCTION
+Antoine Gémis <agemis@netuup.com>.

@@ -1,0 +1,454 @@
+@ACCEPT_CATEGORIES = qw(type1 xfont pspreview postscript);
+
+package psfontmgr;
+use strict;
+use POSIX;
+use Debian::Defoma::Common;
+use Debian::Defoma::Font;
+use Debian::Defoma::Id;
+use Debian::Defoma::Subst;
+import Debian::Defoma::Common;
+import Debian::Defoma::Font;
+import Debian::Defoma::Id;
+import Debian::Defoma::Subst;
+
+use vars qw($ROOTDIR $DEFOMA_TEST_DIR);
+
+my $pkgdir = "$ROOTDIR/psfontmgr.d";
+my $hintfile = "$pkgdir/ps-hints.private-cache";
+my $configfile = "$DEFOMA_TEST_DIR/etc/defoma/config/psfontmgr.conf";
+my $xenccsetfile = "$DEFOMA_TEST_DIR/etc/defoma/xenc-cset.data";
+my @X2C = ();
+
+my ($Id, $IdPS, $IdX, $Sb);
+
+sub read_xenc_cset_file {
+    my $i;
+    my @l;
+    if (open(F, $xenccsetfile)) {
+	while (<F>) {
+	    next if ($_ =~ /^\#/);
+	    chomp($_);
+
+	    @l = split(' ', $_);
+	    if (@l >= 2) {
+		$l[0] =~ s/\./\\./g;
+		$l[0] =~ s/\*/\.*/g;
+		$l[0] =~ s/\?/\./g;
+
+		push(@X2C, $l[0], $l[1]);
+	    }
+	}
+	close F;
+    }
+}
+
+sub init {
+    unless ($Id) {
+	$Id = defoma_id_open_cache();
+    }
+    unless($IdPS) {
+	$IdPS = defoma_id_open_cache('PS');
+    }
+    unless($IdX) {
+	$IdX = defoma_id_open_cache('X');
+    }
+    unless($Sb) {
+	$Sb = defoma_subst_open(rulename => 'xps', threshold => 70,
+				idobject => $IdX, private => 1);
+    }
+    if (@X2C == 0) {
+	read_xenc_cset_file();
+    }
+	
+    return 0;
+}
+
+sub term {
+    if ($Sb) {
+	defoma_subst_close($Sb);
+	$Sb = 0;
+    }
+    if ($IdX) {
+	defoma_id_close_cache($IdX);
+	$IdX = 0;
+    }
+    if ($IdPS) {
+	my @list = defoma_id_get_font($IdPS, 'installed');
+
+	if (open(F, '>' . $hintfile)) {
+	    foreach my $i (@list) {
+		print F $IdPS->{0}->[$i], ' ', $IdPS->{7}->[$i], "\n";
+	    }
+	    close F;
+	}
+
+	defoma_id_close_cache($IdPS);
+	$IdPS = 0;
+    }
+    if ($Id) {
+	defoma_id_close_cache($Id);
+	$Id = 0;
+    }
+
+    return 0;
+}
+
+###
+
+sub postscript_register {
+    my $font = shift;
+    $font =~ /([^\/]+)\/([^\/]+)/;
+    my $fontname = $2;
+
+    defoma_id_register($IdPS, type => 'real', font => $font, id => $fontname,
+		       priority => 0, hints => join(' ', @_));
+    
+    return 0;
+}
+
+sub postscript_unregister {
+    my $font = shift;
+    
+    defoma_id_unregister($IdPS, type => 'real', font => $font);
+
+    return 0;
+}
+
+sub postscript_install {
+    my $font = shift;
+    my $id = shift;
+    shift;
+    shift;
+    
+    my $cset = 0;
+    my $csetflag = 0;
+    my $specific = 0;
+    my $i;
+    my $on = 0;
+    my @rule = ();
+
+    foreach $i (@_) {
+	if ($i eq '--Charset') {
+	    $i = '--Charset,*';
+	    $cset = $csetflag = 1;
+	    $on = 1;
+	} elsif ($cset) {
+	    $cset = 0;
+	    $specific = 1 if ($i eq 'font-specific');
+	    push(@rule, $i);
+	    $on = 0;
+	} elsif ($i eq '--GeneralFamily') {
+	    $on = 1;
+	    $i = '--GeneralFamily,2';
+	} elsif ($i =~ /^--(.+)/) {
+	    if ($1 =~ /^(Family|Weight|Shape|Width)$/) {
+		$on = 1;
+	    } else {
+		$on = 0;
+	    }
+	}
+
+	if ($on) {
+	    push(@rule, $i);
+	}
+    }
+
+    return 0 unless ($csetflag);
+
+    if ($specific) {
+	foreach $i (@rule) {
+	    if ($i eq '--Family' && $specific) {
+		$i = '--Family,*';
+		$specific = 0;
+	    }
+	}
+	return 0 if ($specific);
+    }
+    
+    defoma_subst_add_rule($Sb, $id, @rule);
+    return 0;
+}
+
+sub postscript_remove {
+    my $font = shift;
+    my $id = shift;
+    
+    defoma_subst_remove_rule($Sb, $id);
+    return 0;
+}
+
+sub postscript {
+    my $com = shift;
+
+    if ($com eq 'register') {
+	return postscript_register(@_);
+    } elsif ($com eq 'unregister') {
+	return postscript_unregister(@_);
+    } elsif ($com eq 'do-install-real') {
+	return postscript_install(@_);
+    } elsif ($com eq 'do-remove-real') {
+	return postscript_remove(@_);
+    } elsif ($com eq 'init') {
+	return init();
+    } elsif ($com eq 'term') {
+	return term();
+    }
+
+    return 0;
+}
+
+sub pspreview {
+    my $com = shift;
+    my $font = shift;
+
+    if ($com eq 'register') {
+	defoma_font_register('postscript', '_' . $font, @_);
+	return 0;
+    } elsif ($com eq 'unregister') {
+	if (defoma_font_if_register('postscript', '_' . $font)) {
+	    defoma_font_unregister('postscript', '_' . $font);
+	}
+	return 0;
+    } elsif ($com eq 'init') {
+	return init();
+    } elsif ($com eq 'term') {
+	return term();
+    }
+
+    return 0;
+}
+
+###
+
+sub get_charset {
+    my $xfont = shift;
+    my $i;
+    
+    $xfont =~ /([^-]+-[^-]+)$/;
+    my $xenc = $1;
+    
+    for ($i = 0; $i < @X2C; $i += 2) {
+	return $X2C[$i + 1] if ($xenc =~ /^($X2C[$i])$/);
+    }
+
+    return '';
+}
+
+sub t1_register {
+    my $font = shift;
+    my $h = parse_hints_start(@_);
+
+    return 1 unless (exists($h->{'X-FontName'}));
+
+    my @xfonts = split(' ', $h->{'X-FontName'});
+
+    my $priority = $h->{Priority} || 0;
+    my $charset = $h->{Charset};
+    my $fontname0 = $h->{FontName};
+    $fontname0 =~ s/ .*//g;
+    my @alias0 = split(' ', $h->{Alias}) if ($h->{Alias});
+
+    parse_hints_cut_except($h, 'GeneralFamily', 'Family', 'Weight', 'Shape',
+			   'Width');
+    my @hints = parse_hints_build($h);
+
+    foreach my $xfont (@xfonts) {
+	my $xlfd;
+	my $fontname;
+	my @alias;
+	if ($xfont =~ /^([^/]+)\/(.*)/) {
+	    $xlfd = $2;
+	    @alias = split(/,/, $1);
+	    $fontname = shift(@alias);
+	} else {
+	    $xlfd = $xfont;
+	    $fontname = $fontname0;
+	    @alias = @alias0;
+	}
+	
+	my @add = ();
+
+	my $cset = get_charset($xlfd);
+	if ($cset) {
+	    @add = ('--Charset', $cset);
+	} else {
+	    @add = ('--Charset', $charset);
+	}
+
+	defoma_id_register($IdX, type => 'real', font => $xlfd,
+			   id => $fontname, priority => $priority,
+			   depend =>
+			   hints => join(' ', @hints, @add));
+
+	foreach my $a (@alias) {
+	    defoma_id_register($IdX, type => 'alias', font => $xlfd,
+			       id => $a, priority => $priority,
+			       origin => $fontname);
+	}
+	
+	defoma_subst_register($Sb, $xlfd, $fontname);
+    }
+
+    return 0;
+}
+
+sub t1_unregister {
+    my $font = shift;
+    my $h = parse_hints_start(@_);
+
+    return 0 unless (exists($h->{'X-FontName'}));
+
+    my @xfonts = split(' ', $h->{'X-FontName'});
+    
+    my $priority = $h->{Priority} || 0;
+    my $charset = $h->{Charset};
+    my $fontname0 = $h->{FontName};
+    $fontname0 =~ s/ .*//g;
+    my @alias0 = split(' ', $h->{Alias}) if ($h->{Alias});
+
+    foreach my $xfont (@xfonts) {
+	my $xlfd;
+	my $fontname;
+	my @alias;
+	if ($xfont =~ /^([^/]+)\/(.*)/) {
+	    $xlfd = $2;
+	    @alias = split(/,/, $1);
+	    $fontname = shift(@alias);
+	} else {
+	    $xlfd = $xfont;
+	    $fontname = $fontname0;
+	    @alias = @alias0;
+	}
+	
+	defoma_subst_unregister($Sb, $xlfd, $fontname);
+
+	foreach my $a (@alias) {
+	    defoma_id_register($IdX, type => 'alias', font => $xlfd, id => $a);
+	}
+	
+	defoma_id_register($IdX, type => 'real', font => $xlfd,
+			   id => $fontname);
+
+    }
+
+    return 0;
+}
+
+sub x_install {
+    my $font = shift;
+    my $id = shift;
+
+    
+
+    my @l = defoma_id_get_font($IdPS, 'installed', f0 => $id);
+    my @hints = split(' ', $IdPS->{7}->[$l[0]]);
+
+    defoma_font_register('x-postscript', '<X>/'.$id, $depid, @hints);
+}
+
+sub x_remove {
+    my $font = shift;
+    my $id = shift;
+    my $depfont = shift;
+    my $depid = shift;
+
+    defoma_font_unregister('x-postscript', '<X>/'.$id, $depid);
+}
+
+sub x_main {
+    my $com = shift;
+
+    if ($com eq 'register') {
+	return x_register(@_);
+    } elsif ($com eq 'unregister') {
+	return x_unregister(@_);
+    } elsif ($com eq 'init') {
+	return init();
+    } elsif ($com eq 'term') {
+	return term();
+    }
+
+    return 0;
+}
+
+sub type1 {
+    return x_main(@_);
+}
+
+###
+
+sub xfont_register {
+    my $font = shift;
+    my $h = parse_hints_start(@_);
+
+    my $fontname = $h->{FontName};
+    my $priority = $h->{Priority} || 0;
+
+    if ($fontname) {
+	my @alias = split(' ', $h->{Alias}) if ($h->{Alias});
+	my @hints = parse_hints_build($h);
+	
+	defoma_id_register($Id, type => 'real', font => $font, id => $fontname,
+			   priority = $priority,
+			   hints => join(' ', 'default', @hints));
+
+	foreach my $a (@alias) {
+	    defoma_id_register ($Id, type => 'alias', font => $font, id => $a,
+				priority => $priority, origin => $fontname);
+	}
+    } else {
+	parse_hints_cut_except($h, 'GeneralFamily', 'Family', 'Weight',
+			       'Shape', 'Width', 'Charset');
+	
+	my @hints = parse_hints_build($h);
+
+	defoma_id_register($IdX, type => 'real', font => $font, id => $font,
+			   priority => $priority, hints => join(' ', @hints));
+	defoma_subst_register($Sb, $font, $font);
+    }
+
+    return 0;
+}
+
+sub xfont_unregister {
+    my $font = shift;
+    my $h = parse_hints_start(@_);
+
+    my $fontname = $h->{FontName};
+
+    if ($fontname) {
+	defoma_id_unregister($Id, type => 'alias', font => $font);
+	defoma_id_unregister($Id, type => 'real', font => $font);
+    } else {
+	defoma_subst_unregister($Sb, $font);
+	defoma_id_unregister($IdX, type => 'real', font => $font);
+    }
+
+    return 0;
+}
+
+sub xfont {
+    my $com = shift;
+
+    if ($com eq 'register') {
+	return xfont_register(@_);
+    } elsif ($com eq 'unregister') {
+	return xfont_unregister(@_);
+    } elsif ($com eq 'do-install-subst') {
+	return x_subst_install(@_);
+    } elsif ($com eq 'do-remove-subst') {
+	return x_subst_remove(@_);
+    } elsif ($com eq 'init') {
+	return init();
+    } elsif ($com eq 'term') {
+	return term();
+    }
+
+    return 0;
+}
+
+
+
+
+1;

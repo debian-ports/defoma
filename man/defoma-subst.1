@@ -1,0 +1,125 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.TH defoma-subst 1 "March  4, 2001"
+.SH NAME
+defoma-subst \- Modify a rulefile of Defoma font substitution system.
+.SH SYNOPSIS
+.B defoma-subst
+.RI [ options ] 
+.B new-rule
+.I rulename [additional-lines...]
+.br
+.B defoma-subst
+.RI [ options ]
+.B edit-rule
+.I rulename
+.br
+.B defoma-subst
+.RI [ options ]
+.B add-rule
+.I rulename rules...
+.br
+.B defoma-subst
+.RI [ options ]
+.B remove-rule
+.I rulename rules...
+.br
+.B defoma-subst
+.B check-rule
+.I rulename
+.SH DESCRIPTION
+.B defoma-subst
+is a tool to create/edit a rulefile of Defoma font substitution system.
+This system makes a certain font provide an user-specified id. Rulefile
+exists in order not only to specify such ids but also to have more similar 
+fonts containing same characters substitute for the id.
+.PP
+Following is the form of rulefile.
+
+.nf
+# comment..
+# comment..
+Helvetica --GeneralFamily SansSerif --Shape NoSerif \\
+  Upright --Weight Medium --Charset,* ISO8859-1
+Helvetica-Bold --GeneralFamily SansSerif --Shape NoSerif \\
+  Upright --Weight Medium --Charset,* ISO8859-1
+.fi
+
+In this example Helvetica and Helvetica-Bold are need-to-be-substituted
+ids, and following hints represent information of these two fonts.
+The asterisk added to Charset hinttype with comma means Charset is
+required to match.
+.PP
+SH COMMANDS
+.TP
+.B new-rule
+Create a new rulefile
+.nh
+.IR rulename .subst-rule
+.hy
+under
+.nh
+/etc/defoma.
+.hy
+.I additional-lines
+are added to the file as comments or default rules. Quote each rule or
+comment with single or double quotations.
+.TP
+.B edit-rule
+Edit the rulefile specified by
+.IR rulename .
+After editting, modification is reflected to the related Id cache. In
+other words, new ids would be added provided by substitutive fonts to
+the Id cache if a rule is added, and registered ids would be removed
+from the Id cache if a rule is removed.
+.TP
+.B add-rule
+Add one or more rules specified by
+.I rules
+to the specified
+.IR rulename .
+Quote each rule with single or double quotations.
+.TP
+.B remove-rule
+Remove one or more rules specified by
+.I rules
+from the specified
+.IR rulename .
+Quote each rule with single or double quotations.
+.TP
+.B check-rule
+Check if the rulefile specified by
+.I rulename
+exists. It returns zero when the rulefile exists, and non-zero (actually
+one) when the rulefile doesn't exist.
+.SH OPTIONS
+.TP
+.B \-t
+Exit with true value (0) even if error occurs.
+.TP
+.B \-v
+Verbose output.
+.TP
+.B \-d
+More verbose output.
+.TP
+.B \-q
+Quiet output.
+.SH EXAMPLES
+1. Create foo.subst-rule with some comments and default rules.
+
+.nf
+defoma-subst new-rule foo '# This is a comment. ' \\
+  '# Run defoma-subst edit-rule foo to edit this file.' \\
+  'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \\
+  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208'
+.fi
+
+2. Add some rules to foo.subst-rule.
+
+.nf
+defoma-subst add-rule foo \\
+  'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \\
+  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208' \\
+  
+.SH SEE ALSO
+.BR defoma (1).

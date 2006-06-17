@@ -1,0 +1,153 @@
+.TH Defoma::Font 1 "March  4, 2001"
+.SH NAME
+Defoma::Font \- Defoma module to handle font and font\-cache.
+.SH SYNOPSIS
+.nh
+use Defoma::Font;
+
+defoma_font_register(
+.IR category ,
+.IR font ,
+.IR hints...
+);
+
+defoma_font_unregister(
+.IR category ,
+.IR font
+);
+
+defoma_font_reregister(
+.IR category ,
+.IR font ,
+.IR hints...
+);
+
+defoma_font_if_register(
+.IR category ,
+.IR font
+);
+
+@fonts = defoma_font_get_fonts(
+.IR category
+);
+
+@hints = defoma_font_get_hints(
+.IR category ,
+.IR font
+);
+
+%failedapps = defoma_font_get_failed (
+.IR category ,
+.IR font
+);
+
+.hy
+.SH DESCRIPTION
+Defoma::Font is a Defoma module to handle registration/unregistration
+of fonts and font-caches. It provides functions listed above which are 
+supposed to be called from Defoma\-configuration scripts when the scripts 
+want to register/unregister a font, and need to retrieve the data recorded 
+in a font\-cache, which holds fonts and their hints.
+.PP
+.B defoma_font_register
+is a function used to register a specified
+.I font
+into a specified
+.I category
+with specified 
+.IR hints .
+If the specified font is already registered,
+it returns non-zero. Otherwise the font and the hints are registered into the
+font\-cache of the specified category, and further Defoma-configuration 
+scripts get called which accept the specified category with register 
+command.
+.PP
+.B defoma_font_unregister
+is a function used to unregister a specified
+.I font
+from a specified
+.IR category .
+If the font is not registered in the category, it returns non-zero.
+Otherwise further Defoma-configuration scripts get called which accept
+the specified category with unregister command, and the font and the
+hints are removed from the font\-cache of the category.
+.PP
+.B defoma_font_reregister
+is a function which actually calls 
+.I defoma_font_unregister
+and
+.I defoma_font_register
+in order. If a specified
+.I font
+if not registered in a specified
+.IR category ,
+unregisteration is skipped. If the font is already registered in another
+category, it returns non-zero.
+.PP
+.B defoma_font_if_register
+if a function that checks if a specified
+.I font
+is registered in a specified
+.IR category .
+If the font is registered, it returns non-zero. Otherwise it returns zero.
+.PP
+.B defoma_font_get_fonts
+is a function used to obtain a list of fonts reigstered in the
+specified
+.IR category .
+It returns a list of fonts in an array.
+(font1 font2 font3 ...)
+.PP
+.B defoma_font_get_hints
+is a function used to obtain hints of the specified
+.I font
+registered in the specified
+.IR category .
+It returns a list of hints in an array.
+.PP
+.B defoma_font_get_failed
+is a function used to obtain applications for which Defoma failed to 
+configure the specified
+.IR font .
+It returns a hash whose keys are applications and whose values are
+error status.
+.SH EXAMPLES
+1. Register 'Helvetica-Bold' in postscript category with hints.
+
+.nf
+$font = 'Helvetica-Bold';
+@hints = ('--Family', 'Helvetica', '--Weight', 'Bold',
+          '--Charset', 'ISO8859-1);
+
+defoma_font_register('postscript', $font, @hints);
+.fi
+
+2. Unregister 'foo.pfa' from type1 category.
+
+.nf
+$font = '/usr/share/fonts/foo.pfa';
+
+defoma_font_unregister('type1', $font);
+.fi
+
+3. Unregister 'foo.pfa' from type1 category if registered.
+
+.nf
+$font = '/usr/share/fonts/foo.pfa';
+
+if (defoma_font_if_register('type1', $font)) {
+  defoma_font_unregister('type1', $font);
+}
+.fi
+
+4. Get a list of fonts and their hints.
+
+.nf
+%hash = ();
+@fonts = defoma_font_get_fonts('x-postscript');
+foreach $font (@fonts) {
+  $hash{$font} = [];
+  @{$hash{$font}} = defoma_font_get_hints('x-postscript', $font);
+}
+.fi
+

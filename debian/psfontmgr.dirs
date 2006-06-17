@@ -1,0 +1,6 @@
+usr/bin
+usr/share/defoma
+usr/share/defoma/scripts
+etc/defoma/hints
+var/lib/defoma/psfontmgr.d
+usr/share/man/man1

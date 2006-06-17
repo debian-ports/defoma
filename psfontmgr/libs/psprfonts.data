@@ -1,0 +1,42 @@
+Courier Standard Standard --Family Courier --GeneralFamily Typewriter --Weight Medium --Width Fixed --Shape Serif Upright --Direction Horizontal
+Courier-Bold Standard Standard --Family Courier --GeneralFamily Typewriter --Weight Bold --Width Fixed --Shape Serif Upright --Direction Horizontal
+Courier-Oblique Standard Standard  --Family Courier --GeneralFamily Typewriter --Weight Medium --Width Fixed --Shape Oblique Serif --Direction Horizontal
+Courier-BoldOblique Standard Standard  --Family Courier --GeneralFamily Typewriter --Weight Bold --Width Fixed --Shape Oblique Serif --Direction Horizontal
+Times-Roman Standard Standard --Family Times --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Upright --Direction Horizontal
+Times-Italic Standard Standard --Family Times --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Times-Bold Standard Standard --Family Times --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Upright --Direction Horizontal
+Times-BoldItalic Standard Standard --Family Times --GeneralFamily Roman --Weight Bold --Width Variable --Shape Oblique Italic --Direction Horizontal
+Helvetica Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Medium --Width Variable --Shape NoSerif Upright --Direction Horizontal
+Helvetica-Oblique Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Medium --Width Variable --Shape NoSerif Oblique --Direction Horizontal
+Helvetica-Bold Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Bold --Widgh --Width --Shape NoSerif Upright --Direction Horizontal
+Helvetica-BoldOblique Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Bold --Width Variable --Shape NoSerif Oblique --Direction Horizontal
+Symbol Special Special --Family Symbol --GeneralFamily Symbol --Direction Horizontal
+ZapfDingbats Special Special --Family ZapfDingbats --GeneralFamily Symbol --Direction Horizontal
+Helvetica-Narrow Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Medium --Width Variable --Shape NoSerif Upright Condensed --Direction Horizontal
+Helvetica-Narrow-Oblique Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Medium --Width Variable --Shape Condensed NoSerif Oblique --Direction Horizontal
+Helvetica-Narrow-Bold Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Bold --Widgh --Width --Shape Condensed NoSerif Upright --Direction Horizontal
+Helvetica-Narrow-BoldOblique Standard Standard --Family Helvetica --GeneralFamily SansSerif --Weight Bold --Width Variable --Shape Condensed NoSerif Oblique --Direction Horizontal
+Bookman-Demi Standard Standard --Family Bookman --GeneralFamily Roman --Weight Demibold --Width Variable --Shape Serif Upright --Direction Horizontal
+Bookman-DemiItalic Standard Standard --Family Bookman --GeneralFamily Roman --Weight Demibold --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Bookman-Light Standard Standard --Family Bookman --GeneralFamily Roman --Weight Light --Width Variable --Shape Serif Upright --Direction Horizontal
+Bookman-LightItalic Standard Standard --Family Bookman --GeneralFamily Roman --Weight Light --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+AvantGarde-Book Standard Standard --Family AvantGarde --GeneralFamily SansSerif --Weight Book Medium --Width Variable --Shape NoSerif Upright --Direction Horizontal
+AvantGarde-BookOblique Standard Standard --Family AvantGarde --GeneralFamily SansSerif --Weight Book Medium --Width Variable --Shape NoSerif Oblique --Direction Horizontal
+AvantGarde-Demi Standard Standard --Family AvantGarde --GeneralFamily SansSerif --Weight Demibold --Width Variable --Shape NoSerif Upright --Direction Horizontal
+AvantGarde-DemiOblique Standard Standard --Family AvantGarde --GeneralFamily SansSerif --Weight Demibold --Width Variable --Shape NoSerif Oblique --Direction Horizontal
+Palatino-Roman Standard Standard --Family Palatino --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Upright --Direction Horizontal
+Palatino-Italic Standard Standard --Family Palatino --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Palatino-Bold Standard Standard --Family Palatino --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Upright --Direction Horizontal
+Palatino-BoldItalic Standard Standard --Family Palatino --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+NewCenturySchlbk-Roman Standard Standard --Family NewCenturySchlbk --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Upright --Direction Horizontal
+NewCenturySchlbk-Italic Standard Standard --Family NewCenturySchlbk --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+NewCenturySchlbk-Bold Standard Standard --Family NewCenturySchlbk --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Upright --Direction Horizontal
+NewCenturySchlbk-BoldItalic Standard Standard --Family NewCenturySchlbk --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Charter-Roman Standard Standard --Family Charter --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Upright --Direction Horizontal
+Charter-Italic Standard Standard --Family Charter --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Charter-Roman Standard Standard --Family Charter --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Upright --Direction Horizontal
+Charter-BoldItalic Standard Standard --Family Charter --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Utopia-Regular Standard Standard --Family Utopia --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Upright --Direction Horizontal
+Utopia-Italic Standard Standard --Family Utopia --GeneralFamily Roman --Weight Medium --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
+Utopia-Bold Standard Standard --Family Utopia --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Upright --Direction Horizontal
+Utopia-BoldItalic Standard Standard --Family Utopia --GeneralFamily Roman --Weight Bold --Width Variable --Shape Serif Oblique Italic --Direction Horizontal
