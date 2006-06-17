@@ -12,8 +12,8 @@ Format: DebianDoc-SGML
 Files: /usr/share/doc/defoma-doc/developers.sgml.gz
 
 Format: HTML
-Index: /usr/share/doc/defoma-doc/developers.html
-Files: /usr/share/doc/defoma-doc/developers.html
+Index: /usr/share/doc/defoma-doc/developers.html/index.html
+Files: /usr/share/doc/defoma-doc/developers.html/*
 
 Format: Text
 Files: /usr/share/doc/defoma-doc/developers.txt.gz

@@ -8,8 +8,8 @@ Format: DebianDoc-SGML
 Files: /usr/share/doc/defoma-doc/defoma-script.sgml.gz
 
 Format: HTML
-Index: /usr/share/doc/defoma-doc/defoma-script.html
-Files: /usr/share/doc/defoma-doc/defoma-script.html
+Index: /usr/share/doc/defoma-doc/defoma-script.html/index.html
+Files: /usr/share/doc/defoma-doc/defoma-script.html/*
 
 Format: Text
 Files: /usr/share/doc/defoma-doc/defoma-script.txt.gz
