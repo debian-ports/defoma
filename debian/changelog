@@ -19,6 +19,8 @@ defoma (0.11.9) unstable; urgency=low
   * Adjust debhelper files to only run defoma commands if they exist.
     This should allow packages to downgrade dependencies on defoma safely.
     Closes: #300278
+  * Bug fix: "Hints generator default width initializer checks wrong
+    variable", thanks to Tyson Whitehead (Closes: #368609).
 
  --
 

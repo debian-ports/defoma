@@ -255,7 +255,7 @@ sub input_shape {
 	$serif = $dlist[$i] if ($dlist[$i] =~ /^(Serif|NoSerif)$/);
     }
 
-    $width = 'Normal' if ($serif eq '');
+    $width = 'Normal' if ($width eq '');
     $slant = 'Upright' if ($slant eq '');
 
     my $text = <<EOF
