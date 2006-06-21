@@ -74,6 +74,7 @@ sub sethint_type1 {
 
     $generalfamily = input_generalfamily($fontname, $family);
     return if ($result != 0);
+    $serif = 'Serif' if ($generalfamily eq 'Roman');
     $serif = 'NoSerif' if ($generalfamily eq 'SansSerif');
     $width = 'Fixed' if ($generalfamily eq 'Typewriter');
 

@@ -21,6 +21,8 @@ defoma (0.11.9) unstable; urgency=low
     Closes: #300278
   * Bug fix: "Hints generator default width initializer checks wrong
     variable", thanks to Tyson Whitehead (Closes: #368609).
+  * Bug fix: "Type1 hints generator roman family does not default to
+    serif", thanks to Tyson Whitehead again (Closes: #368611).
 
  --
 
