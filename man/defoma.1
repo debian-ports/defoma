@@ -1,6 +1,6 @@
 .TH defoma 1 "March  4, 2001"
 .SH NAME
-defoma \- Debian Font Manager, provides automatic font configuration framework.
+defoma \- Debian Font Manager, a framework for automatic font configuration.
 .SH SYNOPSIS
 .B defoma-font
 .RI [ options ] 
@@ -14,18 +14,17 @@ defoma \- Debian Font Manager, provides automatic font configuration framework.
 .RI [ options ]
 .I command args..
 .SH DESCRIPTION
-Defoma stands for Debian Font Manager. It provides automatic font
-configuration framework. Please refer the manpage of defoma-font,
-defoma-app, or defoma-subst for the detailed information of each
-command. This page describes the introduction of Defoma.
+Defoma stands for Debian Font Manager. It provides a framework for
+automatic font configuration. This manpage introduces general Defoma
+concepts, please refer the manpage of defoma-font, defoma-app, or
+defoma-subst for the detailed information of each command.
 .PP
-Generally fonts are used by various applications, but there's no
-way to configure them properly for each application, especially
-for higher level ones like word processor and illustrator. Defoma
-is a solution to this problem. It calls configuration scripts
-installed by applications whenever a font is installed/removed to
-update the font configuration of applications.
+Fonts are used by numerous applications, but generally need to be
+configured separately for each application. Defoma solves this problem
+by calling configuration scripts to update the font configuration of
+applications whenever a font is installed or removed.
 .PP
+A
 .B Defoma-configuration script
 is a perl library that each application should install as
 .nh
@@ -33,8 +32,8 @@ is a perl library that each application should install as
 under 
 .RI /usr/share/defoma/scripts
 .hy
-and which configures about a font for the application. Following is
-the example of the script named
+and which configures a font for that application. The following is an
+example of a script named
 .nh
 foo.defoma.
 .hy
@@ -59,13 +58,14 @@ sub truetype {
 .fi
 This example represents an application
 .I foo
-wants to configure 
+that wants to configure 
 .I truetype 
 and 
 .I type1
-category fonts. Each function whose name is the same as a category
-is called with command and additional arguments from Defoma.
-Following is a list of commands.
+category fonts. A function by the same name as the relevant category
+is called by Defoma with a command as the first argument, and then
+additional arguments depending on the command.
+The following is a list of commands.
 
 .nf
 * register
@@ -78,42 +78,40 @@ Following is a list of commands.
 .fi
 
 .IR do-install-* " and " do-remove-*
-commands are called from 
-.B Id cache
-so they are never passed unless the script makes use of it.
+commands are only called from 
+.B Id cache.
 .IR init " and " term
-are called before/after the registration and unregistration 
-starts/finishes, respectively.
+are called at the start and end (respectively) of the entire process.
 .PP
 .B Id cache
-is another feature of Defoma. The possible problem of automatic
-configuration is name space confliction. Usually applications
-access fonts through their logical font names (like XLFDs and
-PostScript font names) rather than the fonts themselves (like
-font files). Logical font names, called identifier in
-Defoma, can easily confclict especially if aliases are permitted. 
-Through Id cache mechanism, only one font is actually installed
-for each identifier even if several fonts provide the same identifier.
+is another feature of Defoma. A common problem during automatic
+configuration is name space conflicts. Usually applications access
+fonts through logical font names (like XLFDs and PostScript font
+names) rather than the fonts themselves (as font filenames). Logical
+font names, called identifiers in Defoma, can easily conflict
+especially when font aliases are permitted. Through the Id cache
+mechanism, only one font is actually installed for each identifier
+even if it is provided by several fonts.
 .PP
 .B Id Substitution
-is additional feature to
+is an additional feature of
 .BR "Id cache" .
-It makes a certain font provide a certain id specified in a rulefile.
-Rulefile describes need-to-be-substituted (in other words, required) ids 
-and their hints, called rule.
-The rule is used to have more similar-looking fonts with the same characters 
-substitute for a required id. This feature can also be used for the 
-purpose to make correspondence of fonts in different categories.
+It selects a font to provide an id specified by a rulefile.  The
+rulefile describes rules giving required ids and their hints.  A rule
+is used to have more similar-looking fonts with the same characters
+substitute for a required id. This feature can also be used for the
+purpose of grouping fonts into different categories.
 .PP
-.B Category
-represents a type of fonts. Generally configuration for fonts that 
-belong to the same category goes the same way, so it benefits the
-application's configuration script.
+A
+.B category
+represents a type of font. Generally fonts that belong to the same
+category are configured the same way.
 .PP
 .B Hints
-represent essential font information and typeface information of the font.
-They consist of some HintTypes and their values. They can be specified
-from command line options of defoma-font, or through a
+represent essential font information and typeface information about
+the font.  They consist of some HintTypes and their values. They can
+be specified from the command line options of defoma-font, or through
+a
 .BR hintfile .
 .PP
 .B Hintfile
@@ -124,10 +122,10 @@ supposed to be put under
 .hy
 as a conffile, so that users can modify the hints.
 .br
-Following is the example of hintfile. 
+Below is an example hintfile. 
 .B defoma-hints
-is a tool to help generating hints as well as hintfile, so
-you do not have to create one from scratch.
+is a tool to help generating hints as well as the hintfile, so you do
+not have to create one from scratch.
 
 .nf
 category type1

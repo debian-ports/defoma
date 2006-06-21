@@ -23,6 +23,8 @@ defoma (0.11.9) unstable; urgency=low
     variable", thanks to Tyson Whitehead (Closes: #368609).
   * Bug fix: "Type1 hints generator roman family does not default to
     serif", thanks to Tyson Whitehead again (Closes: #368611).
+  * Reword much of defoma.1 to improve a few engrish phrases,
+    closes: #269035.
 
  --
 
