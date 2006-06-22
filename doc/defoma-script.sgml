@@ -598,7 +598,7 @@
 
 	    foreach my $i (@alias) {
 	      defoma_id_register($Id, type => 'alias', font => $font,
-	                         id => $fontname, priority => $priority,
+	                         id => $i, priority => $priority,
 	                         origin => $fontname);
 	    }
 

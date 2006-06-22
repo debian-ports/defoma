@@ -25,6 +25,8 @@ defoma (0.11.9) unstable; urgency=low
     serif", thanks to Tyson Whitehead again (Closes: #368611).
   * Reword much of defoma.1 to improve a few engrish phrases,
     closes: #269035.
+  * Bug fix: "incorrect example in defoma-script.sgml", thanks to Matej
+    Vela (Closes: #307305).
 
  --
 
