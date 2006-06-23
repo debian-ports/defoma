@@ -3,7 +3,7 @@ Section: admin
 Priority: optional
 Maintainer: Angus Lees <gus@debian.org>
 Build-Depends-Indep: debiandoc-sgml
-Build-Depends: debhelper (>= 3.0.47)
+Build-Depends: debhelper (>= 4)
 Standards-Version: 3.6.2.0
 
 Package: defoma

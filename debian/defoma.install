@@ -1,0 +1,6 @@
+src/{defoma,defoma-hints,dh_installdefoma}	usr/bin
+src/defoma-reconfigure				usr/sbin
+pm/Defoma/*.pm					usr/share/perl5/Debian/Defoma
+libs/*						usr/share/defoma
+conf/*						etc/defoma
+debhelper-files/*				usr/share/debhelper/autoscripts

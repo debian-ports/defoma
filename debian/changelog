@@ -24,11 +24,13 @@ defoma (0.11.9) unstable; urgency=low
   * Bug fix: "Type1 hints generator roman family does not default to
     serif", thanks to Tyson Whitehead again (Closes: #368611).
   * Reword much of defoma.1 to improve a few engrish phrases,
-    closes: #269035.
+    closes: #269035, #325466.
   * Bug fix: "incorrect example in defoma-script.sgml", thanks to Matej
     Vela (Closes: #307305).
+  * Install defoma-reconfigure into /usr/sbin and manpage into section 8.
+    Closes: #365954.
 
- --
+ -- Angus Lees <gus@debian.org>  Thu, 22 Jun 2006 22:29:34 +0100
 
 defoma (0.11.8-0.1) unstable; urgency=high
 

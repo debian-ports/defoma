@@ -1,0 +1,4 @@
+dfontmgr/libs/*			usr/share/defoma
+dfontmgr/Dfontmgr/*.pm		usr/share/perl5/Debian/Dfongmgr
+dfontmgr/DefomaWizard/*.pm	usr/share/perl5/Debian/DefomaWizard
+dfontmgr/Dfontmgr/dfontmgr	usr/bin
