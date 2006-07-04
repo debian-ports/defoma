@@ -12,7 +12,6 @@ defoma (0.11.9) unstable; urgency=low
   * Fix spelling errors in /etc/defoma/loc-cset.data, thanks to the good
     eyes of Andrew T. Young (Closes: #316138).
   * Acknowledge NMU, thanks (Closes: #263270).
-    - FIXME: adapt it so it doesn't assume fd 3 is available
   * Improve a few defoma-doc.doc-base files, closes: #281722.
   * Bug fix: "defoma: formatting error in the Defoma::Common.3pm man
     page", thanks to Nicolas François (Closes: #274434).
