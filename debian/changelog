@@ -1,9 +1,11 @@
-defoma (0.11.10) unstable; urgency=low
+defoma (0.11.10) unstable; urgency=medium
 
   * Fix individually filed manpage typos.
     Closes: #375222, #375223, #375224, #375225.
+  * Fix typo in dfontmgr.install that installed all the libraries in the
+    wrong directory.  Now for those automated tests..  Closes: #376962.
 
- --
+ -- Angus Lees <gus@debian.org>  Thu,  6 Jul 2006 21:55:55 +0100
 
 defoma (0.11.9) unstable; urgency=low
 
