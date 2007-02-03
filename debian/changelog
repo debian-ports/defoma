@@ -1,3 +1,12 @@
+defoma (0.11.10-0.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Fix various typos in manpages as reported in #326548
+  * Include French generated manpages from #326548
+  * Add missing ")" in Defoma::Id man page (Closes: #405661)
+
+ -- Thomas Huriaux <thomas.huriaux@gmail.com>  Sat,  3 Feb 2007 11:19:08 +0100
+
 defoma (0.11.10) unstable; urgency=medium
 
   * Fix individually filed manpage typos.

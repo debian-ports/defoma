@@ -6,4 +6,5 @@ etc/defoma
 var/lib/defoma/scripts
 usr/share/man/man1
 usr/share/man/man3
+usr/share/man/man8
 usr/share/debhelper/autoscripts

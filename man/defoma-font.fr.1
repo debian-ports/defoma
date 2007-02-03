@@ -1,0 +1,120 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH defoma\-font 1 "4 mars 2001"  
+.SH NOM
+defoma\-font \- inscrit ou désinscrit une police auprès du gestionnaire de
+polices Debian
+.SH SYNOPSIS
+\fBdefoma\-font\fP [\fIoptions\fP] \fBregister\fP \fIcatégorie police indications...\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBunregister\fP \fIcatégorie police\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBreregister\fP \fIcatégorie police indications...\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBpurge\fP \fIcatégorie police\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBregister\-all\fP \fIfichier_indications\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBunregister\-all\fP \fIfichier_indications\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBreregister\-all\fP \fIfichier_indications\fP
+.br
+\fBdefoma\-font\fP [\fIoptions\fP] \fBpurge\-all\fP \fIfichier_indications\fP
+.SH DESCRIPTION
+\fBdefoma\-font\fP permet d'enregistrer ou de désenregistrer une police auprès
+de Defoma, le gestionnaire de polices Debian. Defoma appelle ensuite les
+scripts de configuration Defoma fournis par les applications pour configurer
+ces polices pour les applications qui peuvent les utiliser. Cet outil est
+censé être appelé par les scripts «\ postinst\ » et «\ prerm\ », mais peut aussi
+être appelé depuis une console pour ajouter des polices qui ne sont pas
+fournies par un paquet.
+.PP
+Il y a deux méthodes pour inscrire ou désinscrire une police\ : la police
+peut être spécifiée avec ses indications («\ hints\ »), ou par l'intermédiaire
+d'un \fIfichier d'indications\fP («\ hintfile\ »), qui décrit plusieurs polices
+avec leurs indications. Les paquets de polices préféreront sûrement la
+deuxième méthode qui consiste à installer un \fIfichier d'indications\fP dans
+/etc/defoma/hints en tant que fichier de configuration. Cette dernière
+méthode utilise les commandes suffixées de «\ \-all\ ».
+.PP
+\fIcatégorie\fP spécifie la catégorie d'une police, qui peut être «\ type1\ »,
+«\ truetype\ », etc. \fIpolice\fP spécifie la police elle\-même et peut être le
+chemin complet vers la police ou le nom logique de la police. \fIindications\fP
+spécifie les indications d'une police, qui contiennent les informations
+essentielles de la police, telles que son nom (FontName), le jeu de
+caractères (Charset) et le codage (Encoding), des informations sur son
+apparence\ : graisse (Weight), forme (Shape), famille (GeneralFamily) et
+taille (Width), et aussi des informations supplémentaires comme un alias
+(Alias) ou une priorité (Priority).
+.SH COMMANDES
+.TP 
+\fBregister\fP
+Déclare la \fIpolice\fP spécifiée avec ses \fIindications\fP dans la \fIcatégorie\fP
+spécifiée, à moins que la police ne soit déjà enregistrée.
+.TP 
+\fBunregister\fP
+Retire la \fIpolice\fP spécifiée, qui doit avoir été enregistrée dans la
+\fIcatégorie\fP spécifiée. Si la police est marquée comme étant utilisée ou
+exclue («\ exclude\ ») dans la base de référence («\ id cache\ ») d'une
+application, la marque est laissée intacte.
+.TP 
+\fBreregister\fP
+Si la police est déjà enregistrée, les indications enregistrées et les
+\fIindications\fP spécifiées sont comparées. Si ces indications diffèrent, la
+police est dans un premier temps retirée, puis enregistrée de nouveau avec
+les indications spécifiées. Si la police n'est pas enregistrée, cette
+commande agit comme \fBregister\fP.
+.TP 
+\fBpurge\fP
+Cette commande est presque identique à \fBunregister\fP, à la différence
+qu'elle retire les marques des bases de référence.
+.TP 
+\fBregister\-all\fP
+.TP 
+\fBunregister\-all\fP
+.TP 
+\fBreregister\-all\fP
+.TP 
+\fBpurge\-all\fP
+Ces commandes opèrent sur toutes les polices spécifiées dans le \fIfichier
+d'indications\fP.
+.SH OPTIONS
+.TP 
+\fB\-t\fP
+Quitte avec une valeur nulle, même en cas d'erreur.
+.TP 
+\fB\-v\fP
+Sortie bavarde.
+.TP 
+\fB\-d\fP
+Sortie encore plus bavarde.
+.TP 
+\fB\-q\fP
+Sortie silencieuse.
+.SH EXEMPLES
+.nf
+defoma\-font \-vt register type1 /usr/share/fonts/type1/toto.pfa \e
+  \-\-FontName Helvetica \-\-Charset ISO8859\-1 \-\-Weight Medium \e
+  \-\-Shape Upright NoSerif \-\-GeneralFamily SansSerif
+defoma\-font reregister\-all /etc/defoma/hints/microsoft.hints
+.SH "VOIR AUSSI"
+\fBdefoma\fP(1).
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Nicolas François le
+29 juillet 2005 et mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.

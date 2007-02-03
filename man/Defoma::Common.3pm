@@ -1,4 +1,4 @@
-.TH Defoma::Common 1 "March  4, 2001"
+.TH Defoma::Common 3pm "March  4, 2001"
 .SH NAME
 Defoma::Common \- Defoma module providing miscellaneous functions.
 .SH SYNOPSIS
@@ -90,7 +90,7 @@ one values, they are combined into a single string separated by space.
 .PP
 .B parse_hints_subhints
 is a function to get a sub hint hash pointed by
-.I facenum
+.I face
 from the hint hash specified by
 .IR hints_hash .
 Please look at following example of a hint hash.
@@ -238,6 +238,7 @@ is specified, all generated XLFDs will be returned.
 .SH EXAMPLES
 
 .nh
+.nf
 $h = parse_hints_start(@_);
 
 @shape = split(/ /, $h->{Shape});
@@ -248,6 +249,7 @@ $realname =~ s/ .*//;
 
 parse_hints_cut($h, 'Priority', 'FontName', 'Charset');
 @hints = parse_hints_build($h);
+.fi
 .hy
 
 .SH SEE ALSO

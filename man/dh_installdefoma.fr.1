@@ -1,0 +1,72 @@
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH DH_INSTALLDEFOMA 1 "20 août 2000" "Commandes Debhelper" "Commandes Debhelper"
+.SH NOM
+dh_installdefoma \- installe un script de configuration Defoma
+.SH SYNOPSIS
+\fBdh_installdefoma\fP \fI[options debhelper] [\-n]\fP
+.SH DESCRIPTION
+\fBdh_installdefoma\fP est un programme debhelper responsable de l'installation
+des fichiers liés à defoma (DEbian FOnt MAnager, le gestionnaire de polices
+Debian) dans les répertoires de construction d'un
+paquet. \fBdh_installdefoma\fP peut être utilisé par les paquets pouvant
+utiliser defoma et les paquets fournissant des polices pour defoma.
+.P
+Il génère également les commandes postinst et pre/postrm nécessaire à
+l'enregistrement d'un paquet utilisant defoma et de paquet fournissant des
+polices pour defoma. Voyez \fBdh_installdeb\fP(1) pour une explication sur son
+fonctionnement.
+.P
+Si un fichier nommé debian/paquet.defoma existe, alors il l'installe dans le
+fichier usr/share/defoma/scripts/paquet.defoma du répertoire de construction
+du paquet et place les commandes defoma\-app d'enregistrement (et de
+désenregistrement) dans les scripts de maintenance. Si un fichier nommé
+debian/paquet.defoma\-hints existe, alors il l'installe dans le fichier
+etc/defoma/hints/paquet.hints du répertoire de construction du paquet et les
+commandes defoma\-font d'enregistrement (et désenregistrement) sont placées
+dans les scripts de maintenance. Ainsi, lorsque vous créez un paquet de
+polices pour defoma, vous n'avez qu'à placer les indications dans le fichier
+debian/package.defoma\-hints et installer les fichiers de polices spécifiés
+dans ce fichier d'indications aux bons endroits. Lorsque vous créez un
+paquet qui peut utiliser defoma, vous n'avez qu'à placer le script de
+configuration Defoma dans le fichier debian/paquet.defoma. Ce script est
+automatiquement installé dans le répertoire de construction du paquet.
+.SH OPTIONS
+.TP 
+\fBoptions debhelper\fP
+Voir \fBdebhelper\fP(1) pour la liste des options communes à toutes les
+commandes debhelper.
+.TP 
+\fB\-n\fP, \fB\-\-noscripts\fP
+Ne modifie pas les scripts postinst et postrm.
+.SH ENVIRONNEMENT
+Voir \fBdebhelper\fP(1) pour la liste des variables d'environnement qui
+affectent les commandes debhelper.
+.SH NOTES
+Notez que cette commande n'est pas idempotente. «\ dh_clean \-k\ » doit être
+appelée entre les différentes invocations de cette commande. Sinon, les
+commandes peuvent être ajoutées plusieurs fois aux scripts de maintenance.
+.SH "VOIR AUSSI"
+.TP 
+\fBdebhelper\fP(1)
+.SH AUTEUR
+Masato Taruishi <taru@debian.org>
+
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Nicolas François le
+29 juillet 2005 et mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.

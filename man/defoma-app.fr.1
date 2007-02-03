@@ -1,0 +1,116 @@
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH defoma\-app 1 "4 mars 2001"  
+.SH NOM
+defoma\-app \- configure une application avec les polices enregistrées auprès
+du gestionnaire de polices Debian.
+.SH SYNOPSIS
+\fBdefoma\-app\fP [\fIoptions\fP] \fBclean\fP \fIapplication\fP [\fIcatégorie\fP...]
+.br
+\fBdefoma\-app\fP [\fIoptions\fP] \fBupdate\fP \fIapplication\fP [\fIcatégorie\fP...]
+.br
+\fBdefoma\-app\fP [\fIoptions\fP] \fBpurge\fP \fIapplication\fP
+.br
+\fBdefoma\-app\fP [\fIoptions\fP] \fBignore\fP \fIapplication\fP [\fIcatégorie\fP...]
+.br
+.SH DESCRIPTION
+\fBdefoma\-app\fP permet de configurer les polices enregistrées auprès de
+Defoma, le gestionnaire de polices Debian, pour une application. Defoma
+appelle le script de configuration Defoma de cette application avec la
+commande «\ register\ » ou «\ unregister\ » pour chacune des polices
+enregistrées dans les catégories supportées par l'application. Cet outil est
+censé être appelé par les scripts «\ postinst\ » ou «\ prerm\ » des paquets des
+applications, mais peut aussi être appelé depuis une console.
+.PP
+\fIapplication\fP est le nom de l'application qui va être configurée. Cette
+application doit fournir un script Perl
+.nh
+\fIapplication\fP.defoma
+.hy
+placé dans
+.nh
+/usr/share/defoma/scripts.
+.hy
+Si une (ou plusieurs) \fIcatégorie\fP est spécifiée, alors seules les polices
+de cette catégorie sont traitées. Sinon, toutes les polices de toutes les
+catégories acceptées par l'application sont prises en compte.
+.SH COMMANDES
+.TP 
+\fBupdate\fP
+Met à jour la configuration de l'\fIapplication\fP concernant les polices de la
+\fIcatégorie\fP spécifiée. La \fIcatégorie\fP peut être omise. Lorsqu'elle est
+spécifiée et qu'elle est marquée comme devant être ignorée (il en sera fait
+mention plus tard), le drapeau \fBignore\fP est enlevé de telle sorte que la
+catégorie soit mise à jour. En interne, les scripts de configuration Defoma
+de l'application sont dans un premier temps appelés avec la commande
+\fBunregister\fP, puis avec la commande \fBregister\fP pour chacune des polices de
+la catégorie. Certains répertoires et liens symboliques spécifiés dans
+l'en\-tête du script pourront être générés automatiquement.
+.br
+Cette commande doit être invoquée lorsqu'un script de configuration Defoma
+est installé ou mis à jour\ ; ainsi le script est installé dans le répertoire
+de données de Defoma et les polices sont configurées pour l'application. Ce
+qui suppose que la commande est invoquée pendant la phase de configuration
+«\ postinst\ ».
+.TP 
+\fBclean\fP
+Enlève la configuration de l'\fIapplication\fP spécifiée concernant les polices
+enregistrées dans la \fIcatégorie\fP spécifiée. La \fIcatégorie\fP peut être
+omise. En interne, le script de configuration Defoma de l'application est
+appelé avec la commande \fBunregister\fP pour chacune des polices de la
+\fIcatégorie\fP.
+.TP 
+\fBpurge\fP
+Cette commande est presque identique à la commande \fBclean\fP. Elle ne diffère
+que par le fait qu'elle retire le script installé dans le répertoire de
+données de Defoma, ainsi que les répertoires ou liens symboliques qui ont
+été générés précédemment par une commande \fBupdate\fP.
+.br
+Cette commande doit être invoquée pour retirer le script de configuration
+Defoma et nettoyer la configuration des polices. Cette commande est censée
+être appelée dans la phase de «\ prerm\ » d'un paquet.
+.TP 
+\fBignore\fP
+Cette commande indique que l'\fIapplication\fP n'utilisera pas les polices de
+la \fIcatégorie\fP spécifiée. Elle retire les polices de la \fIcatégorie\fP de la
+configuration des polices et place le drapeau «\ ignore\ » sur cette catégorie
+pour que le script de configuration Defoma de cette application n'accepte
+pas les polices de cette \fIcatégorie\fP. Si la \fIcatégorie\fP est omise, toutes
+les catégories sont ignorées. Pour retirer ce drapeau «\ ignore\ », veuillez
+exécuter \fBdefoma\-app\fP avec la commande \fBupdate\fP et la catégorie pour
+laquelle vous voulez retirer le drapeau.
+.SH OPTIONS
+.TP 
+\fB\-t\fP
+Quitte avec une valeur nulle, même en cas d'erreur.
+.TP 
+\fB\-v\fP
+Sortie bavarde.
+.TP 
+\fB\-d\fP
+Mode débogage.
+.TP 
+\fB\-q\fP
+Sortie silencieuse.
+.SH "VOIR AUSSI"
+\fBdefoma\fP(1).
+
+
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Nicolas François le
+29 juillet 2005 et mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.

@@ -1,0 +1,221 @@
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH Defoma::Common 3pm "4 mars 2001"  
+.SH NOM
+Defoma::Common \- module Defoma fournissant diverses fonctions.
+.SH SYNOPSIS
+.nh
+use Defoma::Common;
+
+$h = parse_hints_start( \fIindications...\fP );
+
+$hsub = parse_hints_subhints( \fItable_hachage_indications\fP, \fIpolice\fP );
+
+$hsub = parse_hints_subhints_inherit( \fItable_hachage_indications\fP,
+\fIpolice\fP );
+
+parse_hints_cut( \fItable_hachage_indications\fP, \fItypes_indications...\fP );
+
+parse_hints_cut_except( \fItable_hachage_indications\fP,
+\fItypes_indications...\fP );
+
+@hints = parse_hints_build( \fItable_hachage_indications\fP );
+
+$charset = get_charset( \fIxencoding\fP );
+
+$xencoding = get_xencoding( \fIcharset\fP, \fIencoding\fP );
+
+@XLFDs = get_xlfd_of_font( \fIpolice\fP, level => \fIniveau\fP, face =>
+\fIpolice\fP );
+
+my $num = weight_ascii2integer( \fIchaîne_graisse\fP );
+
+my $num = weight_a2i( \fIchaîne_graisse\fP );
+
+.hy
+.SH DESCRIPTION
+\fBparse_hints_start\fP est une fonction qui permet de convertir des
+indications contenues dans un tableau vers une table de hachage. Une
+indication consiste en un type et une ou plusieurs valeurs. Voici des
+exemples d'indication sous la forme d'un tableau.
+
+.nh
+\-\-FontName Helvetica\-BoldItalic \-\-Family Helvetica \-\-GeneralFamily SansSerif
+\-\-Weight Bold \-\-Shape NoSerif Italic \-\-Charset ISO8859\-1
+.hy
+
+Dans cet exemple, FontName, Family, GeneralFamily, Weight, Shape et Charset
+sont les types des indications. Les éléments commençant par deux tirets
+«\ \-\-\ » sont considérés comme des types d'indication. Les autres sont
+considérés comme les valeurs. La fonction convertit ce tableau en une table
+de hachage décrite de la façon suivante\ :
+
+.nh
+.nf
+FontName => 'Helvetica\-BoldItalic',
+Family => 'Helvetica',
+GeneralFamily => 'SansSerif',
+Weight => 'Bold',
+Shape => 'NoSerif Italic',
+Charset => 'ISO8859\-1'
+.fi
+.hy
+
+Vous voyez que les types d'indication sont utilisés comme clés de hachage,
+et que la forme (Shape) a plus d'une valeur\ : NoSerif et Italic. Si un type
+d'indication a plus d'une valeur, alors elles sont combinées en une unique
+chaîne, séparées par une espace.
+.PP
+\fBparse_hints_subhints\fP est une fonction qui permet d'obtenir la clé de
+hachage d'une indication secondaire pointée par \fIpolice\fP dans la table de
+hachage \fItable_hachage_indications\fP. Voici un exemple de table de hachage
+d'indications\ :
+
+.nh
+.nf
+$h = {Inherit => 'Charset Weight',
+      FontName => 'Helvetica',
+      Charset => 'ISO8859\-1',
+      Weight => 'Medium',
+      Shape => 'Upright',
+      FontName1 => 'Helvetica\-Bold',
+      Weight1 => 'Bold',
+      FontName2 => 'Helvetica\-Unicode',
+      Charset2 => 'ISO10646\-1'};
+.fi
+.hy
+
+Vous voyez dans cet exemple que certains types d'indication sont
+numérotés. \fBparse_hints_subhints\fP extrait l'indication ayant le bon
+numéro. Par exemple, vous pouvez extraire les indications FontName et
+Charset non numérotées avec\ :
+
+.nh
+.nf
+$hsub = parse_hints_subhints($h, 0);
+.fi
+.hy
+
+et le contenu de $hsub sera\ :
+
+.nh
+.nf
+FontName => 'Helvetica',
+Charset => 'ISO8859\-1',
+Weight => 'Medium',
+Shape => 'Upright'
+.fi
+.hy
+
+Si vous mettez à 1 le deuxième paramètre de \fBparse_hints_subhints\fP, alors
+le contenu de $hsub sera\ :
+
+.nh
+.nf
+FontName => 'Helvetica\-Bold',
+Weight => 'Bold'
+.fi
+.hy
+
+Notez que le numéro de chaque type d'indication est retiré.
+.PP
+\fBparse_hints_subhints_inherit\fP est presque identique à
+\fBparse_hints_subhints\fP, à la différence que les indications des types
+spécifiés dans l'indication de type «\ Inherit\ » sont héritées. Voici les
+résultats de \fBparse_hints_subhints_inherit\fP avec les valeurs 1 et 2 comme
+second paramètre dans l'exemple donné avec \fBparse_hints_subhints\fP.
+
+.nh
+.nf
+FontName => 'Helvetica\-Bold',
+Weight => 'Bold',
+Charset => 'ISO8859\-1'
+
+FontName => 'Helvetica\-Unicode',
+Weight => 'Medium',
+Charset => 'ISO10646\-1'
+.fi
+.hy
+
+.PP
+\fBparse_hints_cut\fP permet de retirer d'une table de hachage d'indications
+les types d'indication (et leur valeur) spécifiés par
+\fItypes_indications\fP. Cette fonction est supposée être utilisée
+conjointement avec \fBparse_hints_build\fP.
+.PP
+\fBparse_hints_cut_except\fP permet de retirer d'une table de hachage
+d'indications tous les types d'indication (et leur valeur), sauf ceux
+spécifiés par \fItypes_indications\fP. Cette fonction est supposée être
+utilisée conjointement avec \fBparse_hints_build\fP.
+.PP
+\fBparse_hints_build\fP permet de convertir une table de hachage d'indications
+en un tableau.
+.PP
+\fBget_charset\fP est une fonction qui permet de convertir un champ
+X\-RegistryEncoding spécifié par \fIxencoding\fP en un
+Charset. X\-RegistryEncoding correspond aux deux derniers éléments d'un XLFD
+[\ NdT\ : X Logical Font Description, une chaîne de 15 champs séparés par des
+tirets qui permet de décrire une police\ ], comme iso8859\-1 ou
+jisx0208.1983\-0. Les valeurs de retour pour ces exemples sont respectivement
+ISO8859\-1 et JISX0208.
+.PP
+\fBget_xencoding\fP permet de convertir un jeu de caractères («\ Charset\ ») et
+un codage («\ Encoding\ ») spécifiés par \fIcharset\fP et \fIencoding\fP en un
+X\-RegistryEncoding. \fIencoding\fP est en règle générale omis.
+.PP
+\fBweight_ascii2integer\fP est une fonction qui permet de convertir une graisse
+de police (Weight) sous forme de chaîne \- comme Bold (gras) ou Medium
+(moyen) \- en une valeur numérique (un entier). Medium a toujours la valeur
+0, et plus la police est grasse, plus ce nombre est élevé. Par exemple, Bold
+vaut +2, et Light (léger) vaut \-2. \fBweight_a2i\fP est un raccourci pour
+\fBweight_ascii2integer\fP.
+.PP
+\fBget_xlfd_of_font\fP permet d'obtenir un tableau de XLFD pour une police
+spécifiée par \fIpolice\fP. Vous pouvez contrôler la quantité de XLFD obtenue
+avec les options \fIniveau\fP et \fIface\fP. Le \fIniveau\fP doit être soit
+«\ \fImin\fP\ », soit «\ \fInormal\fP\ », ou encore «\ \fImax\fP\ ». Lorsque \fImin\fP est
+spécifié, les XLFD non italique ou gras enregistrés dans la catégorie
+«\ xfont\ » sont retournés. Lorsque \fInormal\fP est spécifié, les XLFD étant
+gras ou italique (mais pas italique à l'envers) enregistrés dans la
+catégorie «\ xfont\ » sont retournés. Lorsque \fImax\fP est spécifié, tous les
+XLFD générés sont retournés.
+.SH EXEMPLES
+
+.nh
+.nf
+$h = parse_hints_start(@_);
+
+@shape = split(/ /, $h\->{Shape});
+@alias = split(/ /, $h\->{Alias});
+$priority = $h\->{Priority};
+$realname = $h\->{FontName};
+$realname =~ s/ .*//;
+
+parse_hints_cut($h, 'Priority', 'FontName', 'Charset');
+@hints = parse_hints_build($h);
+.fi
+.hy
+
+.SH "VOIR AUSSI"
+\fBdefoma\fP(1).
+
+
+
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Nicolas François le
+29 juillet 2005 et mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.

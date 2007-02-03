@@ -1,32 +1,45 @@
-.\"Traduction Jeudi 8 novembre 2002 par Antoine Gémis
-.\"(agemis@netuup.com)
-.\"(defoma 0.11.1) 
-.TH defoma 1 "4 mars 2001"
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH defoma-reconfigure 8 "4 mars 2001"  
 .SH NOM
-defoma-reconfigure \- configure à nouveau les polices.
+defoma\-reconfigure \- configure à nouveau les polices.
 .SH SYNOPSIS
-.B defoma-reconfigure 
-.IR [ -f ]
+\fBdefoma\-reconfigure\fP [\fB\-f\fP]
 .SH DESCRIPTION
-defoma\-reconfigure 
-configure à nouveau les polices, en reprenant tout à zéro.
-Ceci résout un bogue critique de perte de données et permet 
-aussi de tout configurer.
+defoma\-reconfigure configure à nouveau les polices, en reprenant tout à
+zéro. Ceci résout un bogue critique de perte de données et permet aussi de
+tout configurer.
 .PP
-defoma\-reconfigure 
-supprime d'abord presque tous les fichiers de
+\fBdefoma\-reconfigure\fP supprime d'abord presque tous les fichiers de
 /var/lib/defoma pour effacer toutes les informations de configuration des
-polices, puis lance 
-.BR defoma\-app 
-en lui demandant une mise à jour 
-(commande update). Si vous avez vous-même placé un fichier important dans
+polices, puis lance \fBdefoma\-app\fP en lui demandant une mise à jour (commande
+update). Si vous avez vous\-même placé un fichier important dans
 /var/lib/defoma, vous devriez sauvegarder ce répertoire avant de lancer
-defoma-reconfigure.
+defoma\-reconfigure.
 .PP
-L'option
-\-f est utilisée pour corriger la corruption de données produite par 
-l'interruption brutale de defoma-app.
-.SH VOIR AUSSI
-.BR defoma (1).
+L'option \-f est utilisée pour corriger une corruption de données produite
+par l'interruption brutale de defoma\-app.
+.SH "VOIR AUSSI"
+\fBdefoma\fP(1).
 .SH TRADUCTION
-Antoine Gémis <agemis@netuup.com>.
+Ce document est une traduction, réalisée par
+Antoine Gémis <\fIagemis@netuup.com\fR> le 8 novembre 2002 (defoma
+0.11.1).
+.br
+Elle a été reprise avec po4a par Nicolas FRANÇOIS le 29 juillet 2004 et
+mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.

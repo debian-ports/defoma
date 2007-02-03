@@ -1,0 +1,160 @@
+.\"*******************************************************************
+.\"
+.\" This file was generated with po4a. Translate the source file.
+.\"
+.\"*******************************************************************
+.TH Defoma::Subst 3pm "4 mars 2001"  
+.SH NOM
+Defoma::Subst \- module Defoma pour la gestion des caches et des règles de
+substitution.
+.SH SYNOPSIS
+.nh
+use Defoma::Subst;
+
+$Sb = defoma_subst_open(
+.br
+rulename => \fInom_règle\fP,
+.br
+threshold => \fIseuil\fP,
+.br
+idobject => \fIid_objet\fP,
+.br
+private => \fIdrapeau_privé\fP );
+
+defoma_subst_close( \fIobjet_subst\fP );
+
+defoma_subst_register( \fIobjet_subst\fP, \fIpolice\fP, \fInom_réel\fP );
+
+defoma_subst_unregister( \fIobjet_subst\fP, \fIpolice\fP \fInom_réel\fP );
+
+defoma_subst_add_rule( \fIobjet_subst\fP, \fIid_requis\fP, \fIrègle...\fP );
+
+defoma_subst_remove_rule( \fIobjet_subst\fP, \fIid_requis\fP, \fIrègle...\fP );
+
+.hy
+.SH DESCRIPTION
+Defoma::Subst est un module Defoma qui permet de gérer les caches de
+substitution («\ subst\-cache\ ») et les règles de substitution
+(«\ subst\-rule\ »). Lorsqu'un identifiant est requis, mais qu'il n'est ni
+fourni comme nom réel (RealName) ou Alias d'une police, les polices qui ont
+une apparence similaire et le même jeu de caractères peuvent se substituer à
+cette police. Les identifiants requis et les informations concernant leur
+apparence et leur jeu de caractères sont décrits dans une règle de
+substitution. Defoma::Subst compare ces règles pour les identifiants requis
+avec les indications d'une police de substitution et calcule le pourcentage
+de similitude, il enregistre ensuite l'identifiant requis et la police avec
+une priorité «\ Substituted\ » dans une base de référence à l'aide du module
+Defoma::Id.
+.PP
+Les règles de substitution sont en grande partie modifiables par les
+utilisateurs, ce qui signifie que les utilisateurs peuvent éditer les
+fichiers de règles de substitution pour ajouter, retirer ou modifier les
+identifiants et leurs informations. Cependant certains de ces fichiers ne
+sont pas modifiables et sont gérés par les scripts de configuration
+Defoma. Ces premières règles de substitution sont dites \fBpubliques\fP et ces
+dernières sont dites \fBprivées\fP.
+.PP
+Un cache de substitution contient les polices pouvant se substituer à
+l'identifiant demandé. Comme indiqué précédemment, une règle de
+l'identifiant requis et les indications des polices sont comparées. Les
+indications ne sont pas stockées dans les caches de substitution et sont
+donc récupérées dans une base de référence. De plus, les identifiants requis
+et leur règle sont stockés dans des règles de substitution, donc les caches
+de substitution, les règles de substitution et les bases de références sont
+fortement liés. Particulièrement les caches de substitution et les règles de
+substitution, qui ne peuvent pas être séparées, ce qui explique que
+Defoma::Subst les manipule par l'intermédiaire d'un unique objet.
+.PP
+\fBdefoma_subst_open\fP permet d'ouvrir un cache de substitution et une règle
+de substitution tous deux spécifiés par \fInom_règle\fP. Elle prend également
+un argument \fIdrapeau_privé\fP et retourne un \fIobjet_subst\fP qui sera utilisé
+pour les opérations suivantes. Si la règle de substitution est privée,
+\fIdrapeau_privé\fP doit être non nul. Sinon, il peut être omis. La règle
+devient alors publique. \fIid_objet\fP doit être spécifié car les caches de
+substitution et les règles de substitution sont fortement liés à une base de
+référence comme mentionné précédemment. Les indications d'une police de
+substitution sont récupérées dans la base de référence \fIid_objet\fP, et les
+identifiants requis décrits dans la règle de substitution sont enregistrés
+dans la base de référence. Le \fIseuil\fP permet d'empêcher les polices dont le
+pourcentage de similitude est trop bas d'être enregistrées. Si un
+identifiant requis est déjà enregistré dans la base de référence, les
+polices de substitution dont le degré de similitude est plus faible ne sont
+pas enregistrées dans la base de référence.
+.PP
+\fBdefoma_subst_close\fP permet de fermer un cache et une règle de substitution
+donnés par \fIobjet_subst\fP. En interne, ceci permet d'écrire dans un fichier
+le contenu du cache et de la règle en mémoire.
+.PP
+\fBdefoma_subst_register\fP permet d'enregistrer une police pouvant se
+substituer à un identifiant requis dans le cache de substitution spécifié
+par \fIobjet_subst\fP. Le nom réel («\ RealName\ ») de la police doit être
+renseigné.
+.PP
+\fBdefoma_subst_unregister\fP permet de retirer une police du cache de
+substitution \fIobjet_subst\fP. Le nom réel (RealName) peut être omis.
+.PP
+\fBdefoma_subst_add_rule\fP permet d'ajouter un identifiant requis et sa règle
+à la règle de substitution \fIobjet_subst\fP.
+.PP
+\fBdefoma_subst_remove_rule\fP permet de retirer un identifiant requis et sa
+règle de la règle de substitution \fIobjet_subst\fP. Si la \fIrègle\fP est omise,
+toutes les règles décrivant l'identifiant requis \fIid_requis\fP sont retirées
+de la règle de substitution. Sinon, seule une règle spécifiée par \fIrègle\fP
+et \fIid_requis\fP est retirée.
+.SH EXEMPLES
+1. Ouverture d'une règle de substitution privée.
+
+.nf
+$Id = defoma_id_open();
+$Sb = defoma_subst_open(rulename => 'subst1',
+                        idobject => $Id);
+.fi
+
+2. Enregistrement d'une police de substitution.
+
+.nf
+defoma_id_register($Id, type => 'real',
+                   font => $police,
+                   id => $nom_réel,
+                   priority => $priorité,
+                   hints => join(' ', @_));
+defoma_subst_register($Sb, $police, $nom_réel);
+.fi
+
+3. Désenregistrement.
+
+.nf
+defoma_subst_unregister($Id, $police);
+defoma_id_unregister($Id, 'real', $police);
+.fi
+
+4. Ajout d'une règle.
+
+.nf
+defoma_subst_add_rule($Sb, 'Helvetica', @indications);
+.fi
+
+5. Retrait de toutes les règles pour Helvetica.
+
+.nf
+defoma_subst_remove_rule($Sb, 'Helvetica');
+.fi
+
+.SH "VOIR AUSSI"
+\fBdefoma\fP(1). \fBDefoma::Id\fP(1).
+
+.SH TRADUCTION
+Ce document est une traduction, réalisée par Nicolas François le
+29 juillet 2005 et mise à jour par Cyril Brulebois en janvier 2007.
+
+L'équipe de traduction a fait le maximum pour réaliser une adaptation
+française de qualité.
+
+La version anglaise la plus à jour de ce document est toujours consultable
+en ajoutant l'option «\ \-L C\ » à la commande \fBman\fR.
+
+N'hésitez pas à signaler à l'auteur ou à la liste de traduction
+.nh
+<\fIdebian\-l10n\-french@lists.debian.org\fR>,
+.hy
+selon le cas, toute erreur dans cette page de manuel.
