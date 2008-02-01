@@ -1,3 +1,10 @@
+defoma (0.11.10-0.2) unstable; urgency=high
+
+  * Non-maintainer upload.
+  * Do not build the dfontmgr binary package anymore (Closes: #282225)
+
+ -- Pierre Habouzit <madcoder@debian.org>  Fri, 01 Feb 2008 23:15:38 +0100
+
 defoma (0.11.10-0.1) unstable; urgency=low
 
   * Non-maintainer upload.

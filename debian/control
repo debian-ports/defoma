@@ -49,18 +49,18 @@ Description: PostScript font manager -- part of Defoma, Debian Font Manager
  those who want to print a PostScript file with the printer fonts and
  have the printer fonts appear in a font-choosing menu.
 
-Package: dfontmgr
-Architecture: all
-Depends: defoma (>= 0.10.0), libft-perl, ${perl:Depends}, libglade-perl, libgtk-perl
-Description: GUI frontend for Defoma, DEbian FOnt MAnager
- dfontmgr is a GUI frontend for Defoma. You can see the fonts registered
- to Defoma, their hints, their status (which applications they have succeeded
- or failed to register), the applications using Defoma framework and
- information about the applications and the contents of their id-caches.
- You can also register a font by drag-and-drop a font file, unregister a
- registered font, change the hints of and re-register a registered font.
- If a defoma-aware application uses an id-cache and if there's an identifier
- conflict (which means some fonts provides the same identifier) in the
- id-cache, you can indicate which font should provide the identifier.
- .
- GUI versions of some utilities in Defoma and psfontmgr are also installed.
+#Package: dfontmgr
+#Architecture: all
+#Depends: defoma (>= 0.10.0), libft-perl, ${perl:Depends}, libglade-perl, libgtk-perl
+#Description: GUI frontend for Defoma, DEbian FOnt MAnager
+# dfontmgr is a GUI frontend for Defoma. You can see the fonts registered
+# to Defoma, their hints, their status (which applications they have succeeded
+# or failed to register), the applications using Defoma framework and
+# information about the applications and the contents of their id-caches.
+# You can also register a font by drag-and-drop a font file, unregister a
+# registered font, change the hints of and re-register a registered font.
+# If a defoma-aware application uses an id-cache and if there's an identifier
+# conflict (which means some fonts provides the same identifier) in the
+# id-cache, you can indicate which font should provide the identifier.
+# .
+# GUI versions of some utilities in Defoma and psfontmgr are also installed.
