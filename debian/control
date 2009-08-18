@@ -11,7 +11,7 @@ Architecture: all
 Depends: whiptail | dialog, file, ${perl:Depends}
 Enhances: debhelper
 Suggests: defoma-doc, psfontmgr, x-ttcidfont-conf, dfontmgr
-Recommends: libft-perl
+Recommends: libfont-freetype-perl
 Conflicts: defoma-x, defoma-ps, defoma-gs, psfontmgr (<< 0.5.0), x-ttcidfont-conf (<< 5), dfontmgr (<< 0.10.0)
 Description: Debian Font Manager -- automatic font configuration framework
  Defoma, which stands for DEbian FOnt MAnager, provides a framework

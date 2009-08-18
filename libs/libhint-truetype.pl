@@ -3,8 +3,8 @@ my @ID_LANG;
 my %ID_Region;
 
 BEGIN {
-    eval ("use FreeType");
-    exitfunc(255, "libft-perl is needed.") if ($@ ne '');
+    eval ("use Font::FreeType");
+    exitfunc(255, "libfont-freetype-perl is needed.") if ($@ ne '');
 
     @ENCODING = qw(Symbol Unicode ShiftJIS GB2312 BIG5 WanSung Johab);
 
@@ -54,32 +54,16 @@ sub get_standard_charset {
     return '';
 }
 
-my $Engine;
-my $Face;
-my $Prop;
-
 sub freetype_init {
     my $fontpath = shift;
     my $facenum;
 
-    undef $Engine;
-    undef $Face;
-    undef $Prop;
-    
-  FreeType::TT_Init_FreeType($Engine);
-  FreeType::TT_Open_Face($Engine, $fontpath, $Face);
-  FreeType::TT_Get_Face_Properties($Face, $Prop);
+    my $Face=Font::FreeType->new->face($fontpath);
+    $facenum=$Face->number_of_faces;
 
-    $facenum = $Prop->{num_Faces};
     $facenum = 1 if ($facenum == 0);
 
-  FreeType::TT_Close_Face($Face);
-
     return $facenum;
-}
-
-sub freetype_term {
-  FreeType::TT_Done_FreeType($Engine);
 }
 
 sub sethint_truetype {
@@ -108,53 +92,16 @@ EOF
     for (my $j = 0; $j < $facenum; $j++) {
 	my $fname = ($facenum > 1) ? "$fontfile,face\#$j" : "$fontfile";
 	my $cnt;
-	
-      FreeType::TT_Open_Collection($Engine, $font, $j, $Face);
-	$cnt = FreeType::TT_Get_Name_Count($Face);
+
+	my $Face=Font::FreeType->new->face($font, index => $j);
+	$cnt = 1; #One name
 
 	my %langs = ();
-	my @family_list = ();
-	my @subfamily_list = ();
-	my @psfontname_list = ();
+	my @family_list = $Face->family_name;
+	my @subfamily_list = $Face->style_name;
+	my @psfontname_list = $Face->postscript_name;
 	my @encoding_list = ();
 	my @foundry_list = ();
-
-	for (my $i = 0; $i < $cnt; $i++) {
-	    my $plat;
-	    my $enc;
-	    my $lang;
-	    my $name;
-	    my $str;
-
-	  FreeType::TT_Get_Name_ID($Face, $i, $plat, $enc, $lang, $name);
-	  FreeType::TT_Get_Name_String($Face, $i, $str);
-
-	    my $pattern;
-	    $str =~ s/\0//g;
-	    $str =~ s/[^a-zA-Z0-9_-]/./g;
-
-	    if ($name == 1) {
-		push(@family_list, $str) unless (grep($_ eq $str,
-						      @family_list));
-	    } elsif ($name == 2) {
-		push(@subfamily_list, $str) unless (grep($_ eq $str,
-							 @subfamily_list));
-	    } elsif ($name == 6) {
-		push(@psfontname_list, $str) unless (grep($_ eq $str,
-							  @psfontname_list));
-	    } elsif ($name == 8) {
-		$str =~ s/\..*//;
-		push(@foundry_list, $str) unless (grep($_ eq $str,
-						       @foundry_list));
-	    }
-
-	    if ($plat == 3) {
-		push(@encoding_list, $ENCODING[$enc])
-		    unless (grep($_ eq $ENCODING[$enc], @encoding_list));
-
-		$langs{"$lang"} = 1;
-	    }
-	}
 
 	$text = <<EOF
 Choose the Family of $fname.
@@ -170,7 +117,7 @@ EOF
 	my $subfamily = '';
 	my $psfontname;
 
-	foreach $i (@psfontname_list) {
+	foreach my $i (@psfontname_list) {
 	    $psfontname = $i;
 	    $psfontname =~ s/-.*//;
 
@@ -254,7 +201,7 @@ EOF
 	my %location = ();
 	my $loc = '';
 
-	foreach $i (keys(%langs)) {
+	foreach my $i (keys(%langs)) {
 	    my $lang_id = $i & 0xff;
 	    my $region_id = ($i & 0xff00) >> 11;
 	    
@@ -337,8 +284,7 @@ EOF
 	$weight = input_weight($fname, $weight);
 	return if ($result != 0);
 
-	my $width = input_width($fname, 'Variable');
-	return if ($result != 0);
+	my $width = ($Face->is_fixed_width) ? 'Fixed' : 'Variable';
 
 	my $shape = $slant;
 	$shape .= " $subfamily" if ($subfamily ne '');
@@ -368,7 +314,6 @@ EOF
 	$hints .= " --Priority$m $priority";
     }
     
-    freetype_term();
 
     return $hints;
 }

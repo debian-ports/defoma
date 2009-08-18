@@ -1,3 +1,10 @@
+defoma (0.11.10-1) unstable; urgency=low
+
+  * QA upload.
+  * Fix dependency on libftp-perl (Closes: #514635, #285653)
+
+ -- Don Armstrong <don@debian.org>  Tue, 18 Aug 2009 16:15:28 -0700
+
 defoma (0.11.10-0.2) unstable; urgency=high
 
   * Non-maintainer upload.
