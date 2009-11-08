@@ -1,8 +1,10 @@
 #! /bin/sh
 
+set -e
+
 if [ "$1" = upgrade ]; then
   if dpkg --compare-versions "$2" le 0.4.0; then
-    /usr/bin/defoma-app -t clean psfontmgr
+    defoma-app -t clean psfontmgr
   fi
 fi
 

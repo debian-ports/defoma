@@ -1,3 +1,14 @@
+defoma (0.11.10-2) unstable; urgency=low
+
+  * QA upload to deal with lintian warnings in my packages
+  * Drop hardcoded patch in defoma utilities calls in
+    debhelper snippets. Closes: #533636
+  * Drop code dealing with upgrades from very old pre-0.4.12 versions
+    as it unconditionnally waits from user input
+    Closes: #553280
+
+ -- Christian Perrier <bubulle@debian.org>  Sun, 08 Nov 2009 18:33:42 +0100
+
 defoma (0.11.10-1) unstable; urgency=low
 
   * QA upload.

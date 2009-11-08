@@ -8,7 +8,7 @@ if [ "$1" = configure ]; then
     rm -f /etc/defoma/config/psfontmgr.conf
   fi
 
-  /usr/bin/defoma-app -t update psfontmgr 1>&2
+  defoma-app -t update psfontmgr 1>&2
 fi
 
 # dh_installdeb will replace this with shell code automatically

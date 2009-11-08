@@ -10,11 +10,11 @@ if [ "$1" = remove ]; then
     /usr/bin/defoma-font -t purge-all $FILE
   fi
   
-  /usr/bin/defoma-app -t purge psfontmgr
+  defoma-app -t purge psfontmgr
 fi
 
 if [ "$1" = upgrade ]; then
-  /usr/bin/defoma-app -t clean psfontmgr
+  defoma-app -t clean psfontmgr
 fi
 
 #DEBHELPER#

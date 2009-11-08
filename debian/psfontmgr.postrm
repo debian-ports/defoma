@@ -8,12 +8,12 @@ set -e
 FILE='/etc/defoma/hints/defoma-ps.hints'
 
 if [ "$1" = remove ]; then
-  /bin/rm -rf /var/lib/defoma/psfontmgr.d > /dev/null 2>&1 || true
+  rm -rf /var/lib/defoma/psfontmgr.d > /dev/null 2>&1 || true
 fi
 
 if [ "$1" = purge ]; then
-  /bin/rm -f $FILE $FILE~ > /dev/null 2>&1 || true
-  /bin/rmdir /etc/defoma/hints > /dev/null 2>&1 || true
+  rm -f $FILE $FILE~ > /dev/null 2>&1 || true
+  rmdir /etc/defoma/hints > /dev/null 2>&1 || true
 fi
 
 # dh_installdeb will replace this with shell code automatically
