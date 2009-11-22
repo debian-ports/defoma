@@ -1,3 +1,11 @@
+defoma (0.11.10-3) unstable; urgency=low
+
+  * QA upload to fix errors in previous QA upload
+  * Fix prerm snippets to properly call "defoma-font purge-all"
+    and not "defoma-font update". Closes: #557321
+
+ -- Christian Perrier <bubulle@debian.org>  Sun, 22 Nov 2009 15:34:49 +0100
+
 defoma (0.11.10-2) unstable; urgency=low
 
   * QA upload to deal with lintian warnings in my packages
