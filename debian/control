@@ -8,7 +8,7 @@ Standards-Version: 3.6.2.0
 
 Package: defoma
 Architecture: all
-Depends: whiptail | dialog, file, ${perl:Depends}
+Depends: whiptail | dialog, file, ${perl:Depends}, ${misc:Depends}
 Enhances: debhelper
 Suggests: defoma-doc, psfontmgr, x-ttcidfont-conf, dfontmgr
 Recommends: libfont-freetype-perl
@@ -26,6 +26,7 @@ Description: Debian Font Manager -- automatic font configuration framework
 
 Package: defoma-doc
 Architecture: all
+Depends: ${misc:Depends}
 Section: doc
 Description: Debian Font Manager documentation
  Defoma, which stands for DEbian FOnt MAnager, provides a framework
@@ -36,7 +37,7 @@ Description: Debian Font Manager documentation
 
 Package: psfontmgr
 Architecture: all
-Depends: defoma (>= 0.9.1), whiptail | dialog, ${perl:Depends}
+Depends: defoma (>= 0.9.1), whiptail | dialog, ${perl:Depends}, ${misc:Depends}
 Conflicts: defoma-ps, scigraphica-common (<= 0.7.1-3)
 Description: PostScript font manager -- part of Defoma, Debian Font Manager
  psfontmgr manages PostScript fonts through the Defoma framework. It

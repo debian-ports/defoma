@@ -1,3 +1,15 @@
+defoma (0.11.10-4) unstable; urgency=high
+
+  * QA upload.
+  * Fix dh_installdefoma: Use “if [ -x "`which foo 2>/dev/null`" ]”
+    instead of test -x `which foo` since test -x without parameter
+    succeeds, leading to the execution of the next command, breaking
+    maintainer scripts (Closes: #563121).
+  * Set urgency to “high” accordingly.
+  * Introduce ${misc:Depends} for all binary packages.
+
+ -- Cyril Brulebois <kibi@debian.org>  Thu, 31 Dec 2009 13:16:08 +0100
+
 defoma (0.11.10-3) unstable; urgency=low
 
   * QA upload to fix errors in previous QA upload
