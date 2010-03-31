@@ -21,6 +21,9 @@ build-indep-stamp:
 	cd build && debiandoc2text -lC ../doc/developers.sgml
 	cd build && debiandoc2text -lC ../doc/defoma-script.sgml
 
+	# generate the translated man pages
+	cd man/po4a && po4a po4a.cfg
+
 	touch build-indep-stamp
 
 clean:
@@ -28,7 +31,10 @@ clean:
 	dh_testroot
 	rm -f build-indep-stamp
 
-	-$(MAKE) clean
+	# make sure the POT and POs are up to date
+	cd man/po4a && po4a --rm-backups --rm-translations po4a.cfg
+
+	[ ! -f Makefile ] || $(MAKE) clean
 
 	find -type f -name "*~" | xargs rm -f
 	-rm -fr build
@@ -38,7 +44,7 @@ clean:
 install: build-indep
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	dh_prep
 	dh_installdirs
 
 	dh_install

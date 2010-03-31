@@ -1,3 +1,20 @@
+defoma (0.11.11) unstable; urgency=low
+
+  * QA upload to fix prehistoric i18n bug and a few lintian
+    thingies
+  * Bump debhelper compatibility to 7
+  * Switch to 3.0 source format
+  * Package is native
+  * No longer ignore erros from make in the clean target
+  * Drop useless debian/defoma.conffiles
+  * Drop all hardcoded paths to commands in maintainer scripts
+  * No longer ignore errors in prerm script (set -e)
+  * Switch to po4a for manpages translation. Thanks to
+    Nicolas François and Thomas Huriaux for patches
+    Closes: #326548
+
+ -- Christian Perrier <bubulle@debian.org>  Wed, 31 Mar 2010 22:08:16 +0200
+
 defoma (0.11.10-4) unstable; urgency=high
 
   * QA upload.

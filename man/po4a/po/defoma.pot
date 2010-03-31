@@ -1,0 +1,2674 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2007-02-11 12:01+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: ENCODING"
+
+# type: TH
+#: ../defoma.1:1
+#, no-wrap
+msgid "defoma"
+msgstr ""
+
+# type: TH
+#: ../defoma.1:1 ../defoma-app.1:1 ../Defoma::Common.3pm:1 ../defoma-font.1:2 ../Defoma::Font.3pm:1 ../defoma-hints.1:1 ../defoma-id.1:2 ../Defoma::Id.3pm:1 ../defoma-reconfigure.8:1 ../defoma-subst.1:2 ../Defoma::Subst.3pm:1 ../../psfontmgr/man/defoma-psfont-installer.1:1
+#, no-wrap
+msgid "March 4, 2001"
+msgstr ""
+
+# type: SH
+#: ../defoma.1:2 ../defoma-app.1:2 ../Defoma::Common.3pm:2 ../defoma-font.1:3 ../Defoma::Font.3pm:2 ../defoma-hints.1:2 ../defoma-id.1:3 ../Defoma::Id.3pm:2 ../defoma-reconfigure.8:2 ../defoma-subst.1:3 ../defoma-user.1:3 ../Defoma::Subst.3pm:2 ../dh_installdefoma.1:2 ../../psfontmgr/man/defoma-psfont-installer.1:2 ../../dfontmgr/man/dfontmgr.1:3
+#, no-wrap
+msgid "NAME"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:4
+msgid "defoma - Debian Font Manager, a framework for automatic font configuration."
+msgstr ""
+
+# type: SH
+#: ../defoma.1:4 ../defoma-app.1:5 ../Defoma::Common.3pm:4 ../defoma-font.1:5 ../Defoma::Font.3pm:4 ../defoma-hints.1:4 ../defoma-id.1:5 ../Defoma::Id.3pm:4 ../defoma-reconfigure.8:4 ../defoma-subst.1:5 ../defoma-user.1:5 ../Defoma::Subst.3pm:4 ../dh_installdefoma.1:4 ../../psfontmgr/man/defoma-psfont-installer.1:4 ../../dfontmgr/man/dfontmgr.1:5
+#, no-wrap
+msgid "SYNOPSIS"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:8
+msgid "B<defoma-font> [I<options>] I<command args..>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:12
+msgid "B<defoma-app> [I<options>] I<command args..>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:16
+msgid "B<defoma-subst> [I<options>] I<command args..>"
+msgstr ""
+
+# type: SH
+#: ../defoma.1:16 ../defoma-app.1:26 ../Defoma::Common.3pm:60 ../defoma-font.1:45 ../Defoma::Font.3pm:45 ../defoma-hints.1:10 ../defoma-id.1:35 ../Defoma::Id.3pm:83 ../defoma-reconfigure.8:7 ../defoma-subst.1:29 ../defoma-user.1:17 ../Defoma::Subst.3pm:48 ../dh_installdefoma.1:7 ../../psfontmgr/man/defoma-psfont-installer.1:6 ../../dfontmgr/man/dfontmgr.1:8
+#, no-wrap
+msgid "DESCRIPTION"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:21
+msgid ""
+"Defoma stands for Debian Font Manager. It provides a framework for automatic "
+"font configuration. This manpage introduces general Defoma concepts, please "
+"refer the manpage of defoma-font, defoma-app, or defoma-subst for the "
+"detailed information of each command."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:26
+msgid ""
+"Fonts are used by numerous applications, but generally need to be configured "
+"separately for each application. Defoma solves this problem by calling "
+"configuration scripts to update the font configuration of applications "
+"whenever a font is installed or removed."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:30
+msgid ""
+"A B<Defoma-configuration script> is a perl library that each application "
+"should install as"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:34
+msgid "I<application-name>.defoma under /usr/share/defoma/scripts"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:37
+msgid ""
+"and which configures a font for that application. The following is an "
+"example of a script named"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:39
+msgid "foo.defoma."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:43
+#, no-wrap
+msgid "@ACCEPT_CATEGORIES = qw(type1 truetype);\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:45
+#, no-wrap
+msgid "package foo;\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:50
+#, no-wrap
+msgid ""
+"sub type1 {\n"
+"  my $com = shift;\n"
+"  ...\n"
+"}\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:55
+#, no-wrap
+msgid ""
+"sub truetype {\n"
+"  my $com = shift;\n"
+"  ...\n"
+"}\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:57
+#, no-wrap
+msgid "1;\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:69
+msgid ""
+"This example represents an application I<foo> that wants to configure "
+"I<truetype> and I<type1> category fonts. A function by the same name as the "
+"relevant category is called by Defoma with a command as the first argument, "
+"and then additional arguments depending on the command.  The following is a "
+"list of commands."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:78
+#, no-wrap
+msgid ""
+"* register\n"
+"* unregister\n"
+"* do-install-real do-install-alias do-install-subst\n"
+"* do-remove-real do-remove-alias do-remove-subst\n"
+"* init\n"
+"* term\n"
+"* purge\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:85
+msgid ""
+"I<do-install-*> and I<do-remove-*> commands are only called from B<Id "
+"cache.> I<init> and I<term> are called at the start and end (respectively) "
+"of the entire process."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:95
+msgid ""
+"B<Id cache> is another feature of Defoma. A common problem during automatic "
+"configuration is name space conflicts. Usually applications access fonts "
+"through logical font names (like XLFDs and PostScript font names) rather "
+"than the fonts themselves (as font filenames). Logical font names, called "
+"identifiers in Defoma, can easily conflict especially when font aliases are "
+"permitted. Through the Id cache mechanism, only one font is actually "
+"installed for each identifier even if it is provided by several fonts."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:104
+msgid ""
+"B<Id Substitution> is an additional feature of B<Id cache>.  It selects a "
+"font to provide an id specified by a rulefile.  The rulefile describes rules "
+"giving required ids and their hints.  A rule is used to have more "
+"similar-looking fonts with the same characters substitute for a required "
+"id. This feature can also be used for the purpose of grouping fonts into "
+"different categories."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:109
+msgid ""
+"A B<category> represents a type of font. Generally fonts that belong to the "
+"same category are configured the same way."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:116
+msgid ""
+"B<Hints> represent essential font information and typeface information about "
+"the font.  They consist of some HintTypes and their values. They can be "
+"specified from the command line options of defoma-font, or through a "
+"B<hintfile>."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:120
+msgid ""
+"B<Hintfile> describes one or more fonts and their hints in a single file. It "
+"is supposed to be put under"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:122
+msgid "/etc/defoma/hints"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:124
+msgid "as a conffile, so that users can modify the hints."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:129
+msgid ""
+"Below is an example hintfile.  B<defoma-hints> is a tool to help generating "
+"hints as well as the hintfile, so you do not have to create one from "
+"scratch."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:150
+#, no-wrap
+msgid ""
+"category type1\n"
+"begin /usr/share/fonts/type1/foo.pfa\n"
+"  FontName = Helvetica\n"
+"  Charset = ISO8859-1\n"
+"  Family = Helvetica\n"
+"  Weight = Medium\n"
+"  Shape = Upright NoSerif\n"
+"  GeneralFamily = SansSerif\n"
+"  X-FontName = -urw-helvetica-medium-r-noraml--0-0-0-0-p-iso8859-1\n"
+"end\n"
+"begin /usr/share/fonts/type1/foob.pfa\n"
+"  FontName = Helvetica-Bold\n"
+"  Charset = ISO8859-1\n"
+"  Family = Helvetica\n"
+"  Weight = Bold\n"
+"  Shape = Upright NoSerif\n"
+"  GeneralFamily = SansSerif\n"
+"  X-FontName = -urw-helvetica-bold-r-noraml--0-0-0-0-p-iso8859-1\n"
+"end\n"
+msgstr ""
+
+# type: SH
+#: ../defoma.1:152 ../defoma-app.1:125 ../Defoma::Common.3pm:255 ../defoma-font.1:137 ../defoma-hints.1:34 ../defoma-id.1:38 ../Defoma::Id.3pm:406 ../defoma-reconfigure.8:19 ../defoma-subst.1:124 ../defoma-user.1:21 ../Defoma::Subst.3pm:175 ../dh_installdefoma.1:46 ../../psfontmgr/man/defoma-psfont-installer.1:24 ../../dfontmgr/man/dfontmgr.1:47
+#, no-wrap
+msgid "SEE ALSO"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:163
+msgid ""
+"B<defoma-font>(1).  B<defoma-app>(1).  B<defoma-subst>(1).  "
+"B<defoma-hints>(1).  B<defoma-psfont-installer>(1).  "
+"B<defoma-reconfigure>(1).  B<Defoma::Font>(3pm).  B<Defoma::Id>(3pm).  "
+"B<Defoma::Subst>(3pm).  B<Defoma::Common>(3pm)."
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:165
+msgid "/usr/share/doc/defoma-doc/developers.html/index.html"
+msgstr ""
+
+# type: Plain text
+#: ../defoma.1:167
+msgid "/usr/share/doc/defoma-doc/defoma-script.html/index.html"
+msgstr ""
+
+# type: TH
+#: ../defoma-app.1:1
+#, no-wrap
+msgid "defoma-app"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:5
+msgid ""
+"defoma-app - configure a specific application about fonts registered in "
+"Debian Font Manager."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:10
+msgid "B<defoma-app> [I<options>] B<clean> I<application [category..]>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:15
+msgid "B<defoma-app> [I<options>] B<update> I<application [category..]>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:20
+msgid "B<defoma-app> [I<options>] B<purge> I<application>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:25
+msgid "B<defoma-app> [I<options>] B<ignore> I<application [category..]>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:34
+msgid ""
+"B<defoma-app> is a tool to configure the fonts registered in Defoma, Debian "
+"Font Manager, for a specific application. Defoma calls the "
+"Defoma-configuration script of the specified application with register or "
+"unregister command for each of the fonts registered in the categories "
+"accepted by the application.  It is supposed to be invoked from "
+"postinst/prerm scripts of application packages, but may be invoked from "
+"console."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:38
+msgid ""
+"I<application> specifies the name of the application that is going to be "
+"configured.  The specified application must have"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:40
+msgid "I<application-name>.defoma"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:42
+msgid "perl script under"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:44
+msgid "/usr/share/defoma/scripts."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:50
+msgid ""
+"If I<category> is specified, only the fonts in the specified categories get "
+"processed.  Otherwise all the fonts in all the categories accepted by the "
+"application get processed."
+msgstr ""
+
+# type: SH
+#: ../defoma-app.1:50 ../defoma-font.1:74 ../defoma-subst.1:52
+#, no-wrap
+msgid "COMMANDS"
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:51
+#, no-wrap
+msgid "B<update>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:70
+msgid ""
+"Update the configuration of the specified I<application> about the fonts "
+"registered in the specified I<category>.  I<category> can be omitted. When "
+"it is specified and the specified category is set B<ignored> (to be "
+"mentioned later), B<ignore> flag gets unset so the category gets updated.  "
+"Internally the Defoma-configuration script of the application gets called "
+"with B<unregister> command first and then with B<register> command for each "
+"font of the category. Some directories and symlinks specified in the header "
+"of the script might be generated automatically."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:75
+msgid ""
+"This command should be invoked when the Defoma-configuration script is newly "
+"installed or updated so that the script gets installed to Defoma data "
+"directory and the fonts get configured to the application. It means it is "
+"supposed to be invoked on the postinst configure phase."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:75
+#, no-wrap
+msgid "B<clean>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:86
+msgid ""
+"Clean up the configuration of the specified I<application> about the fonts "
+"registered in the specified I<category>.  I<category> can be "
+"omitted. Internally the Defoma-configuration script of the application gets "
+"called with B<unregister> command for each font of the category."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:86 ../defoma-font.1:103
+#, no-wrap
+msgid "B<purge>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:93
+msgid ""
+"This command is almost the same as B<clean> command. It only differs on "
+"removing the script installed in the defoma data directory and some "
+"directories and symlinks if any was generated in the update command before."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:97
+msgid ""
+"This command should be invoked when the Defoma-configuration script is going "
+"to be removed so that the script gets removed and the font configuration "
+"gets cleaned. It means it is supposed to be invoked on the prerm remove "
+"phase."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:97
+#, no-wrap
+msgid "B<ignore>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:112
+msgid ""
+"This command makes the specified I<application> not use the fonts registered "
+"in the specified I<category>.  It removes the fonts in the category out of "
+"the font configuration and sets the `ignore' flag against the category in "
+"order to make the Defoma-configuration script of the application not accept "
+"fonts in the category. If I<category> is omitted, all categories gets "
+"ignored. To unset the `ignore' flag, run defoma-app with B<update> command "
+"and the category against which you want to unset the flag."
+msgstr ""
+
+# type: SH
+#: ../defoma-app.1:112 ../defoma-font.1:118 ../defoma-hints.1:15 ../defoma-subst.1:94 ../dh_installdefoma.1:29
+#, no-wrap
+msgid "OPTIONS"
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:113 ../defoma-font.1:119 ../defoma-subst.1:95
+#, no-wrap
+msgid "B<-t>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:116 ../defoma-font.1:122 ../defoma-subst.1:98
+msgid "Exit with true value (0) even if error occurs."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:116 ../defoma-font.1:122 ../defoma-subst.1:98
+#, no-wrap
+msgid "B<-v>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:119 ../defoma-font.1:125 ../defoma-subst.1:101
+msgid "Verbose output."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:119 ../defoma-font.1:125 ../defoma-subst.1:101
+#, no-wrap
+msgid "B<-d>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:122
+msgid "Debug/Testing mode."
+msgstr ""
+
+# type: TP
+#: ../defoma-app.1:122 ../defoma-font.1:128 ../defoma-subst.1:104
+#, no-wrap
+msgid "B<-q>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:125 ../defoma-font.1:131 ../defoma-subst.1:107
+msgid "Quiet output."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-app.1:127 ../Defoma::Common.3pm:257 ../defoma-font.1:138 ../defoma-hints.1:35 ../defoma-reconfigure.8:20 ../defoma-subst.1:125 ../../psfontmgr/man/defoma-psfont-installer.1:25
+msgid "B<defoma>(1)."
+msgstr ""
+
+# type: TH
+#: ../Defoma::Common.3pm:1
+#, no-wrap
+msgid "Defoma::Common"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:4
+msgid "Defoma::Common - Defoma module providing miscellaneous functions."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:7
+msgid "use Defoma::Common;"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:11
+msgid "$h = parse_hints_start( I<hints...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:16
+msgid "$hsub = parse_hints_subhints( I<hints_hash>, I<face> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:21
+msgid "$hsub = parse_hints_subhints_inherit( I<hints_hash>, I<face> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:26
+msgid "parse_hints_cut( I<hints_hash>, I<hinttypes...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:31
+msgid "parse_hints_cut_except( I<hints_hash>, I<hinttypes...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:35
+msgid "@hints = parse_hints_build( I<hints_hash> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:39
+msgid "$charset = get_charset( I<xencoding> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:44
+msgid "$xencoding = get_xencoding( I<charset>, I<encoding> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:50
+msgid ""
+"@XLFDs = get_xlfd_of_font( I<font>, level =E<gt> I<level>, face =E<gt> "
+"I<face> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:54
+msgid "my $num = weight_ascii2integer( I<weightstring> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:58
+msgid "my $num = weight_a2i( I<weightstring> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:65
+msgid ""
+"B<parse_hints_start> is a function to convert hints in an array to a "
+"hash. Hints consist of a list of hinttype and its value(s). Following is the "
+"example of hints in an array form."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:69
+msgid ""
+"--FontName Helvetica-BoldItalic --Family Helvetica --GeneralFamily SansSerif "
+"--Weight Bold --Shape NoSerif Italic --Charset ISO8859-1"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:75
+msgid ""
+"In this example, FontName, Family, GeneralFamily, Weight, Shape and Charset "
+"are hinttypes. Items starting with double minus characters \\&'--' are taken "
+"as hinttype. The others are taken as values.  The function converts this "
+"array to a hash described in the following style."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:84
+#, no-wrap
+msgid ""
+"FontName =E<gt> 'Helvetica-BoldItalic',\n"
+"Family =E<gt> 'Helvetica',\n"
+"GeneralFamily =E<gt> 'SansSerif',\n"
+"Weight =E<gt> 'Bold',\n"
+"Shape =E<gt> 'NoSerif Italic',\n"
+"Charset =E<gt> 'ISO8859-1'\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:90
+msgid ""
+"You see that hinttypes are used as keys of a hash, and that Shape has two "
+"values, NoSerif and Italic. If a certain hinttype has more than one values, "
+"they are combined into a single string separated by space."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:97
+msgid ""
+"B<parse_hints_subhints> is a function to get a sub hint hash pointed by "
+"I<face> from the hint hash specified by I<hints_hash>.  Please look at "
+"following example of a hint hash."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:109
+#, no-wrap
+msgid ""
+"$h = {Inherit =E<gt> 'Charset Weight',\n"
+"      FontName =E<gt> 'Helvetica',\n"
+"      Charset =E<gt> 'ISO8859-1',\n"
+"      Weight =E<gt> 'Medium',\n"
+"      Shape =E<gt> 'Upright',\n"
+"      FontName1 =E<gt> 'Helvetica-Bold',\n"
+"      Weight1 =E<gt> 'Bold',\n"
+"      FontName2 =E<gt> 'Helvetica-Unicode',\n"
+"      Charset2 =E<gt> 'ISO10646-1'};\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:116
+msgid ""
+"You see there're some numbered hinttypes.  B<parse_hints_subhints> extracts "
+"the hints of the specific number from it. For example, you can extract the "
+"non-numbered hints FontName and Charset by:"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:120
+#, no-wrap
+msgid "$hsub = parse_hints_subhints($h, 0);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:124
+msgid "and the content of $hsub will be:"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:131
+#, no-wrap
+msgid ""
+"FontName =E<gt> 'Helvetica',\n"
+"Charset =E<gt> 'ISO8859-1',\n"
+"Weight =E<gt> 'Medium',\n"
+"Shape =E<gt> 'Upright'\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:137
+msgid ""
+"If you set 1 to the second argument of B<parse_hints_subhints>, the content "
+"of $hsub will be:"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:142
+#, no-wrap
+msgid ""
+"FontName =E<gt> 'Helvetica-Bold',\n"
+"Weight =E<gt> 'Bold'\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:146
+msgid "Note that the number of each hinttype is removed."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:155
+msgid ""
+"B<parse_hints_subhints_inherit> is almost the same as "
+"B<parse_hints_subhints>, only differs it inherits non-numbered hints "
+"specified by Inherit hinttype.  Following is the result of "
+"B<parse_hints_subhints_inherit> with 1 and 2 set to the second argument in "
+"the example of B<parse_hints_subhints>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:161
+#, no-wrap
+msgid ""
+"FontName =E<gt> 'Helvetica-Bold',\n"
+"Weight =E<gt> 'Bold',\n"
+"Charset =E<gt> 'ISO8859-1'\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:165
+#, no-wrap
+msgid ""
+"FontName =E<gt> 'Helvetica-Unicode',\n"
+"Weight =E<gt> 'Medium',\n"
+"Charset =E<gt> 'ISO10646-1'\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:176
+msgid ""
+"B<parse_hints_cut> is a function to remove hinttypes specified by "
+"I<hinttypes> and their values from the hint hash.  It is supposed to be used "
+"together with B<parse_hints_build> function."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:184
+msgid ""
+"B<parse_hints_cut_except> is a function to remove all hinttypes except those "
+"specified by I<hinttypes> and their values from the hint hash.  It is "
+"supposed to be used together with B<parse_hints_build> function."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:187
+msgid "B<parse_hints_build> is a function to convert hints in a hash to an array."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:194
+msgid ""
+"B<get_charset> is a function to convert X-RegistryEncoding specified by "
+"I<xencoding> into Charset. X-RegistryEncoding is the last two elements of "
+"XLFD, like iso8859-1 and jisx0208.1983-0. The returned values of these two "
+"are ISO8859-1 and JISX0208 respectively."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:203
+msgid ""
+"B<get_xencoding> is a function to convert Charset and Encoding specified by "
+"I<charset> and I<encoding> into X-RegistryEncoding.  I<encoding> is often "
+"omitted."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:212
+msgid ""
+"B<weight_ascii2integer> is a function to convert Weight in string (like Bold "
+"and Medium) into a numeric value (integer). Medium is always zero, and the "
+"bolder, the larger, the lighter, the smaller. For example, Bold is +2, and "
+"Light is -2.  B<weight_a2i> is abbreviation for B<weight_ascii2integer>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:238
+msgid ""
+"B<get_xlfd_of_font> is a function to get an array of XLFDs of a font "
+"specified by I<font>.  You can control the amount of gained XLFDs by "
+"I<level> and I<face> options.  I<level> must be either of I<'min'>, "
+"I<'normal'>, or I<'max'>.  When I<min> is specified, not-slanted "
+"not-boldized XLFDs registered in xfont category will be returned.  When "
+"I<normal> is specified, XLFDs including boldized and/or slanted (but not "
+"reverse slanted)  ones registered in xfont category will be returned.  When "
+"I<max> is specified, all generated XLFDs will be returned."
+msgstr ""
+
+# type: SH
+#: ../Defoma::Common.3pm:238 ../defoma-font.1:131 ../Defoma::Font.3pm:114 ../defoma-hints.1:27 ../Defoma::Id.3pm:363 ../defoma-subst.1:107 ../Defoma::Subst.3pm:136
+#, no-wrap
+msgid "EXAMPLES"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:243
+#, no-wrap
+msgid "$h = parse_hints_start(@_);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:249
+#, no-wrap
+msgid ""
+"@shape = split(/ /, $h-E<gt>{Shape});\n"
+"@alias = split(/ /, $h-E<gt>{Alias});\n"
+"$priority = $h-E<gt>{Priority};\n"
+"$realname = $h-E<gt>{FontName};\n"
+"$realname =~ s/ .*//;\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Common.3pm:252
+#, no-wrap
+msgid ""
+"parse_hints_cut($h, 'Priority', 'FontName', 'Charset');\n"
+"@hints = parse_hints_build($h);\n"
+msgstr ""
+
+# type: TH
+#: ../defoma-font.1:2
+#, no-wrap
+msgid "defoma-font"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:5
+msgid "defoma-font - register/unregister font(s) to Debian Font Manager"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:10
+msgid "B<defoma-font> [I<options>] B<register> I<category font hints...>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:15
+msgid "B<defoma-font> [I<options>] B<unregister> I<category font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:20
+msgid "B<defoma-font> [I<options>] B<reregister> I<category font hints...>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:25
+msgid "B<defoma-font> [I<options>] B<purge> I<category font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:30
+msgid "B<defoma-font> [I<options>] B<register-all> I<hintfile>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:35
+msgid "B<defoma-font> [I<options>] B<unregister-all> I<hintfile>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:40
+msgid "B<defoma-font> [I<options>] B<reregister-all> I<hintfile>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:45
+msgid "B<defoma-font> [I<options>] B<purge-all> I<hintfile>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:53
+msgid ""
+"B<defoma-font> is a tool to register or unregister font(s) to Defoma, Debian "
+"Font Manager. Defoma then calls Defoma-configuration-scripts provided by "
+"applications to make the font(s) configured for the applications which can "
+"make use of them. It is supposed to be called from postinst and prerm "
+"scripts, but may be called from console for not-packaged addon fonts."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:62
+msgid ""
+"There are two methods of registering/unregistering font(s): by specifying "
+"one font with its hints, or through a I<hintfile> , which describes several "
+"fonts with their hints.  Font packages may possibly use the latter method, "
+"installing a I<hintfile> under /etc/defoma/hints as conffile.  The latter "
+"method has '-all' added in the commands."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:74
+msgid ""
+"I<category> specifies the category of a font like type1, truetype and so "
+"on.  I<font> specifies the font itself and is either a full path to the "
+"font, or a logical font name.  I<hints> specify the hints of the font, which "
+"contain essential information of the font like FontName, Charset and "
+"Encoding, appearance information of the font representing its face like "
+"Weight, Shape, GeneralFamily and Width, and additional information of the "
+"font like Alias and Priority."
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:75
+#, no-wrap
+msgid "B<register>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:84
+msgid ""
+"Register the specified I<font> with the specified I<hints> into the "
+"specified I<category> unless the font is already registered."
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:84
+#, no-wrap
+msgid "B<unregister>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:92
+msgid ""
+"Unregister the specified I<font> which must be already registered in the "
+"specified I<category>.  If the font is marked as use or exclude in an Id "
+"cache of a certain application, the marks are left intact."
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:92
+#, no-wrap
+msgid "B<reregister>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:103
+msgid ""
+"If the specified I<font> is already registered, the registered hints and the "
+"specified I<hints> are compared. If these hints differs, the font first gets "
+"unregistered and then newly registered with the specified new hints.  If the "
+"font is not registered, following process is the same as B<register> "
+"command."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:108
+msgid ""
+"This command is almost the same as B<unregister> command, except that this "
+"command removes the marks in an Id cache."
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:108
+#, no-wrap
+msgid "B<register-all>"
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:110
+#, no-wrap
+msgid "B<unregister-all>"
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:112
+#, no-wrap
+msgid "B<reregister-all>"
+msgstr ""
+
+# type: TP
+#: ../defoma-font.1:114
+#, no-wrap
+msgid "B<purge-all>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:118
+msgid "These commands operate all the fonts written in the specified I<hintfile>."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:128 ../defoma-subst.1:104
+msgid "More verbose output."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-font.1:137
+#, no-wrap
+msgid ""
+"defoma-font -vt register type1 /usr/share/fonts/type1/foo.pfa \\e\n"
+"  --FontName Helvetica --Charset ISO8859-1 --Weight Medium \\e\n"
+"  --Shape Upright NoSerif --GeneralFamily SansSerif\n"
+"defoma-font reregister-all /etc/defoma/hints/microsoft.hints\n"
+msgstr ""
+
+# type: TH
+#: ../Defoma::Font.3pm:1
+#, no-wrap
+msgid "Defoma::Font"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:4
+msgid "Defoma::Font - Defoma module to handle font and font-cache."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:7
+msgid "use Defoma::Font;"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:13
+msgid "defoma_font_register( I<category>, I<font>, I<hints...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:18
+msgid "defoma_font_unregister( I<category>, I<font> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:24
+msgid "defoma_font_reregister( I<category>, I<font>, I<hints...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:29
+msgid "defoma_font_if_register( I<category>, I<font> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:33
+msgid "@fonts = defoma_font_get_fonts( I<category> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:38
+msgid "@hints = defoma_font_get_hints( I<category>, I<font> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:43
+msgid "%failedapps = defoma_font_get_failed ( I<category>, I<font> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:51
+msgid ""
+"Defoma::Font is a Defoma module to handle registration/unregistration of "
+"fonts and font-caches. It provides functions listed above which are supposed "
+"to be called from Defoma-configuration scripts when the scripts want to "
+"register/unregister a font, and need to retrieve the data recorded in a "
+"font-cache, which holds fonts and their hints."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:64
+msgid ""
+"B<defoma_font_register> is a function used to register a specified I<font> "
+"into a specified I<category> with specified I<hints>.  If the specified font "
+"is already registered, it returns non-zero. Otherwise the font and the hints "
+"are registered into the font-cache of the specified category, and further "
+"Defoma-configuration scripts get called which accept the specified category "
+"with register command."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:74
+msgid ""
+"B<defoma_font_unregister> is a function used to unregister a specified "
+"I<font> from a specified I<category>.  If the font is not registered in the "
+"category, it returns non-zero.  Otherwise further Defoma-configuration "
+"scripts get called which accept the specified category with unregister "
+"command, and the font and the hints are removed from the font-cache of the "
+"category."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:86
+msgid ""
+"B<defoma_font_reregister> is a function which actually calls "
+"I<defoma_font_unregister> and I<defoma_font_register> in order. If a "
+"specified I<font> if not registered in a specified I<category>, "
+"unregisteration is skipped. If the font is already registered in another "
+"category, it returns non-zero."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:93
+msgid ""
+"B<defoma_font_if_register> if a function that checks if a specified I<font> "
+"is registered in a specified I<category>.  If the font is registered, it "
+"returns non-zero. Otherwise it returns zero."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:100
+msgid ""
+"B<defoma_font_get_fonts> is a function used to obtain a list of fonts "
+"reigstered in the specified I<category>.  It returns a list of fonts in an "
+"array.  (font1 font2 font3 ...)"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:107
+msgid ""
+"B<defoma_font_get_hints> is a function used to obtain hints of the specified "
+"I<font> registered in the specified I<category>.  It returns a list of hints "
+"in an array."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:114
+msgid ""
+"B<defoma_font_get_failed> is a function used to obtain applications for "
+"which Defoma failed to configure the specified I<font>.  It returns a hash "
+"whose keys are applications and whose values are error status."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:116
+msgid "1. Register 'Helvetica-Bold' in postscript category with hints."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:121
+#, no-wrap
+msgid ""
+"$font = 'Helvetica-Bold';\n"
+"@hints = ('--Family', 'Helvetica', '--Weight', 'Bold',\n"
+"          '--Charset', 'ISO8859-1);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:123
+#, no-wrap
+msgid "defoma_font_register('postscript', $font, @hints);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:126
+msgid "2. Unregister 'foo.pfa' from type1 category."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:129 ../Defoma::Font.3pm:137
+#, no-wrap
+msgid "$font = '/usr/share/fonts/foo.pfa';\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:131
+#, no-wrap
+msgid "defoma_font_unregister('type1', $font);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:134
+msgid "3. Unregister 'foo.pfa' from type1 category if registered."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:141
+#, no-wrap
+msgid ""
+"if (defoma_font_if_register('type1', $font)) {\n"
+"  defoma_font_unregister('type1', $font);\n"
+"}\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:144
+msgid "4. Get a list of fonts and their hints."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Font.3pm:152
+#, no-wrap
+msgid ""
+"%hash = ();\n"
+"@fonts = defoma_font_get_fonts('x-postscript');\n"
+"foreach $font (@fonts) {\n"
+"  $hash{$font} = [];\n"
+"  @{$hash{$font}} = defoma_font_get_hints('x-postscript', $font);\n"
+"}\n"
+msgstr ""
+
+# type: TH
+#: ../defoma-hints.1:1
+#, no-wrap
+msgid "defoma-hints"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:4
+msgid "defoma-hints - generate font hints."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:9
+msgid "B<defoma-hints> [B<-c>] [B<--no-question>] I<category fonts...>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:15
+msgid ""
+"B<defoma-hints> is a tool to help generating font hints. It asks various "
+"questions about the typeface of a font, reads information from a font file, "
+"and outputs the generated hints to STDOUT in a hintfile format."
+msgstr ""
+
+# type: TP
+#: ../defoma-hints.1:16
+#, no-wrap
+msgid "B<-c>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:19
+msgid "Force text interface, even if $DISPLAY is set."
+msgstr ""
+
+# type: TP
+#: ../defoma-hints.1:19
+#, no-wrap
+msgid "B<--no-question>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:22
+msgid "Accept default hint choice without prompting."
+msgstr ""
+
+# type: SH
+#: ../defoma-hints.1:22 ../../psfontmgr/man/defoma-psfont-installer.1:18
+#, no-wrap
+msgid "FILES"
+msgstr ""
+
+# type: TP
+#: ../defoma-hints.1:23
+#, no-wrap
+msgid "/usr/share/defoma/libhint-*.pl"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:27
+msgid ""
+"Perl libraries which are prepared for each category. These are "
+"category-specific hints-generating program."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:30
+msgid ""
+"1. Create a hintfile named type1.hints for type1 fonts in "
+"/usr/share/fonts/type1."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-hints.1:33
+#, no-wrap
+msgid ""
+"defoma-hints --no-question type1 /usr/share/fonts/type1/*.pfb E<gt> "
+"type1.hints\n"
+msgstr ""
+
+# type: TH
+#: ../defoma-id.1:2
+#, no-wrap
+msgid "defoma-id"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:5
+msgid "defoma-id - Manage id-cache of Debian Font Manager"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:10
+msgid "B<defoma-id> [I<options>] B<list-cache> I<app>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:15
+msgid "B<defoma-id> [I<options>] B<install> I<app/id-cache id font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:20
+msgid "B<defoma-id> [I<options>] B<exclude> I<app/id-cache id font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:25
+msgid "B<defoma-id> [I<options>] B<unset> I<app/id-cache id font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:30
+msgid "B<defoma-id> [I<options>] B<add-alias> I<app/id-cache id font alias>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:35
+msgid "B<defoma-id> [I<options>] B<remove-alias> I<app/id-cache alias font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:38
+msgid ""
+"B<defoma-id> is supposed to be invoked not from a command line, but from "
+"dfontmgr."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-id.1:41 ../defoma-user.1:23 ../../dfontmgr/man/dfontmgr.1:49
+msgid "B<defoma>(1).  B<dfontmgr>(1)."
+msgstr ""
+
+# type: TH
+#: ../Defoma::Id.3pm:1
+#, no-wrap
+msgid "Defoma::Id"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:4
+msgid "Defoma::Id - Defoma module to handle Id cache."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:7
+msgid "use Defoma::Id;"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:12
+msgid "$Id = defoma_id_open_cache( I<suffix>, I<package_name> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:16
+msgid "defoma_id_close_cache( I<id_object> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:19
+msgid "defoma_id_register( I<id_object>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:21 ../Defoma::Id.3pm:41 ../Defoma::Id.3pm:56
+msgid "type =E<gt> I<type>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:23 ../Defoma::Id.3pm:43 ../Defoma::Id.3pm:54
+msgid "font =E<gt> I<font>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:25 ../Defoma::Id.3pm:52
+msgid "id =E<gt> I<id>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:27
+msgid "priority =E<gt> I<priority>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:29 ../Defoma::Id.3pm:58
+msgid "category =E<gt> I<category>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:31
+msgid "origin =E<gt> I<origin>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:33
+msgid "depend =E<gt> I<depend>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:36
+msgid "hints =E<gt> I<hints> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:39
+msgid "defoma_id_unregister( I<id_object>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:46
+msgid "id =E<gt> I<id> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:50
+msgid "@index = defoma_id_grep_cache( I<id_object>, I<search-type>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:60
+msgid "depid =E<gt> I<depid>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:63
+msgid "depfont =E<gt> I<depfont> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:68
+msgid "@hints = defoma_id_get_hints( I<id_object>, I<index> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:75
+msgid "defoma_id_set( I<id_object>, I<id>, I<font>, I<flag> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:81
+msgid "defoma_id_unset( I<id_object>, I<id>, I<font> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:87
+msgid ""
+"Defoma::Id is a Defoma module to handle identifiers of fonts and id-caches.  "
+"It provides functions listed above which are supposed to be called from "
+"Defoma-configuration scripts."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:96
+msgid ""
+"id-cache is sort of a database and its aim is to avoid name space "
+"conflict. Applications often access fonts through their identifiers, so it "
+"is desirable that one identifier point only one font. It is a difficult "
+"requirement for automatic configuration because it can easily happen that "
+"two or more fonts have the same identifier. Automatic configuration scripts "
+"can hardly detect which font is the best to be named the identifier, or even "
+"such a situation occur. Defoma::Id is help for this problem."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:98
+msgid "The rough flow of how Defoma::Id works is:"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:102
+msgid "1. open an id-cache at I<init> command of a Defoma-configuration script."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:106
+msgid "2. register identifier(s) of a font at I<register> command of the script."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:111
+msgid ""
+"3. Defoma::Id looks up the id-cache to check if there's any other font that "
+"has the same identifier, and calls back the script to make the most "
+"appropriate font have the identifier, by do-install- command and do-remove- "
+"command."
+msgstr ""
+
+# type: SH
+#: ../Defoma::Id.3pm:111
+#, no-wrap
+msgid "TYPE OF IDENTIFIER"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:114
+msgid "It can handle three types of identifiers: RealName, Alias, and Substituted."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:121
+msgid ""
+"I<RealName> is a real name of a font and is usually taken from the FontName "
+"hint.  If you want to register a font to an id-cache, at least one RealName "
+"must be registered. You can pass the hints to I<options> when you register a "
+"RealName."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:127
+msgid ""
+"I<Alias> is another name of a font and is usually taken from the Alias "
+"hint.  You have to specify the RealName of the font with I<origin> when you "
+"register an Alias."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:136
+msgid ""
+"I<Substituted> is yet another name of a font, but unlike Alias, it is not "
+"taken from the hints of the font, nor directly registered to an id-cache by "
+"Defoma-configuration scripts. It is rather taken from a subst-rule, which is "
+"handled by Defoma::Subst module, and is registered by the module.  If you "
+"want a certain font to substitute for another id, you should register the "
+"font (and its RealName) to a subst-cache. For more detail, please refer the "
+"Defoma::Subst manpage."
+msgstr ""
+
+# type: SH
+#: ../Defoma::Id.3pm:136
+#, no-wrap
+msgid "DETAIL OF HOW DEFOMA::ID WORKS"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:141
+msgid ""
+"Registration and Unregistration of ids of a font are usually performed on "
+"Defoma-configuration scripts at register and unregister commands "
+"respectively, and actual installation and removal for a certain id of a font "
+"must not be performed at register and unregister commands, but at"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:145
+msgid "I<do-install-(real,alias,subst)> and I<do-remove-(real,alias,subst)>"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:149
+msgid ""
+"commands respectively.  Following explains how an id of a font is "
+"registered/unregistered to/from an id-cache."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:149
+#, no-wrap
+msgid "1.Registeration"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:152
+msgid ""
+"Defoma::Id module records the id, font, type, priority and some other "
+"informations in the id-cache."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:152
+#, no-wrap
+msgid "1.2"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:156
+msgid ""
+"the module seeks fonts which provides the id from the id-cache, and gets the "
+"most prior font of them. RealName is always more prior to Alias, and Alias "
+"is always more prior to Substituted."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:156
+#, no-wrap
+msgid "1.3"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:160
+msgid ""
+"If no font is actually installed for the id, the module calls back the "
+"script with do-install-E<lt>typeE<gt> command. If the script succeeds "
+"installation of the font for the id, the module records the id and the font "
+"as INSTALLED."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:160
+#, no-wrap
+msgid "1.4"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:167
+msgid ""
+"If another font is already INSTALLED for the id, the module calls back the "
+"script with do-remove-E<lt>typeE<gt> command to remove the old most-prior "
+"font for the id, and removes the INSTALLED entry. Then the module calls back "
+"again the script with do-install-E<lt>typeE<gt> command to install the new "
+"most-prior font for the id. If the script succeeds installation of the font "
+"for the id, the module records the id and the font as INSTALLED."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:167
+#, no-wrap
+msgid "2.Unregistration"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:174
+msgid ""
+"If the font is installed for the id, Defoma::Id module calls back the script "
+"with do-remove-E<lt>typeE<gt> command to remove the font for the id, and "
+"removes the INSTALLED entry. Then the module seeks fonts which provides the "
+"id from the id-cache. If the id is provided by other fonts, the module seeks "
+"the most-prior font from them, and installs it as mentioned above section "
+"1.3."
+msgstr ""
+
+# type: IP
+#: ../Defoma::Id.3pm:174
+#, no-wrap
+msgid "2.2"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:176
+msgid "The module removes the entry recording the id and the font."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:179
+msgid ""
+"These processes make only one, more appropriate font provide an certain id, "
+"so the name-space conflict would be avoided."
+msgstr ""
+
+# type: SH
+#: ../Defoma::Id.3pm:179
+#, no-wrap
+msgid "FORMAT OF ID CACHE"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:182
+msgid ""
+"id-cache holds eight items for each entry: id, font, type, priority, "
+"category, depid, depfont and hints."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:192
+msgid ""
+"B<type> represents the type of the entry in a combination of some letters.  "
+"id-cache handles font entry and mark entry. The latter is used to have a "
+"certain less prior font installed for a certain id (i.e. marked as USE), or "
+"to keep a certain font from being installed for a certain id (i.e. marked as "
+"EXCLUDE), and is supposed to be set by users and not to be referred from "
+"Defoma-configuration scripts, just for internal use. On the other hand, font "
+"entry holds information of a certain id of a font and may be referred from "
+"the scripts."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:216
+msgid ""
+"B<type> consists of two or three letters.  The first letter represents the "
+"type of the entry and is either B<S >orB< M > (font entry or mark entry, "
+"respectively). If the first letter is B<S>, which means it is font entry, "
+"the second letter represents the type of the font and is either B<r>,B< "
+"a>,B< S > (real, alias or subst respectively).  If the first letter is B<M>, "
+"which means it is mark entry, the second letter represents the type of the "
+"mark and either of B< u >orB< x > (use or exclude respectively).  If the "
+"entry is font entry, which means the first letter is B<S>, and the font and "
+"the id of the entry is INSTALLED, there's a third letter and it is B<I>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:232
+msgid ""
+"B<depid> and B<depfont> represent dependency of the id of the font. The font "
+"never gets installed unless the B<depfont> is installed for the B<depid>.  "
+"I<origin> and I<depend> arguments of B<defoma_id_register> affect these "
+"items. If the id of the font doesn't depend on any other id and/or font, "
+"these items are set to '.'."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:241
+msgid ""
+"B<hints> represents the hints of the id of the font. It is specified by "
+"I<hints> argument of B<defoma_id_register>.  You must use "
+"B<defoma_id_get_hints> to access the value of this item."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:245
+msgid ""
+"An item of each entry of an id-cache are accessible as an element of "
+"id-object whose key is e_id, e_font, e_type, e_priority, e_category, "
+"e_depid, e_depfont. For example,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:247
+msgid "$Id-E<gt>{e_font}-E<gt>[3]"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:249
+msgid "accesses the font of entry #3 of id-object $Id."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:253
+#, no-wrap
+msgid "Here's an example of an id-cache.\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:259
+#, no-wrap
+msgid ""
+"# e_id        e_font e_type e_priority e_category ...\n"
+"0 Helvetica   a.pfa  SrI    20         type1 ...\n"
+"1 Courier     a.pfa  Sa     20         type1 ...\n"
+"2 Times-Roman b.ttf  SrI    30         truetype ...\n"
+"3 Courier     b.ttf  SaI    30         truetype ...\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:265
+msgid ""
+"It show a.pfa has two identifiers: Helvetica for RealName and Courier for "
+"Alias, and b.ttf has two identifiers: Times-Roman for RealName and Courier "
+"For Alias."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:269
+msgid ""
+"Two fonts have the same identifier Courier, but this id-cache makes Courier "
+"point to b.ttf (in other words, lets b.ttf provide Courier)."
+msgstr ""
+
+# type: SH
+#: ../Defoma::Id.3pm:269
+#, no-wrap
+msgid "FUNCTIONS"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:284
+msgid ""
+"B<defoma_id_open_cache> is a function used to open an id-cache. id-caches "
+"are independent between applications so usually a Defoma-configuration "
+"script of a certain application cannot open an id-cache of another "
+"application.  Each application can have more than one id-caches, and each of "
+"them are distinguished by its I<suffix> unique to the application. You can "
+"omit the I<suffix> argument if the application uses only one id-cache.  "
+"I<package_name> should be omitted for most cases. It returns I<id_object> "
+"which is used as a descriptor for further handling of the id-cache."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:289
+msgid ""
+"B<defoma_id_close_cache> is a function used to close an id-cache. Internally "
+"it writes the content of an id-cache to the file which is identified by "
+"I<id_object>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:311
+msgid ""
+"B<defoma_id_register> is a function used to register a font and one of its "
+"ids to an id-cache identified by I<id_object>.  You must at least pass I< "
+"type>,I< font>,I< id >andI< priority> as its arguments.  I<type> is either "
+"of 'real', 'alias' or 'subst', which corresponds to RealName, Alias or "
+"Substituted mentioned above, respectively. 'subst' should be specified only "
+"by Defoma::Subst module, so 'real' and 'alias' are possible choices.  If "
+"'alias' is specified as the type of a font, you must specify the RealName of "
+"the font by I<origin>.  Specifying the I<origin> is required for "
+"non-RealName ids because they should not be installed unless the RealName of "
+"the font is installed.  If 'real' is specified as the type, you can specify "
+"the hints of the font by I<hints>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:321
+msgid ""
+"B<defoma_id_unregister> is a function used to unregister one or all "
+"registered id(s) of a certain font from and id-cache. If I<id> is specified, "
+"only the id of the specified I<font> is unregistered from the id-cache "
+"specified by I<id_object>.  Otherwise, all ids of the font are unregistered."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:333
+msgid ""
+"B<defoma_id_grep_cache> is a function that searches the id-cache specified "
+"by I<id_object> for the specified id/font/category/depid/depfont, and "
+"returns a list of indexes.  I<search-type> is either of real, alias, subst, "
+"font, installed or mark, which narrows down the subjects of searching.  I<id "
+">,I<font >,I<type >,I<category >,I<depid >andI< depfont > decides the "
+"subjects of searching more specifically. Not all of these, nor none of these "
+"are required."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:345
+msgid ""
+"B<defoma_id_get_hints> is a function that returns hints of the I<index> of "
+"the id-cache specified by I<id_object .> If the index of Alias or "
+"Substituted is specified, it returns the hints of its RealName that is "
+"specified in the I<origin> argument of B<defoma_id_register> when the "
+"Alias/Substituted identifier was registered."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:363
+msgid ""
+"B<defoma_id_set> is a function used to make the specified I<font> provide "
+"the specified I<id>, or to prevent the specified I<font> from providing the "
+"specifid I<id>.  B<install> or B<exclude> may be given to the I<flag>.  "
+"B<defoma_id_unset> is a function used to unset the set flag of the specified "
+"I<id>andI<font>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:369
+#, no-wrap
+msgid ""
+"# Open an id-cache with 'test' as its suffix.\n"
+"$Id = defoma_id_open_cache('test');\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:376
+#, no-wrap
+msgid ""
+"# register ids in register command.\n"
+"my $font = shift;\n"
+"my $h = parse_hints_start('Alias', @_);\n"
+"my $fontname = $h-E<gt>{FontName};\n"
+"my @alias = split(/ /, $h-E<gt>{Alias});\n"
+"my $pri = $h-E<gt>{Priority};\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:383
+#, no-wrap
+msgid ""
+"defoma_id_register($Id,\n"
+"                   type =E<gt> 'real',\n"
+"                   font =E<gt> $font,\n"
+"                   id =E<gt> $fontname,\n"
+"                   priority =E<gt> $pri,\n"
+"                   hints =E<gt> join(' ', @_));\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:392
+#, no-wrap
+msgid ""
+"foreach my $i (@alias) {\n"
+"  defoma_id_register($Id,\n"
+"                     type =E<gt> 'alias',\n"
+"                     font =E<gt> $font,\n"
+"                     id =E<gt> $i,\n"
+"                     priority =E<gt> $pri,\n"
+"                     origin =E<gt> $fontname);\n"
+"}\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:396
+#, no-wrap
+msgid ""
+"# unregister ids.\n"
+"defoma_id_unregister($Id, type =E<gt> 'alias', font =E<gt> $font);\n"
+"defoma_id_unregister($Id, type =E<gt> 'real', font =E<gt> $font);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:399
+#, no-wrap
+msgid ""
+"# close an id-cache\n"
+"defoma_id_close_cache($Id);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:403
+#, no-wrap
+msgid ""
+"# get a list of indexes of installed fonts that have\n"
+"#'Helvetica' for the id.\n"
+"my @list = defoma_id_grep_cache($Id, 'installed', id =E<gt> 'Helvetica');\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Id.3pm:409
+msgid "B<defoma>(1).  B<Defoma::Font>(1).  B<Defoma::Subst>(1)."
+msgstr ""
+
+# type: TH
+#: ../defoma-reconfigure.8:1
+#, no-wrap
+msgid "defoma-reconfigure"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-reconfigure.8:4
+msgid "defoma-reconfigure - Reconfigure all from zero."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-reconfigure.8:7
+msgid "B<defoma-reconfigure> [B<-f>]"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-reconfigure.8:11
+msgid ""
+"defoma-reconfigure reconfigures font configuration from zero.  It fixes a "
+"critical bug of data loss, but also is used for reconfiguration of fonts."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-reconfigure.8:16
+msgid ""
+"defoma-reconfigure first removes almost all files and symlinks under "
+"/var/lib/defoma, to clean up all font configuration, and run defoma-app with "
+"update command. You should backup /var/lib/defoma if you put a important "
+"file there by yourself."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-reconfigure.8:19
+msgid ""
+"-f option is used to fix the data confusion which occurs when defoma is "
+"aborted."
+msgstr ""
+
+# type: TH
+#: ../defoma-subst.1:2
+#, no-wrap
+msgid "defoma-subst"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:5
+msgid "defoma-subst - Modify a rulefile of Defoma font substitution system."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:10
+msgid "B<defoma-subst> [I<options>] B<new-rule> I<rulename [additional-lines...]>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:15
+msgid "B<defoma-subst> [I<options>] B<edit-rule> I<rulename>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:20
+msgid "B<defoma-subst> [I<options>] B<add-rule> I<rulename rules...>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:25
+msgid "B<defoma-subst> [I<options>] B<remove-rule> I<rulename rules...>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:29
+msgid "B<defoma-subst> B<check-rule> I<rulename>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:35
+msgid ""
+"B<defoma-subst> is a tool to create/edit a rulefile of Defoma font "
+"substitution system.  This system makes a certain font provide an "
+"user-specified id. Rulefile exists in order not only to specify such ids but "
+"also to have more similar fonts containing same characters substitute for "
+"the id."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:37
+msgid "Following is the form of rulefile."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:45
+#, no-wrap
+msgid ""
+"# comment..\n"
+"# comment..\n"
+"Helvetica --GeneralFamily SansSerif --Shape NoSerif \\e\n"
+"  Upright --Weight Medium --Charset,* ISO8859-1\n"
+"Helvetica-Bold --GeneralFamily SansSerif --Shape NoSerif \\e\n"
+"  Upright --Weight Medium --Charset,* ISO8859-1\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:51
+msgid ""
+"In this example Helvetica and Helvetica-Bold are need-to-be-substituted ids, "
+"and following hints represent information of these two fonts.  The asterisk "
+"added to Charset hinttype with comma means Charset is required to match."
+msgstr ""
+
+# type: TP
+#: ../defoma-subst.1:53
+#, no-wrap
+msgid "B<new-rule>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:56
+msgid "Create a new rulefile"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:58
+msgid "I<rulename>.subst-rule"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:60
+msgid "under"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:62
+msgid "/etc/defoma."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:66
+msgid ""
+"I<additional-lines> are added to the file as comments or default "
+"rules. Quote each rule or comment with single or double quotations."
+msgstr ""
+
+# type: TP
+#: ../defoma-subst.1:66
+#, no-wrap
+msgid "B<edit-rule>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:74
+msgid ""
+"Edit the rulefile specified by I<rulename>.  After editing, modification is "
+"reflected to the related Id cache. In other words, new ids would be added "
+"provided by substitutive fonts to the Id cache if a rule is added, and "
+"registered ids would be removed from the Id cache if a rule is removed."
+msgstr ""
+
+# type: TP
+#: ../defoma-subst.1:74
+#, no-wrap
+msgid "B<add-rule>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:81
+msgid ""
+"Add one or more rules specified by I<rules> to the specified I<rulename>.  "
+"Quote each rule with single or double quotations."
+msgstr ""
+
+# type: TP
+#: ../defoma-subst.1:81
+#, no-wrap
+msgid "B<remove-rule>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:88
+msgid ""
+"Remove one or more rules specified by I<rules> from the specified "
+"I<rulename>.  Quote each rule with single or double quotations."
+msgstr ""
+
+# type: TP
+#: ../defoma-subst.1:88
+#, no-wrap
+msgid "B<check-rule>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:94
+msgid ""
+"Check if the rulefile specified by I<rulename> exists. It returns zero when "
+"the rulefile exists, and non-zero (actually one) when the rulefile doesn't "
+"exist."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:109
+msgid "1. Create foo.subst-rule with some comments and default rules."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:115
+#, no-wrap
+msgid ""
+"defoma-subst new-rule foo '# This is a comment. ' \\e\n"
+"  '# Run defoma-subst edit-rule foo to edit this file.' \\e\n"
+"  'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \\e\n"
+"  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208'\n"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:118
+msgid "2. Add some rules to foo.subst-rule."
+msgstr ""
+
+# type: Plain text
+#: ../defoma-subst.1:123
+#, no-wrap
+msgid ""
+"defoma-subst add-rule foo \\e\n"
+"  'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \\e\n"
+"  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208' \\e\n"
+msgstr ""
+
+# type: TH
+#: ../defoma-user.1:2
+#, no-wrap
+msgid "defoma-user"
+msgstr ""
+
+# type: TH
+#: ../defoma-user.1:2
+#, no-wrap
+msgid "June 15, 2003"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-user.1:5
+msgid "defoma-user - Debian Font Manager for users"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-user.1:9
+msgid "B<defoma-user> [I<options>] B<reconfigure>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-user.1:13
+msgid "B<defoma-user> [I<options>] B<update>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-user.1:17
+msgid "B<defoma-user> [I<options>] B<update-font>"
+msgstr ""
+
+# type: Plain text
+#: ../defoma-user.1:21
+msgid "I have no idea what B<defoma-user> does just yet.  I'm working on it.."
+msgstr ""
+
+# type: TH
+#: ../Defoma::Subst.3pm:1
+#, no-wrap
+msgid "Defoma::Subst"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:4
+msgid "Defoma::Subst - Defoma module to handle Subst cache/rule."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:7
+msgid "use Defoma::Subst;"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:9
+msgid "$Sb = defoma_subst_open("
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:11
+msgid "rulename =E<gt> I<rulename>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:13
+msgid "threshold =E<gt> I<threshold>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:15
+msgid "idobject =E<gt> I<id_object>,"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:18
+msgid "private =E<gt> I<private_flag> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:22
+msgid "defoma_subst_close( I<subst_object> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:28
+msgid "defoma_subst_register( I<subst_object>, I<font>, I<realname> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:34
+msgid "defoma_subst_unregister( I<subst_object>, I<font> I<realname> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:40
+msgid "defoma_subst_add_rule( I<subst_object>, I<required_id>, I<rule...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:46
+msgid "defoma_subst_remove_rule( I<subst_object>, I<required_id>, I<rule...> );"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:59
+msgid ""
+"Defoma::Subst is a Defoma module to handle subst-cache and subst-rule.  When "
+"a certain id is required but not provided as RealName or Alias by any font, "
+"fonts which have similar appearance and the same characters should "
+"substitute for such a font. Required ids and their information about "
+"appearance and charset things (called *rule*) are described in a "
+"subst-rule.  Defoma::Subst compares such a rule of a certain required id "
+"with hints of a substitutive font and calculates the degree of similarity in "
+"percentage, and registers the required id and the font with the value as its "
+"priority as 'Substituted' type to an id-cache through Defoma::Id module."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:69
+msgid ""
+"subst-rule is mainly edittable by users, which means users edit subst-rule "
+"file to add/remove/modify the required ids and their information, but "
+"sometimes unedittable by them and modified by a Defoma-configuration "
+"script.  The former is called B<public> subst-rule and the latter is called "
+"B<private> subst-rule."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:78
+msgid ""
+"subst-cache holds fonts which are candidacies for substituting for required "
+"ids. As mentioned above, a rule of a required id and hints of such a font "
+"are compared. Hints are not recorded in a subst-cache so retrieved from an "
+"id-cache. In addition a required id and its rule are recorded in an "
+"subst-rule, so subst-cache, subst-rule and id-cache are strongly linked "
+"up. Especially subst-cache and subst-rule are not separatable and "
+"Defoma::Subst handles these two through a single united object."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:102
+msgid ""
+"B<defoma_subst_open> is a function used to open a subst-cache and subst-rule "
+"specified by I<rulename> and I<private_flag> and returns the I<subst_object> "
+"used for further operation.  If the subst-rule is private one, set "
+"I<private_flag> to non-zero. Otherwise it can be omitted. The subst-rule "
+"becomes public.  I<id_object> must be specified because subst-cache and "
+"subst-rule are strongly linked up to id-cache as mentioned above. Hints of a "
+"substitutive font are retrieved from the id-cache specified by the "
+"I<id_object>, and required ids described in the subst-rule are registered to "
+"the id-cache.  I<threshold> prevents fonts that have less degree of "
+"similarity from being registered.  If a required id is already registered in "
+"the id-cache, substitutive fonts whose degree of similarity are less than "
+"this I<threshold> are not registered to an id-cache."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:108
+msgid ""
+"B<defoma_subst_close> is a function used to close a subst-cache and "
+"subst-rule specified by I<subst_object>.  Internally it writes the content "
+"of cache and rule stored in a memory to files."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:114
+msgid ""
+"B<defoma_subst_register> is a function used to register a font which is "
+"candidate for substituting for required ids to the subst-cache specified by "
+"I<subst_object>.  RealName of the font must be specified."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:119
+msgid ""
+"B<defoma_subst_unregister> is a function used to unregister a font from the "
+"subst-cache specified by I<subst_object>.  RealName can be omitted."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:124
+msgid ""
+"B<defoma_subst_add_rule> is a function used to add a required id and its "
+"rule to the subst-rule specified by I<subst_object>."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:136
+msgid ""
+"B<defoma_subst_remove_rule> is a function used to remove a required id and "
+"its rule from the subst-rule specified by I<sbst_object>.  If I<rule> is "
+"omitted, all the rules describing the I<required_id> are removed from the "
+"subst-rule. Otherwise only one rule specified by I<rule >andI< required_id > "
+"is removed."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:138
+msgid "1. Open private subst-rule and subst-rule."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:143
+#, no-wrap
+msgid ""
+"$Id = defoma_id_open();\n"
+"$Sb = defoma_subst_open(rulename =E<gt> 'subst1', \n"
+"                        idobject =E<gt> $Id);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:146
+msgid "2. Register a substitutive font."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:154
+#, no-wrap
+msgid ""
+"defoma_id_register($Id, type =E<gt> 'real',\n"
+"                   font =E<gt> $font,\n"
+"                   id =E<gt> $realname,\n"
+"                   priority =E<gt> $priority,\n"
+"                   hints =E<gt> join(' ', @_));\n"
+"defoma_subst_register($Sb, $font, $realname);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:157
+msgid "3. Unregister."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:161
+#, no-wrap
+msgid ""
+"defoma_subst_unregister($Id, $font);\n"
+"defoma_id_unregister($Id, 'real', $font);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:164
+msgid "4. Add a rule."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:167
+#, no-wrap
+msgid "defoma_subst_add_rule($Sb, 'Helvetica', @hints);\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:170
+msgid "5. Remove all rules for Helvetica."
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:173
+#, no-wrap
+msgid "defoma_subst_remove_rule($Sb, 'Helvetica');\n"
+msgstr ""
+
+# type: Plain text
+#: ../Defoma::Subst.3pm:178
+msgid "B<defoma>(1).  B<Defoma::Id>(1)."
+msgstr ""
+
+# type: TH
+#: ../dh_installdefoma.1:1
+#, no-wrap
+msgid "DH_INSTALLDEFOMA"
+msgstr ""
+
+# type: TH
+#: ../dh_installdefoma.1:1
+#, no-wrap
+msgid "20 August 2000"
+msgstr ""
+
+# type: TH
+#: ../dh_installdefoma.1:1 ../dh_installdefoma.1:1
+#, no-wrap
+msgid "Debhelper Commands"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:4
+msgid "dh_installdefoma - install a defoma related scripts"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:7
+msgid "B<dh_installdefoma> I<[debhelper options] [-n]>"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:11
+msgid ""
+"dh_installdefoma is a debhelper program that is responsible for installing "
+"files related to defoma (DEbian FOnt MAnager) into package build "
+"directories. dh_installdefoma can be used by defoma-aware packages and/or "
+"font packages using defoma."
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:16
+msgid ""
+"It also automatically generates the postinst and pre/postrm commands needed "
+"to register a package as a defoma-aware and/or font package using "
+"defoma. See B<dh_installdeb>(1)  for an explanation of how this works."
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:29
+msgid ""
+"If a file named debian/package.defoma exists, then it is installed into "
+"usr/share/defoma/scripts/package.defoma in the package build directory and "
+"put an un/registration method in maintainer scripts with defoma-app.  If a "
+"file named debian/package.defoma-hints exists, then it is installed in "
+"etc/defoma/hints/package.hints in the package build directory and put an "
+"un/registration method in maintainer scripts with defoma-font.  So when you "
+"create a defoma font package, what you need to do is only to put its hints "
+"file in debian/package.defoma-hints and install font files written in the "
+"hints file in the appropriate locations. When you create a defoma-aware "
+"package, what you need to do is only to put its defoma-script file in "
+"debian/package.defoma. The script file is automatically installed in the "
+"package build directory."
+msgstr ""
+
+# type: TP
+#: ../dh_installdefoma.1:30
+#, no-wrap
+msgid "B<debhelper options>"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:35
+msgid "See B<debhelper>(1)  for a list of options common to all debhelper commands."
+msgstr ""
+
+# type: TP
+#: ../dh_installdefoma.1:35
+#, no-wrap
+msgid "B<-n, --noscripts>"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:38
+msgid "Do not modify postinst/postrm scripts."
+msgstr ""
+
+# type: SH
+#: ../dh_installdefoma.1:38
+#, no-wrap
+msgid "ENVIRONMENT"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:42
+msgid ""
+"See B<debhelper>(1)  for a list of environment variables that affect all "
+"debhelper commands."
+msgstr ""
+
+# type: SH
+#: ../dh_installdefoma.1:42
+#, no-wrap
+msgid "NOTES"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:46
+msgid ""
+"Note that this command is not idempotent. \"dh_clean -k\" should be called "
+"between invocations of this command. Otherwise, it may cause multiple "
+"instances of the same text to be added to maintainer scripts."
+msgstr ""
+
+# type: TP
+#: ../dh_installdefoma.1:47
+#, no-wrap
+msgid "B<debhelper>(1)"
+msgstr ""
+
+# type: SH
+#: ../dh_installdefoma.1:49
+#, no-wrap
+msgid "AUTHOR"
+msgstr ""
+
+# type: Plain text
+#: ../dh_installdefoma.1:51
+msgid "Masato Taruishi E<lt>taru@debian.orgE<gt>"
+msgstr ""
+
+# type: TH
+#: ../../psfontmgr/man/defoma-psfont-installer.1:1
+#, no-wrap
+msgid "defoma-psfont-installer"
+msgstr ""
+
+# type: Plain text
+#: ../../psfontmgr/man/defoma-psfont-installer.1:4
+msgid "defoma-psfont-installer - register fonts installed in a PostScript printer."
+msgstr ""
+
+# type: Plain text
+#: ../../psfontmgr/man/defoma-psfont-installer.1:6
+msgid "B<defoma-psfont-installer>"
+msgstr ""
+
+# type: Plain text
+#: ../../psfontmgr/man/defoma-psfont-installer.1:18
+msgid ""
+"B<defoma-psfont-installer> is a tool to register fonts installed in a "
+"PostScript printer to Defoma, Debian Font Manager. Those who want to print a "
+"PostScript file using the printer fonts may want to have all the printer "
+"fonts appear in a PostScript font selection menu of an application.  "
+"B<defoma-psfont-installer> helps registering printer fonts. It can parse PPD "
+"-- PostScript Printer Description -- file and retrieve available printer "
+"font names from the file, then presumes the hints according to each of the "
+"font name, and creates a hintfile and register them.  It is strongly "
+"recommended to prepare a PPD file."
+msgstr ""
+
+# type: TP
+#: ../../psfontmgr/man/defoma-psfont-installer.1:19
+#, no-wrap
+msgid "/etc/defoma/hints/defoma-ps.hints"
+msgstr ""
+
+# type: Plain text
+#: ../../psfontmgr/man/defoma-psfont-installer.1:24
+msgid "Hintfile that B<defoma-psfont-installer> generates."
+msgstr ""
+
+# type: TH
+#: ../../dfontmgr/man/dfontmgr.1:2
+#, no-wrap
+msgid "dfontmgr"
+msgstr ""
+
+# type: TH
+#: ../../dfontmgr/man/dfontmgr.1:2
+#, no-wrap
+msgid "November 27, 2001"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:5
+msgid "dfontmgr - GUI frontend for defoma"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:8
+msgid "B<defoma-id> [I<options>]"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:20
+msgid ""
+"B<dfontmgr> is a GUI frontend for defoma. You can see the fonts registered "
+"to defoma, their hints, their status (which applications they are succeeded "
+"or failed to be registered), the applications using defoma framework, "
+"information of the applications and the contents of their id-caches. You can "
+"also register a font by drag-and-drop'ing a font file, generating its hints "
+"as much as possible by asking you some questions, unregister a registered "
+"font, change hints of and re-register a registered font.  If a defoma-aware "
+"application uses an id-cache and if there's an identifier conflict (which "
+"means some fonts provide the same identifier) in the id-cache, you can set "
+"which font to provide the identifier."
+msgstr ""
+
+# type: SH
+#: ../../dfontmgr/man/dfontmgr.1:20
+#, no-wrap
+msgid "Overview"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:23
+msgid ""
+"There are two buttons Font and Application under the top menu which "
+"currently consists only of the File menu."
+msgstr ""
+
+# type: SH
+#: ../../dfontmgr/man/dfontmgr.1:23
+#, no-wrap
+msgid "Font Information"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:28
+msgid ""
+"There are three panes. The leftmost pane shows all font categories. When you "
+"choose one of the categories, the list of all fonts registered in the "
+"category is shown in the upper-right pane, and when you choose one of the "
+"fonts, its detailed information is shown in the lower-right pane."
+msgstr ""
+
+# type: SH
+#: ../../dfontmgr/man/dfontmgr.1:28
+#, no-wrap
+msgid "Application Information"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:33
+msgid ""
+"There are three panes. The leftmost pane shows all applications using defoma "
+"framework. When you choose one of the applications, its information is shown "
+"in the upper-right pane. If the application make uses of id-caches, the "
+"content is shown in the lower-right pane."
+msgstr ""
+
+# type: SH
+#: ../../dfontmgr/man/dfontmgr.1:33
+#, no-wrap
+msgid "Id Cache Pane"
+msgstr ""
+
+# type: Plain text
+#: ../../dfontmgr/man/dfontmgr.1:47
+msgid ""
+"There are some buttons to control id-cache, one menu to specify which "
+"id-cache is shown, and a column list to show the content of selected "
+"id-cache.  There are three columns: Type, Identifier and Font. The Type "
+"column represents the type of the identifier (either of RealName, Alias, "
+"User-defined Alias or Substituted Id of the font) with its status (asterisk "
+"and plus means the Id is provided by the Font). When you select one of the "
+"Id/Font pair, its information is shown in the Application Information pane "
+"(upper-right pane).  You can re-sort the list by clicking one of the column "
+"title: Type, Identifier or Font. When several fonts provide the same "
+"identifier, you can force the specific font to provide the identifier by "
+"selecting the id/font pair and clicking the Install button. You can also "
+"force the specific font not to provide the identifier by clicking the "
+"Exclude button. You can clean up this forced status by clicking the unset "
+"button."
+msgstr ""
