@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: defoma\n"
-"POT-Creation-Date: 2007-02-11 12:01+0100\n"
+"POT-Creation-Date: 2016-02-04 16:01+0300\n"
 "PO-Revision-Date: 2007-01-27 11:55+0100\n"
 "Last-Translator: Cyril Brulebois <cyril.brulebois@enst-bretagne.fr>\n"
 "Language-Team: Debian French Team <debian-l10n-french@lists.debian.org>\n"
@@ -16,21 +16,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 # type: TH
+#. type: TH
 #: ../defoma.1:1
 #, no-wrap
 msgid "defoma"
 msgstr "defoma"
 
 # type: TH
+#. type: TH
 #: ../defoma.1:1 ../defoma-app.1:1 ../Defoma::Common.3pm:1 ../defoma-font.1:2
 #: ../Defoma::Font.3pm:1 ../defoma-hints.1:1 ../defoma-id.1:2
 #: ../Defoma::Id.3pm:1 ../defoma-reconfigure.8:1 ../defoma-subst.1:2
 #: ../Defoma::Subst.3pm:1 ../../psfontmgr/man/defoma-psfont-installer.1:1
-#, no-wrap
-msgid "March 4, 2001"
+#, fuzzy, no-wrap
+#| msgid "March 4, 2001"
+msgid "March  4, 2001"
 msgstr "4 mars 2001"
 
 # type: SH
+#. type: SH
 #: ../defoma.1:2 ../defoma-app.1:2 ../Defoma::Common.3pm:2 ../defoma-font.1:3
 #: ../Defoma::Font.3pm:2 ../defoma-hints.1:2 ../defoma-id.1:3
 #: ../Defoma::Id.3pm:2 ../defoma-reconfigure.8:2 ../defoma-subst.1:3
@@ -42,6 +46,7 @@ msgid "NAME"
 msgstr "NOM"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:4
 msgid ""
 "defoma - Debian Font Manager, a framework for automatic font configuration."
@@ -50,6 +55,7 @@ msgstr ""
 "des polices."
 
 # type: SH
+#. type: SH
 #: ../defoma.1:4 ../defoma-app.1:5 ../Defoma::Common.3pm:4 ../defoma-font.1:5
 #: ../Defoma::Font.3pm:4 ../defoma-hints.1:4 ../defoma-id.1:5
 #: ../Defoma::Id.3pm:4 ../defoma-reconfigure.8:4 ../defoma-subst.1:5
@@ -61,21 +67,25 @@ msgid "SYNOPSIS"
 msgstr "SYNOPSIS"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:8
 msgid "B<defoma-font> [I<options>] I<command args..>"
 msgstr "B<defoma-font> [I<options>] I<commande paramètres>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:12
 msgid "B<defoma-app> [I<options>] I<command args..>"
 msgstr "B<defoma-app> [I<options>] I<commande paramètres>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:16
 msgid "B<defoma-subst> [I<options>] I<command args..>"
 msgstr "B<defoma-subst> [I<options>] I<commande paramètres>"
 
 # type: SH
+#. type: SH
 #: ../defoma.1:16 ../defoma-app.1:26 ../Defoma::Common.3pm:60
 #: ../defoma-font.1:45 ../Defoma::Font.3pm:45 ../defoma-hints.1:10
 #: ../defoma-id.1:35 ../Defoma::Id.3pm:83 ../defoma-reconfigure.8:7
@@ -87,6 +97,7 @@ msgid "DESCRIPTION"
 msgstr "DESCRIPTION"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:21
 msgid ""
 "Defoma stands for Debian Font Manager. It provides a framework for automatic "
@@ -100,6 +111,7 @@ msgstr ""
 "une introduction à Defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:26
 msgid ""
 "Fonts are used by numerous applications, but generally need to be configured "
@@ -117,6 +129,7 @@ msgstr ""
 
 # type: Plain text
 # TBC
+#. type: Plain text
 #: ../defoma.1:30
 msgid ""
 "A B<Defoma-configuration script> is a perl library that each application "
@@ -126,11 +139,13 @@ msgstr ""
 "doit installer dans un fichier nommé"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:34
 msgid "I<application-name>.defoma under /usr/share/defoma/scripts"
 msgstr "I<nom-application>.defoma dans /usr/share/defoma/scripts,"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:37
 msgid ""
 "and which configures a font for that application. The following is an "
@@ -140,23 +155,27 @@ msgstr ""
 "Voici un exemple de script,"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:39
 msgid "foo.defoma."
 msgstr "toto.defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:43
 #, no-wrap
 msgid "@ACCEPT_CATEGORIES = qw(type1 truetype);\n"
 msgstr "@ACCEPT_CATEGORIES = qw(type1 truetype);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:45
 #, no-wrap
 msgid "package foo;\n"
 msgstr "package toto;\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:50
 #, no-wrap
 msgid ""
@@ -171,6 +190,7 @@ msgstr ""
 "}\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:55
 #, no-wrap
 msgid ""
@@ -185,12 +205,14 @@ msgstr ""
 "}\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:57
 #, no-wrap
 msgid "1;\n"
 msgstr "1;\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:69
 msgid ""
 "This example represents an application I<foo> that wants to configure "
@@ -205,6 +227,7 @@ msgstr ""
 "paramètres. Voici la liste des commandes :"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:78
 #, no-wrap
 msgid ""
@@ -225,6 +248,7 @@ msgstr ""
 "* purge\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:85
 msgid ""
 "I<do-install-*> and I<do-remove-*> commands are only called from B<Id cache."
@@ -238,6 +262,7 @@ msgstr ""
 "la désinscription."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:95
 msgid ""
 "B<Id cache> is another feature of Defoma. A common problem during automatic "
@@ -259,6 +284,7 @@ msgstr ""
 "plusieurs polices ont le même identifiant."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:104
 msgid ""
 "B<Id Substitution> is an additional feature of B<Id cache>.  It selects a "
@@ -279,6 +305,7 @@ msgstr ""
 "correspondances entre polices de différentes catégories."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:109
 msgid ""
 "A B<category> represents a type of font. Generally fonts that belong to the "
@@ -289,6 +316,7 @@ msgstr ""
 "configurations semblables dans le script."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:116
 msgid ""
 "B<Hints> represent essential font information and typeface information about "
@@ -302,6 +330,7 @@ msgstr ""
 "defoma-font ou dans un B<fichier d'indications> (« hintfile »)."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:120
 msgid ""
 "B<Hintfile> describes one or more fonts and their hints in a single file. It "
@@ -312,17 +341,20 @@ msgstr ""
 "configuration dans"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:122
 msgid "/etc/defoma/hints"
 msgstr "/etc/defoma/hints,"
 
 # type: Plain text
 # NOTE: TBC
+#. type: Plain text
 #: ../defoma.1:124
 msgid "as a conffile, so that users can modify the hints."
 msgstr "les utilisateurs peuvent modifier eux-mêmes les indications."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:129
 msgid ""
 "Below is an example hintfile.  B<defoma-hints> is a tool to help generating "
@@ -333,6 +365,7 @@ msgstr ""
 "d'indications :"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:150
 #, no-wrap
 msgid ""
@@ -377,6 +410,7 @@ msgstr ""
 "end\n"
 
 # type: SH
+#. type: SH
 #: ../defoma.1:152 ../defoma-app.1:125 ../Defoma::Common.3pm:255
 #: ../defoma-font.1:137 ../defoma-hints.1:34 ../defoma-id.1:38
 #: ../Defoma::Id.3pm:406 ../defoma-reconfigure.8:19 ../defoma-subst.1:124
@@ -388,6 +422,7 @@ msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:163
 msgid ""
 "B<defoma-font>(1).  B<defoma-app>(1).  B<defoma-subst>(1).  B<defoma-hints>"
@@ -400,22 +435,26 @@ msgstr ""
 "(3pm). B<Defoma::Id>(3pm). B<Defoma::Subst>(3pm). B<Defoma::Common>(3pm)."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:165
 msgid "/usr/share/doc/defoma-doc/developers.html/index.html"
 msgstr "/usr/share/doc/defoma-doc/developers.html/index.html"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma.1:167
 msgid "/usr/share/doc/defoma-doc/defoma-script.html/index.html"
 msgstr "/usr/share/doc/defoma-doc/defoma-script.html/index.html"
 
 # type: TH
+#. type: TH
 #: ../defoma-app.1:1
 #, no-wrap
 msgid "defoma-app"
 msgstr "defoma-app"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:5
 msgid ""
 "defoma-app - configure a specific application about fonts registered in "
@@ -425,26 +464,31 @@ msgstr ""
 "du gestionnaire de polices Debian."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:10
 msgid "B<defoma-app> [I<options>] B<clean> I<application [category..]>"
 msgstr "B<defoma-app> [I<options>] B<clean> I<application> [I<catégorie>...]"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:15
 msgid "B<defoma-app> [I<options>] B<update> I<application [category..]>"
 msgstr "B<defoma-app> [I<options>] B<update> I<application> [I<catégorie>...]"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:20
 msgid "B<defoma-app> [I<options>] B<purge> I<application>"
 msgstr "B<defoma-app> [I<options>] B<purge> I<application>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:25
 msgid "B<defoma-app> [I<options>] B<ignore> I<application [category..]>"
 msgstr "B<defoma-app> [I<options>] B<ignore> I<application> [I<catégorie>...]"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:34
 msgid ""
 "B<defoma-app> is a tool to configure the fonts registered in Defoma, Debian "
@@ -463,6 +507,7 @@ msgstr ""
 "applications, mais peut aussi être appelé depuis une console."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:38
 msgid ""
 "I<application> specifies the name of the application that is going to be "
@@ -472,21 +517,25 @@ msgstr ""
 "application doit fournir un script Perl"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:40
 msgid "I<application-name>.defoma"
 msgstr "I<application>.defoma"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:42
 msgid "perl script under"
 msgstr "placé dans"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:44
 msgid "/usr/share/defoma/scripts."
 msgstr "/usr/share/defoma/scripts."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:50
 msgid ""
 "If I<category> is specified, only the fonts in the specified categories get "
@@ -498,12 +547,14 @@ msgstr ""
 "catégories acceptées par l'application sont prises en compte."
 
 # type: SH
+#. type: SH
 #: ../defoma-app.1:50 ../defoma-font.1:74 ../defoma-subst.1:52
 #, no-wrap
 msgid "COMMANDS"
 msgstr "COMMANDES"
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:51
 #, no-wrap
 msgid "B<update>"
@@ -511,6 +562,7 @@ msgstr "B<update>"
 
 # NOTE: ignore ou ignored
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:70
 msgid ""
 "Update the configuration of the specified I<application> about the fonts "
@@ -533,6 +585,7 @@ msgstr ""
 "tête du script pourront être générés automatiquement."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:75
 msgid ""
 "This command should be invoked when the Defoma-configuration script is newly "
@@ -547,12 +600,14 @@ msgstr ""
 "« postinst »."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:75
 #, no-wrap
 msgid "B<clean>"
 msgstr "B<clean>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:86
 msgid ""
 "Clean up the configuration of the specified I<application> about the fonts "
@@ -567,6 +622,7 @@ msgstr ""
 "I<catégorie>."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:86 ../defoma-font.1:103
 #, no-wrap
 msgid "B<purge>"
@@ -574,6 +630,7 @@ msgstr "B<purge>"
 
 # NOTE: par update précédente, ou décrite précédemment
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:93
 msgid ""
 "This command is almost the same as B<clean> command. It only differs on "
@@ -586,6 +643,7 @@ msgstr ""
 "été générés précédemment par une commande B<update>."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:97
 msgid ""
 "This command should be invoked when the Defoma-configuration script is going "
@@ -598,12 +656,14 @@ msgstr ""
 "être appelée dans la phase de « prerm » d'un paquet."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:97
 #, no-wrap
 msgid "B<ignore>"
 msgstr "B<ignore>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:112
 msgid ""
 "This command makes the specified I<application> not use the fonts registered "
@@ -624,6 +684,7 @@ msgstr ""
 "laquelle vous voulez retirer le drapeau."
 
 # type: SH
+#. type: SH
 #: ../defoma-app.1:112 ../defoma-font.1:118 ../defoma-hints.1:15
 #: ../defoma-subst.1:94 ../dh_installdefoma.1:29
 #, no-wrap
@@ -631,28 +692,33 @@ msgid "OPTIONS"
 msgstr "OPTIONS"
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:113 ../defoma-font.1:119 ../defoma-subst.1:95
 #, no-wrap
 msgid "B<-t>"
 msgstr "B<-t>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:116 ../defoma-font.1:122 ../defoma-subst.1:98
 msgid "Exit with true value (0) even if error occurs."
 msgstr "Quitte avec une valeur nulle, même en cas d'erreur."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:116 ../defoma-font.1:122 ../defoma-subst.1:98
 #, no-wrap
 msgid "B<-v>"
 msgstr "B<-v>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:119 ../defoma-font.1:125 ../defoma-subst.1:101
 msgid "Verbose output."
 msgstr "Sortie bavarde."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:119 ../defoma-font.1:125 ../defoma-subst.1:101
 #, no-wrap
 msgid "B<-d>"
@@ -660,22 +726,26 @@ msgstr "B<-d>"
 
 # NOTE: TBC
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:122
 msgid "Debug/Testing mode."
 msgstr "Mode débogage."
 
 # type: TP
+#. type: TP
 #: ../defoma-app.1:122 ../defoma-font.1:128 ../defoma-subst.1:104
 #, no-wrap
 msgid "B<-q>"
 msgstr "B<-q>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:125 ../defoma-font.1:131 ../defoma-subst.1:107
 msgid "Quiet output."
 msgstr "Sortie silencieuse."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-app.1:127 ../Defoma::Common.3pm:257 ../defoma-font.1:138
 #: ../defoma-hints.1:35 ../defoma-reconfigure.8:20 ../defoma-subst.1:125
 #: ../../psfontmgr/man/defoma-psfont-installer.1:25
@@ -683,33 +753,39 @@ msgid "B<defoma>(1)."
 msgstr "B<defoma>(1)."
 
 # type: TH
+#. type: TH
 #: ../Defoma::Common.3pm:1
 #, no-wrap
 msgid "Defoma::Common"
 msgstr "Defoma::Common"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:4
 msgid "Defoma::Common - Defoma module providing miscellaneous functions."
 msgstr "Defoma::Common - module Defoma fournissant diverses fonctions."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:7
 msgid "use Defoma::Common;"
 msgstr "use Defoma::Common;"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:11
 msgid "$h = parse_hints_start( I<hints...> );"
 msgstr "$h = parse_hints_start( I<indications...> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:16
 msgid "$hsub = parse_hints_subhints( I<hints_hash>, I<face> );"
 msgstr ""
 "$hsub = parse_hints_subhints( I<table_hachage_indications>, I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:21
 msgid "$hsub = parse_hints_subhints_inherit( I<hints_hash>, I<face> );"
 msgstr ""
@@ -717,12 +793,14 @@ msgstr ""
 "I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:26
 msgid "parse_hints_cut( I<hints_hash>, I<hinttypes...> );"
 msgstr ""
 "parse_hints_cut( I<table_hachage_indications>, I<types_indications...> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:31
 msgid "parse_hints_cut_except( I<hints_hash>, I<hinttypes...> );"
 msgstr ""
@@ -730,21 +808,25 @@ msgstr ""
 "> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:35
 msgid "@hints = parse_hints_build( I<hints_hash> );"
 msgstr "@hints = parse_hints_build( I<table_hachage_indications> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:39
 msgid "$charset = get_charset( I<xencoding> );"
 msgstr "$charset = get_charset( I<xencoding> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:44
 msgid "$xencoding = get_xencoding( I<charset>, I<encoding> );"
 msgstr "$xencoding = get_xencoding( I<charset>, I<encoding> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:50
 msgid ""
 "@XLFDs = get_xlfd_of_font( I<font>, level =E<gt> I<level>, face =E<gt> "
@@ -754,16 +836,19 @@ msgstr ""
 "I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:54
 msgid "my $num = weight_ascii2integer( I<weightstring> );"
 msgstr "my $num = weight_ascii2integer( I<chaîne_graisse> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:58
 msgid "my $num = weight_a2i( I<weightstring> );"
 msgstr "my $num = weight_a2i( I<chaîne_graisse> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:65
 msgid ""
 "B<parse_hints_start> is a function to convert hints in an array to a hash. "
@@ -776,6 +861,7 @@ msgstr ""
 "exemples d'indication sous la forme d'un tableau."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:69
 msgid ""
 "--FontName Helvetica-BoldItalic --Family Helvetica --GeneralFamily SansSerif "
@@ -785,6 +871,7 @@ msgstr ""
 "--Weight Bold --Shape NoSerif Italic --Charset ISO8859-1"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:75
 msgid ""
 "In this example, FontName, Family, GeneralFamily, Weight, Shape and Charset "
@@ -799,6 +886,7 @@ msgstr ""
 "décrite de la façon suivante :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:84
 #, no-wrap
 msgid ""
@@ -817,6 +905,7 @@ msgstr ""
 "Charset =E<gt> 'ISO8859-1'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:90
 msgid ""
 "You see that hinttypes are used as keys of a hash, and that Shape has two "
@@ -829,6 +918,7 @@ msgstr ""
 "chaîne, séparées par une espace."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:97
 msgid ""
 "B<parse_hints_subhints> is a function to get a sub hint hash pointed by "
@@ -841,6 +931,7 @@ msgstr ""
 "d'indications :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:109
 #, no-wrap
 msgid ""
@@ -865,6 +956,7 @@ msgstr ""
 "      Charset2 =E<gt> 'ISO10646-1'};\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:116
 msgid ""
 "You see there're some numbered hinttypes.  B<parse_hints_subhints> extracts "
@@ -877,17 +969,20 @@ msgstr ""
 "numérotées avec :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:120
 #, no-wrap
 msgid "$hsub = parse_hints_subhints($h, 0);\n"
 msgstr "$hsub = parse_hints_subhints($h, 0);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:124
 msgid "and the content of $hsub will be:"
 msgstr "et le contenu de $hsub sera :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:131
 #, no-wrap
 msgid ""
@@ -902,6 +997,7 @@ msgstr ""
 "Shape =E<gt> 'Upright'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:137
 msgid ""
 "If you set 1 to the second argument of B<parse_hints_subhints>, the content "
@@ -911,6 +1007,7 @@ msgstr ""
 "le contenu de $hsub sera :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:142
 #, no-wrap
 msgid ""
@@ -921,12 +1018,14 @@ msgstr ""
 "Weight =E<gt> 'Bold'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:146
 msgid "Note that the number of each hinttype is removed."
 msgstr "Notez que le numéro de chaque type d'indication est retiré."
 
 # NOTE: TBC
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:155
 msgid ""
 "B<parse_hints_subhints_inherit> is almost the same as "
@@ -942,6 +1041,7 @@ msgstr ""
 "second paramètre dans l'exemple donné avec B<parse_hints_subhints>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:161
 #, no-wrap
 msgid ""
@@ -954,6 +1054,7 @@ msgstr ""
 "Charset =E<gt> 'ISO8859-1'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:165
 #, no-wrap
 msgid ""
@@ -966,6 +1067,7 @@ msgstr ""
 "Charset =E<gt> 'ISO10646-1'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:176
 msgid ""
 "B<parse_hints_cut> is a function to remove hinttypes specified by "
@@ -978,6 +1080,7 @@ msgstr ""
 "B<parse_hints_build>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:184
 msgid ""
 "B<parse_hints_cut_except> is a function to remove all hinttypes except those "
@@ -990,6 +1093,7 @@ msgstr ""
 "utilisée conjointement avec B<parse_hints_build>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:187
 msgid ""
 "B<parse_hints_build> is a function to convert hints in a hash to an array."
@@ -998,6 +1102,7 @@ msgstr ""
 "en un tableau."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:194
 msgid ""
 "B<get_charset> is a function to convert X-RegistryEncoding specified by "
@@ -1013,6 +1118,7 @@ msgstr ""
 "retour pour ces exemples sont respectivement ISO8859-1 et JISX0208."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:203
 msgid ""
 "B<get_xencoding> is a function to convert Charset and Encoding specified by "
@@ -1024,6 +1130,7 @@ msgstr ""
 "RegistryEncoding. I<encoding> est en règle générale omis."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:212
 msgid ""
 "B<weight_ascii2integer> is a function to convert Weight in string (like Bold "
@@ -1039,6 +1146,7 @@ msgstr ""
 "B<weight_ascii2integer>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:238
 msgid ""
 "B<get_xlfd_of_font> is a function to get an array of XLFDs of a font "
@@ -1062,6 +1170,7 @@ msgstr ""
 
 # type: SH
 # ../../english/defoma/defoma-font.1:131 ../../english/defoma/Defoma::Common.3pm:238 ../../english/defoma/Defoma::Subst.3pm:136 ../../english/defoma/Defoma::Id.3pm:363 ../../english/defoma/defoma-subst.1:107 ../../english/defoma/Defoma::Font.3pm:114 ../../english/defoma/defoma-hints.1:27
+#. type: SH
 #: ../Defoma::Common.3pm:238 ../defoma-font.1:131 ../Defoma::Font.3pm:114
 #: ../defoma-hints.1:27 ../Defoma::Id.3pm:363 ../defoma-subst.1:107
 #: ../Defoma::Subst.3pm:136
@@ -1070,12 +1179,14 @@ msgid "EXAMPLES"
 msgstr "EXEMPLES"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:243
 #, no-wrap
 msgid "$h = parse_hints_start(@_);\n"
 msgstr "$h = parse_hints_start(@_);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:249
 #, no-wrap
 msgid ""
@@ -1092,6 +1203,7 @@ msgstr ""
 "$realname =~ s/ .*//;\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Common.3pm:252
 #, no-wrap
 msgid ""
@@ -1102,12 +1214,14 @@ msgstr ""
 "@hints = parse_hints_build($h);\n"
 
 # type: TH
+#. type: TH
 #: ../defoma-font.1:2
 #, no-wrap
 msgid "defoma-font"
 msgstr "defoma-font"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:5
 msgid "defoma-font - register/unregister font(s) to Debian Font Manager"
 msgstr ""
@@ -1115,48 +1229,57 @@ msgstr ""
 "polices Debian"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:10
 msgid "B<defoma-font> [I<options>] B<register> I<category font hints...>"
 msgstr ""
 "B<defoma-font> [I<options>] B<register> I<catégorie police indications...>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:15
 msgid "B<defoma-font> [I<options>] B<unregister> I<category font>"
 msgstr "B<defoma-font> [I<options>] B<unregister> I<catégorie police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:20
 msgid "B<defoma-font> [I<options>] B<reregister> I<category font hints...>"
 msgstr ""
 "B<defoma-font> [I<options>] B<reregister> I<catégorie police indications...>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:25
 msgid "B<defoma-font> [I<options>] B<purge> I<category font>"
 msgstr "B<defoma-font> [I<options>] B<purge> I<catégorie police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:30
 msgid "B<defoma-font> [I<options>] B<register-all> I<hintfile>"
 msgstr "B<defoma-font> [I<options>] B<register-all> I<fichier_indications>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:35
 msgid "B<defoma-font> [I<options>] B<unregister-all> I<hintfile>"
 msgstr "B<defoma-font> [I<options>] B<unregister-all> I<fichier_indications>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:40
 msgid "B<defoma-font> [I<options>] B<reregister-all> I<hintfile>"
 msgstr "B<defoma-font> [I<options>] B<reregister-all> I<fichier_indications>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:45
 msgid "B<defoma-font> [I<options>] B<purge-all> I<hintfile>"
 msgstr "B<defoma-font> [I<options>] B<purge-all> I<fichier_indications>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:53
 msgid ""
 "B<defoma-font> is a tool to register or unregister font(s) to Defoma, Debian "
@@ -1175,6 +1298,7 @@ msgstr ""
 
 # NOTE: espace après virgule
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:62
 msgid ""
 "There are two methods of registering/unregistering font(s): by specifying "
@@ -1193,6 +1317,7 @@ msgstr ""
 
 # NOTE: informaiton
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:74
 msgid ""
 "I<category> specifies the category of a font like type1, truetype and so "
@@ -1214,12 +1339,14 @@ msgstr ""
 "(Alias) ou une priorité (Priority)."
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:75
 #, no-wrap
 msgid "B<register>"
 msgstr "B<register>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:84
 msgid ""
 "Register the specified I<font> with the specified I<hints> into the "
@@ -1229,12 +1356,14 @@ msgstr ""
 "spécifiée, à moins que la police ne soit déjà enregistrée."
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:84
 #, no-wrap
 msgid "B<unregister>"
 msgstr "B<unregister>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:92
 msgid ""
 "Unregister the specified I<font> which must be already registered in the "
@@ -1247,12 +1376,14 @@ msgstr ""
 "application, la marque est laissée intacte."
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:92
 #, no-wrap
 msgid "B<reregister>"
 msgstr "B<reregister>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:103
 msgid ""
 "If the specified I<font> is already registered, the registered hints and the "
@@ -1267,6 +1398,7 @@ msgstr ""
 "commande agit comme B<register>."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:108
 msgid ""
 "This command is almost the same as B<unregister> command, except that this "
@@ -1276,30 +1408,35 @@ msgstr ""
 "qu'elle retire les marques des bases de référence."
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:108
 #, no-wrap
 msgid "B<register-all>"
 msgstr "B<register-all>"
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:110
 #, no-wrap
 msgid "B<unregister-all>"
 msgstr "B<unregister-all>"
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:112
 #, no-wrap
 msgid "B<reregister-all>"
 msgstr "B<reregister-all>"
 
 # type: TP
+#. type: TP
 #: ../defoma-font.1:114
 #, no-wrap
 msgid "B<purge-all>"
 msgstr "B<purge-all>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:118
 msgid ""
 "These commands operate all the fonts written in the specified I<hintfile>."
@@ -1308,11 +1445,13 @@ msgstr ""
 "d'indications>."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:128 ../defoma-subst.1:104
 msgid "More verbose output."
 msgstr "Sortie encore plus bavarde."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-font.1:137
 #, no-wrap
 msgid ""
@@ -1327,12 +1466,14 @@ msgstr ""
 "defoma-font reregister-all /etc/defoma/hints/microsoft.hints\n"
 
 # type: TH
+#. type: TH
 #: ../Defoma::Font.3pm:1
 #, no-wrap
 msgid "Defoma::Font"
 msgstr "Defoma::Font"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:4
 msgid "Defoma::Font - Defoma module to handle font and font-cache."
 msgstr ""
@@ -1340,47 +1481,56 @@ msgstr ""
 "polices"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:7
 msgid "use Defoma::Font;"
 msgstr "use Defoma::Font;"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:13
 msgid "defoma_font_register( I<category>, I<font>, I<hints...> );"
 msgstr "defoma_font_register( I<catégorie>, I<police>, I<indications...> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:18
 msgid "defoma_font_unregister( I<category>, I<font> );"
 msgstr "defoma_font_unregister( I<catégorie>, I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:24
 msgid "defoma_font_reregister( I<category>, I<font>, I<hints...> );"
 msgstr "defoma_font_reregister( I<catégorie>, I<police>, I<indications...> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:29
 msgid "defoma_font_if_register( I<category>, I<font> );"
 msgstr "defoma_font_if_register( I<catégorie>, I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:33
 msgid "@fonts = defoma_font_get_fonts( I<category> );"
 msgstr "@polices = defoma_font_get_fonts( I<catégorie> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:38
 msgid "@hints = defoma_font_get_hints( I<category>, I<font> );"
 msgstr "@indications = defoma_font_get_hints( I<catégorie>, I<police> );"
 
 # NOTE: est-ce que le % pose pb ?
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:43
 msgid "%failedapps = defoma_font_get_failed ( I<category>, I<font> );"
 msgstr "%echec_apps = defoma_font_get_failed ( I<catégorie>, I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:51
 msgid ""
 "Defoma::Font is a Defoma module to handle registration/unregistration of "
@@ -1398,6 +1548,7 @@ msgstr ""
 "indications."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:64
 msgid ""
 "B<defoma_font_register> is a function used to register a specified I<font> "
@@ -1416,6 +1567,7 @@ msgstr ""
 "B<register>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:74
 msgid ""
 "B<defoma_font_unregister> is a function used to unregister a specified "
@@ -1433,6 +1585,7 @@ msgstr ""
 "cache de polices de la I<catégorie>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:86
 msgid ""
 "B<defoma_font_reregister> is a function which actually calls "
@@ -1448,6 +1601,7 @@ msgstr ""
 "fonction retourne une valeur non nulle."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:93
 msgid ""
 "B<defoma_font_if_register> if a function that checks if a specified I<font> "
@@ -1459,6 +1613,7 @@ msgstr ""
 "retourne une valeur non nulle. Sinon, cette fonction retourne zéro."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:100
 msgid ""
 "B<defoma_font_get_fonts> is a function used to obtain a list of fonts "
@@ -1470,6 +1625,7 @@ msgstr ""
 "sous forme de tableau (« police1 police2 police3 ... »)."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:107
 msgid ""
 "B<defoma_font_get_hints> is a function used to obtain hints of the specified "
@@ -1481,6 +1637,7 @@ msgstr ""
 "forme de tableau est retournée."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:114
 msgid ""
 "B<defoma_font_get_failed> is a function used to obtain applications for "
@@ -1493,6 +1650,7 @@ msgstr ""
 "valeurs sont les statuts d'erreur."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:116
 msgid "1. Register 'Helvetica-Bold' in postscript category with hints."
 msgstr ""
@@ -1500,6 +1658,7 @@ msgstr ""
 "avec des indications."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:121
 #, no-wrap
 msgid ""
@@ -1512,29 +1671,34 @@ msgstr ""
 "                '--Charset', 'ISO8859-1);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:123
 #, no-wrap
 msgid "defoma_font_register('postscript', $font, @hints);\n"
 msgstr "defoma_font_register('postscript', $police, @indications);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:126
 msgid "2. Unregister 'foo.pfa' from type1 category."
 msgstr "2. Désenregistrement de « toto.pfa » de la catégorie « type1 »."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:129 ../Defoma::Font.3pm:137
 #, no-wrap
 msgid "$font = '/usr/share/fonts/foo.pfa';\n"
 msgstr "$police = '/usr/share/fonts/toto.pfa';\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:131
 #, no-wrap
 msgid "defoma_font_unregister('type1', $font);\n"
 msgstr "defoma_font_unregister('type1', $police);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:134
 msgid "3. Unregister 'foo.pfa' from type1 category if registered."
 msgstr ""
@@ -1542,6 +1706,7 @@ msgstr ""
 "enregistré."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:141
 #, no-wrap
 msgid ""
@@ -1554,11 +1719,13 @@ msgstr ""
 "}\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:144
 msgid "4. Get a list of fonts and their hints."
 msgstr "4. Récupération d'une liste de polices et de leurs indications"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Font.3pm:152
 #, no-wrap
 msgid ""
@@ -1577,22 +1744,26 @@ msgstr ""
 "}\n"
 
 # type: TH
+#. type: TH
 #: ../defoma-hints.1:1
 #, no-wrap
 msgid "defoma-hints"
 msgstr "defoma-hints"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:4
 msgid "defoma-hints - generate font hints."
 msgstr "defoma-hints - fabrique les fichiers d'indications de polices."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:9
 msgid "B<defoma-hints> [B<-c>] [B<--no-question>] I<category fonts...>"
 msgstr "B<defoma-hints> [B<-c>] [B<--no-question>] I<catégorie polices...>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:15
 msgid ""
 "B<defoma-hints> is a tool to help generating font hints. It asks various "
@@ -1605,12 +1776,14 @@ msgstr ""
 "la sortie standard, au format des fichiers d'indications."
 
 # type: TP
+#. type: TP
 #: ../defoma-hints.1:16
 #, no-wrap
 msgid "B<-c>"
 msgstr "B<-c>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:19
 msgid "Force text interface, even if $DISPLAY is set."
 msgstr ""
@@ -1618,29 +1791,34 @@ msgstr ""
 "d'environnement $DISPLAY est positionnée."
 
 # type: TP
+#. type: TP
 #: ../defoma-hints.1:19
 #, no-wrap
 msgid "B<--no-question>"
 msgstr "B<--no-question>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:22
 msgid "Accept default hint choice without prompting."
 msgstr "Accepte les choix d'indication par défaut, sans poser de question."
 
 # type: SH
+#. type: SH
 #: ../defoma-hints.1:22 ../../psfontmgr/man/defoma-psfont-installer.1:18
 #, no-wrap
 msgid "FILES"
 msgstr "FICHIERS"
 
 # type: TP
+#. type: TP
 #: ../defoma-hints.1:23
 #, no-wrap
 msgid "/usr/share/defoma/libhint-*.pl"
 msgstr "/usr/share/defoma/libhint-*.pl"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:27
 msgid ""
 "Perl libraries which are prepared for each category. These are category-"
@@ -1650,6 +1828,7 @@ msgstr ""
 "fabriquent les fichiers d'indications de cette catégorie."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:30
 msgid ""
 "1. Create a hintfile named type1.hints for type1 fonts in /usr/share/fonts/"
@@ -1659,29 +1838,34 @@ msgstr ""
 "catégorie « type1 » contenues dans le répertoire /usr/share/fonts/type1."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-hints.1:33
 #, no-wrap
 msgid "defoma-hints --no-question type1 /usr/share/fonts/type1/*.pfb E<gt> type1.hints\n"
 msgstr "defoma-hints --no-question type1 /usr/share/fonts/type1/*.pfb E<gt> type1.hints\n"
 
 # type: TH
+#. type: TH
 #: ../defoma-id.1:2
 #, no-wrap
 msgid "defoma-id"
 msgstr "defoma-id"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:5
 msgid "defoma-id - Manage id-cache of Debian Font Manager"
 msgstr ""
 "defoma-id - gère une base de référence du gestionnaire de polices Debian."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:10
 msgid "B<defoma-id> [I<options>] B<list-cache> I<app>"
 msgstr "B<defoma-id> [I<options>] B<list-cache> I<application>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:15
 msgid "B<defoma-id> [I<options>] B<install> I<app/id-cache id font>"
 msgstr ""
@@ -1689,6 +1873,7 @@ msgstr ""
 "identifiant police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:20
 msgid "B<defoma-id> [I<options>] B<exclude> I<app/id-cache id font>"
 msgstr ""
@@ -1696,6 +1881,7 @@ msgstr ""
 "identifiant police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:25
 msgid "B<defoma-id> [I<options>] B<unset> I<app/id-cache id font>"
 msgstr ""
@@ -1703,6 +1889,7 @@ msgstr ""
 "identifiant police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:30
 msgid "B<defoma-id> [I<options>] B<add-alias> I<app/id-cache id font alias>"
 msgstr ""
@@ -1710,6 +1897,7 @@ msgstr ""
 "identifiant police alias>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:35
 msgid "B<defoma-id> [I<options>] B<remove-alias> I<app/id-cache alias font>"
 msgstr ""
@@ -1717,6 +1905,7 @@ msgstr ""
 "alias police>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:38
 msgid ""
 "B<defoma-id> is supposed to be invoked not from a command line, but from "
@@ -1726,122 +1915,146 @@ msgstr ""
 "commande."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-id.1:41 ../defoma-user.1:23 ../../dfontmgr/man/dfontmgr.1:49
 msgid "B<defoma>(1).  B<dfontmgr>(1)."
 msgstr "B<defoma>(1). B<dfontmgr>(1)."
 
 # type: TH
+#. type: TH
 #: ../Defoma::Id.3pm:1
 #, no-wrap
 msgid "Defoma::Id"
 msgstr "Defoma::Id"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:4
 msgid "Defoma::Id - Defoma module to handle Id cache."
 msgstr "Defoma::Id - module Defoma pour la gestion des bases de référence."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:7
 msgid "use Defoma::Id;"
 msgstr "use Defoma::Id;"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:12
 msgid "$Id = defoma_id_open_cache( I<suffix>, I<package_name> );"
 msgstr "$Id = defoma_id_open_cache( I<suffixe>, I<nom_paquet> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:16
 msgid "defoma_id_close_cache( I<id_object> );"
 msgstr "defoma_id_close_cache( I<id_objet> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:19
 msgid "defoma_id_register( I<id_object>,"
 msgstr "defoma_id_register( I<id_objet>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:21 ../Defoma::Id.3pm:41 ../Defoma::Id.3pm:56
 msgid "type =E<gt> I<type>,"
 msgstr "type =E<gt> I<type>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:23 ../Defoma::Id.3pm:43 ../Defoma::Id.3pm:54
 msgid "font =E<gt> I<font>,"
 msgstr "font =E<gt> I<police>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:25 ../Defoma::Id.3pm:52
 msgid "id =E<gt> I<id>,"
 msgstr "id =E<gt> I<identifiant>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:27
 msgid "priority =E<gt> I<priority>,"
 msgstr "priority =E<gt> I<priorité>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:29 ../Defoma::Id.3pm:58
 msgid "category =E<gt> I<category>,"
 msgstr "category =E<gt> I<catégorie>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:31
 msgid "origin =E<gt> I<origin>,"
 msgstr "origin =E<gt> I<origine>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:33
 msgid "depend =E<gt> I<depend>,"
 msgstr "depend =E<gt> I<dépendance>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:36
 msgid "hints =E<gt> I<hints> );"
 msgstr "hints =E<gt> I<indications> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:39
 msgid "defoma_id_unregister( I<id_object>,"
 msgstr "defoma_id_unregister( I<id_objet>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:46
 msgid "id =E<gt> I<id> );"
 msgstr "id =E<gt> I<identifiant> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:50
 msgid "@index = defoma_id_grep_cache( I<id_object>, I<search-type>,"
 msgstr "@index = defoma_id_grep_cache( I<id_objet>, I<type-recherché>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:60
 msgid "depid =E<gt> I<depid>,"
 msgstr "depid =E<gt> I<depid>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:63
 msgid "depfont =E<gt> I<depfont> );"
 msgstr "depfont =E<gt> I<depfont> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:68
 msgid "@hints = defoma_id_get_hints( I<id_object>, I<index> );"
 msgstr "@hints = defoma_id_get_hints( I<id_objet>, I<index> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:75
 msgid "defoma_id_set( I<id_object>, I<id>, I<font>, I<flag> );"
 msgstr "defoma_id_set( I<id_objet>, I<identifiant>, I<police>, I<flag> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:81
 msgid "defoma_id_unset( I<id_object>, I<id>, I<font> );"
 msgstr "defoma_id_unset( I<id_objet>, I<identifiant>, I<police> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:87
 msgid ""
 "Defoma::Id is a Defoma module to handle identifiers of fonts and id-caches.  "
@@ -1853,6 +2066,7 @@ msgstr ""
 "sont supposées être appelées par les scripts de configuration Defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:96
 msgid ""
 "id-cache is sort of a database and its aim is to avoid name space conflict. "
@@ -1874,11 +2088,13 @@ msgstr ""
 "Defoma::Id est une aide pour résoudre ce type de problème."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:98
 msgid "The rough flow of how Defoma::Id works is:"
 msgstr "Voici comment Defoma::Id fonctionne dans les grandes lignes :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:102
 msgid ""
 "1. open an id-cache at I<init> command of a Defoma-configuration script."
@@ -1887,6 +2103,7 @@ msgstr ""
 "configuration Defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:106
 msgid ""
 "2. register identifier(s) of a font at I<register> command of the script."
@@ -1895,6 +2112,7 @@ msgstr ""
 "I<register> du script."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:111
 msgid ""
 "3. Defoma::Id looks up the id-cache to check if there's any other font that "
@@ -1908,12 +2126,14 @@ msgstr ""
 "des commandes do-install- et do-remove-."
 
 # type: SH
+#. type: SH
 #: ../Defoma::Id.3pm:111
 #, no-wrap
 msgid "TYPE OF IDENTIFIER"
 msgstr "TYPE D'IDENTIFIANTS"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:114
 msgid ""
 "It can handle three types of identifiers: RealName, Alias, and Substituted."
@@ -1922,6 +2142,7 @@ msgstr ""
 
 # NOTE: options ?
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:121
 msgid ""
 "I<RealName> is a real name of a font and is usually taken from the FontName "
@@ -1935,6 +2156,7 @@ msgstr ""
 "les indications aux I<options> lorsque vous enregistrez un RealName."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:127
 msgid ""
 "I<Alias> is another name of a font and is usually taken from the Alias "
@@ -1946,6 +2168,7 @@ msgstr ""
 "avec le paramètre I<origine> lorsque vous enregistrez un Alias."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:136
 msgid ""
 "I<Substituted> is yet another name of a font, but unlike Alias, it is not "
@@ -1967,12 +2190,14 @@ msgstr ""
 "de manuel Defoma::Subst."
 
 # type: SH
+#. type: SH
 #: ../Defoma::Id.3pm:136
 #, no-wrap
 msgid "DETAIL OF HOW DEFOMA::ID WORKS"
 msgstr "DÉTAIL SUR LE FONCTIONNEMENT DE DEFOMA::ID"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:141
 msgid ""
 "Registration and Unregistration of ids of a font are usually performed on "
@@ -1988,11 +2213,13 @@ msgstr ""
 "commandes"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:145
 msgid "I<do-install-(real,alias,subst)> and I<do-remove-(real,alias,subst)>"
 msgstr "I<do-install-(real,alias,subst)> et I<do-remove-(real,alias,subst)>"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:149
 msgid ""
 "commands respectively.  Following explains how an id of a font is registered/"
@@ -2003,12 +2230,14 @@ msgstr ""
 "retirés."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:149
 #, no-wrap
 msgid "1.Registeration"
 msgstr "1.Enregistrement"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:152
 msgid ""
 "Defoma::Id module records the id, font, type, priority and some other "
@@ -2018,12 +2247,14 @@ msgstr ""
 "priorité et encore d'autres informations dans une base de référence."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:152
 #, no-wrap
 msgid "1.2"
 msgstr "1.2"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:156
 msgid ""
 "the module seeks fonts which provides the id from the id-cache, and gets the "
@@ -2036,12 +2267,14 @@ msgstr ""
 "aux noms substitués (Substituted)."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:156
 #, no-wrap
 msgid "1.3"
 msgstr "1.3"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:160
 msgid ""
 "If no font is actually installed for the id, the module calls back the "
@@ -2055,12 +2288,14 @@ msgstr ""
 "l'identifiant et la police comme INSTALLED (installé)."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:160
 #, no-wrap
 msgid "1.4"
 msgstr "1.4"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:167
 msgid ""
 "If another font is already INSTALLED for the id, the module calls back the "
@@ -2080,12 +2315,14 @@ msgstr ""
 "comme étant INSTALLED."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:167
 #, no-wrap
 msgid "2.Unregistration"
 msgstr "2.Désenregistrement"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:174
 msgid ""
 "If the font is installed for the id, Defoma::Id module calls back the script "
@@ -2104,17 +2341,20 @@ msgstr ""
 "dans la section 1.3 précédente."
 
 # type: IP
+#. type: IP
 #: ../Defoma::Id.3pm:174
 #, no-wrap
 msgid "2.2"
 msgstr "2.2"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:176
 msgid "The module removes the entry recording the id and the font."
 msgstr "Le module retire l'entrée correspondant à l'identifiant et la police."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:179
 msgid ""
 "These processes make only one, more appropriate font provide an certain id, "
@@ -2125,12 +2365,14 @@ msgstr ""
 "conflit de nom."
 
 # type: SH
+#. type: SH
 #: ../Defoma::Id.3pm:179
 #, no-wrap
 msgid "FORMAT OF ID CACHE"
 msgstr "FORMAT D'UNE BASE DE RÉFÉRENCE"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:182
 msgid ""
 "id-cache holds eight items for each entry: id, font, type, priority, "
@@ -2141,6 +2383,7 @@ msgstr ""
 "(catégorie), depid, depfont et hints (indications)."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:192
 msgid ""
 "B<type> represents the type of the entry in a combination of some letters.  "
@@ -2164,6 +2407,7 @@ msgstr ""
 "utilisées dans les scripts."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:216
 msgid ""
 "B<type> consists of two or three letters.  The first letter represents the "
@@ -2188,6 +2432,7 @@ msgstr ""
 "lettre, qui est B<I>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:232
 msgid ""
 "B<depid> and B<depfont> represent dependency of the id of the font. The font "
@@ -2204,6 +2449,7 @@ msgstr ""
 "alors ces champs valent « . »."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:241
 msgid ""
 "B<hints> represents the hints of the id of the font. It is specified by "
@@ -2215,6 +2461,7 @@ msgstr ""
 "devez utiliser B<defoma_id_get_hints> pour accéder à la valeur de ce champ."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:245
 msgid ""
 "An item of each entry of an id-cache are accessible as an element of id-"
@@ -2226,17 +2473,20 @@ msgstr ""
 "e_priority, e_category, e_depid, et e_depfont. Par exemple :"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:247
 msgid "$Id-E<gt>{e_font}-E<gt>[3]"
 msgstr "$Id-E<gt>{e_font}-E<gt>[3]"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:249
 msgid "accesses the font of entry #3 of id-object $Id."
 msgstr ""
 "permet d'accéder à la police de la troisième entrée de l'id-object $ID."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:253
 #, no-wrap
 msgid "Here's an example of an id-cache.\n"
@@ -2244,6 +2494,7 @@ msgstr "Voici un exemple de base de référence :\n"
 
 # NOTE: Courrier ?
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:259
 #, no-wrap
 msgid ""
@@ -2260,6 +2511,7 @@ msgstr ""
 "3 Courier     b.ttf  SaI    30         truetype ...\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:265
 msgid ""
 "It show a.pfa has two identifiers: Helvetica for RealName and Courier for "
@@ -2271,6 +2523,7 @@ msgstr ""
 "comme RealName et Courier comme Alias."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:269
 msgid ""
 "Two fonts have the same identifier Courier, but this id-cache makes Courier "
@@ -2281,12 +2534,14 @@ msgstr ""
 "Courier)."
 
 # type: SH
+#. type: SH
 #: ../Defoma::Id.3pm:269
 #, no-wrap
 msgid "FUNCTIONS"
 msgstr "FONCTIONS"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:284
 msgid ""
 "B<defoma_id_open_cache> is a function used to open an id-cache. id-caches "
@@ -2309,6 +2564,7 @@ msgstr ""
 "suivantes."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:289
 msgid ""
 "B<defoma_id_close_cache> is a function used to close an id-cache. Internally "
@@ -2320,6 +2576,7 @@ msgstr ""
 "identifié par I<id_object>."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:311
 msgid ""
 "B<defoma_id_register> is a function used to register a font and one of its "
@@ -2350,6 +2607,7 @@ msgstr ""
 "police."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:321
 msgid ""
 "B<defoma_id_unregister> is a function used to unregister one or all "
@@ -2363,6 +2621,7 @@ msgstr ""
 "Sinon, tous les identifiants de la police sont retirés."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:333
 msgid ""
 "B<defoma_id_grep_cache> is a function that searches the id-cache specified "
@@ -2383,6 +2642,7 @@ msgstr ""
 "aucun de ces paramètres."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:345
 msgid ""
 "B<defoma_id_get_hints> is a function that returns hints of the I<index> of "
@@ -2399,6 +2659,7 @@ msgstr ""
 "police de substitution a été enregistré."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:363
 msgid ""
 "B<defoma_id_set> is a function used to make the specified I<font> provide "
@@ -2413,6 +2674,7 @@ msgstr ""
 "le drapeau de l'I<identifiant> et de la I<police> spécifiés."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:369
 #, no-wrap
 msgid ""
@@ -2424,6 +2686,7 @@ msgstr ""
 
 # type: Plain text
 # NOTE: /in register/with the register/
+#. type: Plain text
 #: ../Defoma::Id.3pm:376
 #, no-wrap
 msgid ""
@@ -2442,6 +2705,7 @@ msgstr ""
 "my $pri = $h-E<gt>{Priority};\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:383
 #, no-wrap
 msgid ""
@@ -2460,6 +2724,7 @@ msgstr ""
 "                   hints =E<gt> join(' ', @_));\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:392
 #, no-wrap
 msgid ""
@@ -2482,6 +2747,7 @@ msgstr ""
 "}\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:396
 #, no-wrap
 msgid ""
@@ -2494,6 +2760,7 @@ msgstr ""
 "defoma_id_unregister($Id, type =E<gt> 'real', font =E<gt> $police);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:399
 #, no-wrap
 msgid ""
@@ -2504,6 +2771,7 @@ msgstr ""
 "defoma_id_close_cache($Id);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:403
 #, no-wrap
 msgid ""
@@ -2515,27 +2783,32 @@ msgstr ""
 "my @liste = defoma_id_grep_cache($Id, 'installed', id =E<gt> 'Helvetica');\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Id.3pm:409
 msgid "B<defoma>(1).  B<Defoma::Font>(1).  B<Defoma::Subst>(1)."
 msgstr "B<defoma>(1). B<Defoma::Font>(1). B<Defoma::Subst>(1)."
 
 # type: Plain text
+#. type: TH
 #: ../defoma-reconfigure.8:1
 #, no-wrap
 msgid "defoma-reconfigure"
 msgstr "defoma-reconfigure"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-reconfigure.8:4
 msgid "defoma-reconfigure - Reconfigure all from zero."
 msgstr "defoma-reconfigure - configure à nouveau les polices."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-reconfigure.8:7
 msgid "B<defoma-reconfigure> [B<-f>]"
 msgstr "B<defoma-reconfigure> [B<-f>]"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-reconfigure.8:11
 msgid ""
 "defoma-reconfigure reconfigures font configuration from zero.  It fixes a "
@@ -2546,6 +2819,7 @@ msgstr ""
 "tout configurer."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-reconfigure.8:16
 msgid ""
 "defoma-reconfigure first removes almost all files and symlinks under /var/"
@@ -2561,6 +2835,7 @@ msgstr ""
 
 # NOTE: defoma-app ?
 # type: Plain text
+#. type: Plain text
 #: ../defoma-reconfigure.8:19
 msgid ""
 "-f option is used to fix the data confusion which occurs when defoma is "
@@ -2570,12 +2845,14 @@ msgstr ""
 "par l'interruption brutale de defoma-app."
 
 # type: TH
+#. type: TH
 #: ../defoma-subst.1:2
 #, no-wrap
 msgid "defoma-subst"
 msgstr "defoma-subst"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:5
 msgid "defoma-subst - Modify a rulefile of Defoma font substitution system."
 msgstr ""
@@ -2583,6 +2860,7 @@ msgstr ""
 "police de Defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:10
 msgid ""
 "B<defoma-subst> [I<options>] B<new-rule> I<rulename [additional-lines...]>"
@@ -2590,27 +2868,32 @@ msgstr ""
 "B<defoma-subst> [I<options>] B<new-rule> I<nom_règle [autres-lignes...]>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:15
 msgid "B<defoma-subst> [I<options>] B<edit-rule> I<rulename>"
 msgstr "B<defoma-subst> [I<options>] B<edit-rule> I<nom_règle>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:20
 msgid "B<defoma-subst> [I<options>] B<add-rule> I<rulename rules...>"
 msgstr "B<defoma-subst> [I<options>] B<add-rule> I<nom_règle règles...>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:25
 msgid "B<defoma-subst> [I<options>] B<remove-rule> I<rulename rules...>"
 msgstr "B<defoma-subst> [I<options>] B<remove-rule> I<nom_règle règles...>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:29
 msgid "B<defoma-subst> B<check-rule> I<rulename>"
 msgstr "B<defoma-subst> B<check-rule> I<nom_règle>"
 
 # NOTE: j'y comprend rien
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:35
 msgid ""
 "B<defoma-subst> is a tool to create/edit a rulefile of Defoma font "
@@ -2626,11 +2909,13 @@ msgstr ""
 "substitution."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:37
 msgid "Following is the form of rulefile."
 msgstr "Voici un exemple de fichier de règles :"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:45
 #, no-wrap
 msgid ""
@@ -2649,6 +2934,7 @@ msgstr ""
 "  Upright --Weight Medium --Charset,* ISO8859-1\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:51
 msgid ""
 "In this example Helvetica and Helvetica-Bold are need-to-be-substituted ids, "
@@ -2662,33 +2948,39 @@ msgstr ""
 "exactement."
 
 # type: TP
+#. type: TP
 #: ../defoma-subst.1:53
 #, no-wrap
 msgid "B<new-rule>"
 msgstr "B<new-rule>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:56
 msgid "Create a new rulefile"
 msgstr "Crée un nouveau fichier de règles"
 
 # type: Plain text
 # NOTE: pas top de couper ici
+#. type: Plain text
 #: ../defoma-subst.1:58
 msgid "I<rulename>.subst-rule"
 msgstr "I<nom_règle>.subst-rule"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:60
 msgid "under"
 msgstr "dans"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:62
 msgid "/etc/defoma."
 msgstr "/etc/defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:66
 msgid ""
 "I<additional-lines> are added to the file as comments or default rules. "
@@ -2699,6 +2991,7 @@ msgstr ""
 "guillemets simples « ' » ou doubles « \" »."
 
 # type: TP
+#. type: TP
 #: ../defoma-subst.1:66
 #, no-wrap
 msgid "B<edit-rule>"
@@ -2706,6 +2999,7 @@ msgstr "B<edit-rule>"
 
 # NOTE: TBC
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:74
 msgid ""
 "Edit the rulefile specified by I<rulename>.  After editing, modification is "
@@ -2721,12 +3015,14 @@ msgstr ""
 "une règle est retirée."
 
 # type: TP
+#. type: TP
 #: ../defoma-subst.1:74
 #, no-wrap
 msgid "B<add-rule>"
 msgstr "B<add-rule>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:81
 msgid ""
 "Add one or more rules specified by I<rules> to the specified I<rulename>.  "
@@ -2736,12 +3032,14 @@ msgstr ""
 "chaque règle entre guillemets simples ou doubles."
 
 # type: TP
+#. type: TP
 #: ../defoma-subst.1:81
 #, no-wrap
 msgid "B<remove-rule>"
 msgstr "B<remove-rule>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:88
 msgid ""
 "Remove one or more rules specified by I<rules> from the specified "
@@ -2751,12 +3049,14 @@ msgstr ""
 "chaque règle entre guillemets simples ou doubles."
 
 # type: TP
+#. type: TP
 #: ../defoma-subst.1:88
 #, no-wrap
 msgid "B<check-rule>"
 msgstr "B<check-rule>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:94
 msgid ""
 "Check if the rulefile specified by I<rulename> exists. It returns zero when "
@@ -2768,6 +3068,7 @@ msgstr ""
 "actuellement) lorsque le fichier de règles n'existe pas."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:109
 msgid "1. Create foo.subst-rule with some comments and default rules."
 msgstr ""
@@ -2775,6 +3076,7 @@ msgstr ""
 "défaut."
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:115
 #, no-wrap
 msgid ""
@@ -2789,11 +3091,13 @@ msgstr ""
 "  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208'\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:118
 msgid "2. Add some rules to foo.subst-rule."
 msgstr "2. Ajout de règles à toto.subst-rule"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-subst.1:123
 #, no-wrap
 msgid ""
@@ -2806,49 +3110,59 @@ msgstr ""
 "  'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208' \\e\n"
 
 # type: TH
+#. type: TH
 #: ../defoma-user.1:2
 #, no-wrap
 msgid "defoma-user"
 msgstr "defoma-user"
 
 # type: TH
+#. type: TH
 #: ../defoma-user.1:2
-#, no-wrap
-msgid "June 15, 2003"
+#, fuzzy, no-wrap
+#| msgid "June 15, 2003"
+msgid "June  15, 2003"
 msgstr "15 juin 2003"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-user.1:5
 msgid "defoma-user - Debian Font Manager for users"
 msgstr "defoma-user - le gestionnaire de polices Debian pour les utilisateurs"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-user.1:9
 msgid "B<defoma-user> [I<options>] B<reconfigure>"
 msgstr "B<defoma-user> [I<options>] I<reconfigure>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-user.1:13
 msgid "B<defoma-user> [I<options>] B<update>"
 msgstr "B<defoma-user> [I<options>] B<update>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-user.1:17
 msgid "B<defoma-user> [I<options>] B<update-font>"
 msgstr "B<defoma-user> [I<options>] B<update-font>"
 
 # type: Plain text
+#. type: Plain text
 #: ../defoma-user.1:21
 msgid "I have no idea what B<defoma-user> does just yet.  I'm working on it.."
 msgstr "Je n'ai aucune idée de ce que fait B<defoma-user>. J'y travaille..."
 
 # type: TH
+#. type: TH
 #: ../Defoma::Subst.3pm:1
 #, no-wrap
 msgid "Defoma::Subst"
 msgstr "Defoma::Subst"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:4
 msgid "Defoma::Subst - Defoma module to handle Subst cache/rule."
 msgstr ""
@@ -2856,56 +3170,67 @@ msgstr ""
 "substitution."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:7
 msgid "use Defoma::Subst;"
 msgstr "use Defoma::Subst;"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:9
 msgid "$Sb = defoma_subst_open("
 msgstr "$Sb = defoma_subst_open("
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:11
 msgid "rulename =E<gt> I<rulename>,"
 msgstr "rulename =E<gt> I<nom_règle>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:13
 msgid "threshold =E<gt> I<threshold>,"
 msgstr "threshold =E<gt> I<seuil>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:15
 msgid "idobject =E<gt> I<id_object>,"
 msgstr "idobject =E<gt> I<id_objet>,"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:18
 msgid "private =E<gt> I<private_flag> );"
 msgstr "private =E<gt> I<drapeau_privé> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:22
 msgid "defoma_subst_close( I<subst_object> );"
 msgstr "defoma_subst_close( I<objet_subst> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:28
 msgid "defoma_subst_register( I<subst_object>, I<font>, I<realname> );"
 msgstr "defoma_subst_register( I<objet_subst>, I<police>, I<nom_réel> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:34
 msgid "defoma_subst_unregister( I<subst_object>, I<font> I<realname> );"
 msgstr "defoma_subst_unregister( I<objet_subst>, I<police> I<nom_réel> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:40
 msgid "defoma_subst_add_rule( I<subst_object>, I<required_id>, I<rule...> );"
 msgstr "defoma_subst_add_rule( I<objet_subst>, I<id_requis>, I<règle...> );"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:46
 msgid ""
 "defoma_subst_remove_rule( I<subst_object>, I<required_id>, I<rule...> );"
@@ -2913,6 +3238,7 @@ msgstr "defoma_subst_remove_rule( I<objet_subst>, I<id_requis>, I<règle...> );"
 
 # NOTE: Required a une signification ?
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:59
 msgid ""
 "Defoma::Subst is a Defoma module to handle subst-cache and subst-rule.  When "
@@ -2938,6 +3264,7 @@ msgstr ""
 "« Substituted » dans une base de référence à l'aide du module Defoma::Id."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:69
 msgid ""
 "subst-rule is mainly edittable by users, which means users edit subst-rule "
@@ -2958,6 +3285,7 @@ msgstr ""
 #       candidate pourait être mieux
 #       separatable => separable ?
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:78
 msgid ""
 "subst-cache holds fonts which are candidacies for substituting for required "
@@ -2980,6 +3308,7 @@ msgstr ""
 "Subst les manipule par l'intermédiaire d'un unique objet."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:102
 msgid ""
 "B<defoma_subst_open> is a function used to open a subst-cache and subst-rule "
@@ -3012,6 +3341,7 @@ msgstr ""
 "pas enregistrées dans la base de référence."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:108
 msgid ""
 "B<defoma_subst_close> is a function used to close a subst-cache and subst-"
@@ -3023,6 +3353,7 @@ msgstr ""
 "le contenu du cache et de la règle en mémoire."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:114
 msgid ""
 "B<defoma_subst_register> is a function used to register a font which is "
@@ -3035,6 +3366,7 @@ msgstr ""
 "renseigné."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:119
 msgid ""
 "B<defoma_subst_unregister> is a function used to unregister a font from the "
@@ -3045,6 +3377,7 @@ msgstr ""
 
 # NOTE: required est peut-être à conserver
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:124
 msgid ""
 "B<defoma_subst_add_rule> is a function used to add a required id and its "
@@ -3055,6 +3388,7 @@ msgstr ""
 
 # type: Plain text
 # NOTE: sbst_object
+#. type: Plain text
 #: ../Defoma::Subst.3pm:136
 msgid ""
 "B<defoma_subst_remove_rule> is a function used to remove a required id and "
@@ -3070,11 +3404,13 @@ msgstr ""
 "et I<id_requis> est retirée."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:138
 msgid "1. Open private subst-rule and subst-rule."
 msgstr "1. Ouverture d'une règle de substitution privée."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:143
 #, no-wrap
 msgid ""
@@ -3087,11 +3423,13 @@ msgstr ""
 "                        idobject =E<gt> $Id);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:146
 msgid "2. Register a substitutive font."
 msgstr "2. Enregistrement d'une police de substitution."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:154
 #, no-wrap
 msgid ""
@@ -3110,11 +3448,13 @@ msgstr ""
 "defoma_subst_register($Sb, $police, $nom_réel);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:157
 msgid "3. Unregister."
 msgstr "3. Désenregistrement."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:161
 #, no-wrap
 msgid ""
@@ -3125,61 +3465,72 @@ msgstr ""
 "defoma_id_unregister($Id, 'real', $police);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:164
 msgid "4. Add a rule."
 msgstr "4. Ajout d'une règle."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:167
 #, no-wrap
 msgid "defoma_subst_add_rule($Sb, 'Helvetica', @hints);\n"
 msgstr "defoma_subst_add_rule($Sb, 'Helvetica', @indications);\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:170
 msgid "5. Remove all rules for Helvetica."
 msgstr "5. Retrait de toutes les règles pour Helvetica."
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:173
 #, no-wrap
 msgid "defoma_subst_remove_rule($Sb, 'Helvetica');\n"
 msgstr "defoma_subst_remove_rule($Sb, 'Helvetica');\n"
 
 # type: Plain text
+#. type: Plain text
 #: ../Defoma::Subst.3pm:178
 msgid "B<defoma>(1).  B<Defoma::Id>(1)."
 msgstr "B<defoma>(1). B<Defoma::Id>(1)."
 
 # type: TH
+#. type: TH
 #: ../dh_installdefoma.1:1
 #, no-wrap
 msgid "DH_INSTALLDEFOMA"
 msgstr "DH_INSTALLDEFOMA"
 
 # type: TH
+#. type: TH
 #: ../dh_installdefoma.1:1
 #, no-wrap
 msgid "20 August 2000"
 msgstr "20 août 2000"
 
 # type: TH
+#. type: TH
 #: ../dh_installdefoma.1:1
 #, no-wrap
 msgid "Debhelper Commands"
 msgstr "Commandes Debhelper"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:4
 msgid "dh_installdefoma - install a defoma related scripts"
 msgstr "dh_installdefoma - installe un script de configuration Defoma"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:7
 msgid "B<dh_installdefoma> I<[debhelper options] [-n]>"
 msgstr "B<dh_installdefoma> I<[options debhelper] [-n]>"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:11
 msgid ""
 "dh_installdefoma is a debhelper program that is responsible for installing "
@@ -3194,6 +3545,7 @@ msgstr ""
 "defoma et les paquets fournissant des polices pour defoma."
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:16
 msgid ""
 "It also automatically generates the postinst and pre/postrm commands needed "
@@ -3206,6 +3558,7 @@ msgstr ""
 "fonctionnement."
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:29
 msgid ""
 "If a file named debian/package.defoma exists, then it is installed into usr/"
@@ -3237,12 +3590,14 @@ msgstr ""
 "automatiquement installé dans le répertoire de construction du paquet."
 
 # type: TP
+#. type: TP
 #: ../dh_installdefoma.1:30
 #, no-wrap
 msgid "B<debhelper options>"
 msgstr "B<options debhelper>"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:35
 msgid ""
 "See B<debhelper>(1)  for a list of options common to all debhelper commands."
@@ -3251,23 +3606,27 @@ msgstr ""
 "commandes debhelper."
 
 # type: TP
+#. type: TP
 #: ../dh_installdefoma.1:35
 #, no-wrap
 msgid "B<-n, --noscripts>"
 msgstr "B<-n>, B<--noscripts>"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:38
 msgid "Do not modify postinst/postrm scripts."
 msgstr "Ne modifie pas les scripts postinst et postrm."
 
 # type: SH
+#. type: SH
 #: ../dh_installdefoma.1:38
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "ENVIRONNEMENT"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:42
 msgid ""
 "See B<debhelper>(1)  for a list of environment variables that affect all "
@@ -3277,12 +3636,14 @@ msgstr ""
 "affectent les commandes debhelper."
 
 # type: SH
+#. type: SH
 #: ../dh_installdefoma.1:42
 #, no-wrap
 msgid "NOTES"
 msgstr "NOTES"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:46
 msgid ""
 "Note that this command is not idempotent. \"dh_clean -k\" should be called "
@@ -3294,23 +3655,27 @@ msgstr ""
 "commandes peuvent être ajoutées plusieurs fois aux scripts de maintenance."
 
 # type: TP
+#. type: TP
 #: ../dh_installdefoma.1:47
 #, no-wrap
 msgid "B<debhelper>(1)"
 msgstr "B<debhelper>(1)"
 
 # type: SH
+#. type: SH
 #: ../dh_installdefoma.1:49
 #, no-wrap
 msgid "AUTHOR"
 msgstr "AUTEUR"
 
 # type: Plain text
+#. type: Plain text
 #: ../dh_installdefoma.1:51
 msgid "Masato Taruishi E<lt>taru@debian.orgE<gt>"
 msgstr "Masato Taruishi E<lt>taru@debian.orgE<gt>"
 
 # type: TH
+#. type: TH
 #: ../../psfontmgr/man/defoma-psfont-installer.1:1
 #, no-wrap
 msgid "defoma-psfont-installer"
@@ -3318,6 +3683,7 @@ msgstr "defoma-psfont-installer"
 
 # type: Plain text
 # NOTE: déclare / inscrit / enregistre
+#. type: Plain text
 #: ../../psfontmgr/man/defoma-psfont-installer.1:4
 msgid ""
 "defoma-psfont-installer - register fonts installed in a PostScript printer."
@@ -3326,11 +3692,13 @@ msgstr ""
 "imprimante PostScript"
 
 # type: Plain text
+#. type: Plain text
 #: ../../psfontmgr/man/defoma-psfont-installer.1:6
 msgid "B<defoma-psfont-installer>"
 msgstr "B<defoma-psfont-installer>"
 
 # type: Plain text
+#. type: Plain text
 #: ../../psfontmgr/man/defoma-psfont-installer.1:18
 msgid ""
 "B<defoma-psfont-installer> is a tool to register fonts installed in a "
@@ -3355,39 +3723,47 @@ msgstr ""
 "enregistrer. Il est fortement recommandé de préparer un fichier PPD."
 
 # type: TP
+#. type: TP
 #: ../../psfontmgr/man/defoma-psfont-installer.1:19
 #, no-wrap
 msgid "/etc/defoma/hints/defoma-ps.hints"
 msgstr "/etc/defoma/hints/defoma-ps.hints"
 
 # type: Plain text
+#. type: Plain text
 #: ../../psfontmgr/man/defoma-psfont-installer.1:24
 msgid "Hintfile that B<defoma-psfont-installer> generates."
 msgstr "Fichier d'indications que B<defoma-psfont-installer> génère."
 
 # type: TH
+#. type: TH
 #: ../../dfontmgr/man/dfontmgr.1:2
 #, no-wrap
 msgid "dfontmgr"
 msgstr "dfontmgr"
 
 # type: TH
+#. type: TH
 #: ../../dfontmgr/man/dfontmgr.1:2
-#, no-wrap
-msgid "November 27, 2001"
+#, fuzzy, no-wrap
+#| msgid "November 27, 2001"
+msgid "November  27, 2001"
 msgstr "27 novembre 2001"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:5
 msgid "dfontmgr - GUI frontend for defoma"
 msgstr "dfontmgr - interface graphique pour defoma"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:8
 msgid "B<defoma-id> [I<options>]"
 msgstr "B<defoma-id> [I<options>]"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:20
 msgid ""
 "B<dfontmgr> is a GUI frontend for defoma. You can see the fonts registered "
@@ -3416,12 +3792,14 @@ msgstr ""
 "identifiant."
 
 # type: SH
+#. type: SH
 #: ../../dfontmgr/man/dfontmgr.1:20
 #, no-wrap
 msgid "Overview"
 msgstr "Vue d'ensemble"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:23
 msgid ""
 "There are two buttons Font and Application under the top menu which "
@@ -3431,12 +3809,14 @@ msgstr ""
 "ne contient pour l'instant qu'un menu File (Fichier)."
 
 # type: SH
+#. type: SH
 #: ../../dfontmgr/man/dfontmgr.1:23
 #, no-wrap
 msgid "Font Information"
 msgstr "Informations sur les polices"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:28
 msgid ""
 "There are three panes. The leftmost pane shows all font categories. When you "
@@ -3452,12 +3832,14 @@ msgstr ""
 "droite."
 
 # type: SH
+#. type: SH
 #: ../../dfontmgr/man/dfontmgr.1:28
 #, no-wrap
 msgid "Application Information"
 msgstr "Informations sur les applications"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:33
 msgid ""
 "There are three panes. The leftmost pane shows all applications using defoma "
@@ -3472,12 +3854,14 @@ msgstr ""
 "cache »), son contenu est affiché dans le panneau en bas à droite."
 
 # type: SH
+#. type: SH
 #: ../../dfontmgr/man/dfontmgr.1:33
 #, no-wrap
 msgid "Id Cache Pane"
 msgstr "Panneau des bases de référence"
 
 # type: Plain text
+#. type: Plain text
 #: ../../dfontmgr/man/dfontmgr.1:47
 msgid ""
 "There are some buttons to control id-cache, one menu to specify which id-"
