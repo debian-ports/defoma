@@ -52,7 +52,7 @@ Description: PostScript font manager -- part of Defoma, Debian Font Manager
 
 #Package: dfontmgr
 #Architecture: all
-#Depends: defoma (>= 0.10.0), libft-perl, ${perl:Depends}, libglade-perl, libgtk-perl
+#Depends: defoma (>= 0.10.0), libft-perl, ${perl:Depends}, ${misc:Depends}, libglade-perl, libgtk-perl
 #Description: GUI frontend for Defoma, DEbian FOnt MAnager
 # dfontmgr is a GUI frontend for Defoma. You can see the fonts registered
 # to Defoma, their hints, their status (which applications they have succeeded
