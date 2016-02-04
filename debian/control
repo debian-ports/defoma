@@ -37,7 +37,7 @@ Description: Debian Font Manager documentation
 
 Package: psfontmgr
 Architecture: all
-Depends: defoma (>= 0.9.1), whiptail | dialog, ${perl:Depends}, ${misc:Depends}
+Depends: defoma (>= 0.11.12), whiptail | dialog, ${perl:Depends}, ${misc:Depends}
 Conflicts: defoma-ps, scigraphica-common (<= 0.7.1-3)
 Description: PostScript font manager -- part of Defoma, Debian Font Manager
  psfontmgr manages PostScript fonts through the Defoma framework. It
@@ -52,7 +52,7 @@ Description: PostScript font manager -- part of Defoma, Debian Font Manager
 
 #Package: dfontmgr
 #Architecture: all
-#Depends: defoma (>= 0.10.0), libft-perl, ${perl:Depends}, ${misc:Depends}, libglade-perl, libgtk-perl
+#Depends: defoma (>= 0.11.12), libft-perl, ${perl:Depends}, ${misc:Depends}, libglade-perl, libgtk-perl
 #Description: GUI frontend for Defoma, DEbian FOnt MAnager
 # dfontmgr is a GUI frontend for Defoma. You can see the fonts registered
 # to Defoma, their hints, their status (which applications they have succeeded
