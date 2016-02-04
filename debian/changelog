@@ -1,3 +1,9 @@
+defoma (0.11.12) unstable; urgency=low
+
+  * Ignore generated files
+
+ -- Andrey ``Bass'' Shcheglov <andrewbass@gmail.com>  Thu, 04 Feb 2016 15:36:14 +0300
+
 defoma (0.11.11) unstable; urgency=low
 
   * QA upload to fix prehistoric i18n bug and a few lintian

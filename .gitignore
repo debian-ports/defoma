@@ -1,0 +1,9 @@
+/**/man/*.fr.*
+/build-indep-stamp
+/build/
+/debian/*.log
+/debian/*.substvars
+/debian/defoma-doc/
+/debian/defoma/
+/debian/files
+/debian/psfontmgr/
